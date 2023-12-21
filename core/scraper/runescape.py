@@ -13,6 +13,25 @@ class RunescapeScraper:
             f"index_lite.ws?player={self.username}"
         )
 
+    def calculate_combat_level(self, skills: Skills) -> int:
+        """
+        Calculate the combat level of a character based on their skills.
+        """
+        attack = skills.attack.level
+        strength = skills.strength.level
+        defence = skills.defence.level
+        hitpoints = skills.hitpoints.level
+        prayer = skills.prayer.level
+        ranged = skills.ranged.level
+        magic = skills.magic.level
+
+        base = 0.25 * (defence + hitpoints + (prayer // 2))
+        melee = 0.325 * (attack + strength)
+        ranged = 0.325 * (ranged * 1.5)
+        magic = 0.325 * (magic * 1.5)
+
+        return int(base + max(melee, ranged, magic))
+
     def parse(self, text: str) -> Character:
         info = {}
         skill_stats = text.split("\n")
@@ -33,13 +52,15 @@ class RunescapeScraper:
             info[skill_name] = Skill(
                 rank=int(rank), experience=int(experience), level=int(level)
             )
-
+        skills = Skills(**info)
+        combat_level = self.calculate_combat_level(skills)
         return Character(
             username=self.username,
-            skills=Skills(**info),
+            skills=skills,
             total_level=total_level,
             total_experience=total_experience,
             total_rank=total_rank,
+            combat_level=combat_level,
         )
 
     def get_character_stats(self) -> Character:
