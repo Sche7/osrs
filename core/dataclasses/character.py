@@ -43,3 +43,16 @@ class Character:
     total_experience: int = 0
     total_rank: int = -1  # -1 means unranked
     skills: Skills = Skills()
+
+    def __repr__(self):
+        output = ""
+        output += f"Username: {self.username}\n"
+        output += f"\tCombat level: {self.combat_level}\n"
+        output += f"\tTotal level: {self.total_level}\n"
+        output += f"\tTotal experience: {self.total_experience}\n"
+        output += f"\tTotal rank: {self.total_rank}\n"
+        output += "\n"
+        output += "\tSkills:\n"
+        for skill_name, skill in self.skills.__dict__.items():
+            output += f"\t\t{skill_name}: {skill.level}\n"
+        return output

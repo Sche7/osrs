@@ -116,14 +116,4 @@ class CharacterStats:
         """
         Display the character stats in a nice format.
         """
-        print(f"Username: {self.character.username}")
-        print(f"Combat level: {self.character.combat_level}")
-        print(f"Total level: {self.character.total_level:,d}")
-        print(f"Total experience: {self.character.total_experience:,d}")
-        print(f"Total rank: {self.character.total_rank:,d}")
-        print("Skills:")
-        for skill_name, skill in self.character.skills.__dict__.items():
-            print(f"    {skill_name.capitalize()}:")
-            print(f"        Level: {skill.level:,d}")
-            print(f"        Experience: {skill.experience:,d}")
-            print(f"        Rank: {skill.rank:,d}")
+        print(self.character)
