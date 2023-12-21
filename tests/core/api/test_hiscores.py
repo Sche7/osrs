@@ -1,5 +1,5 @@
 import pytest
-from core.scrapers.character_stats import CharacterStats
+from core.api.hiscores import Hiscores
 
 
 @pytest.mark.parametrize(
@@ -46,9 +46,8 @@ def test_calculate_combat_level(
     magic: int,
     expected: int,
 ):
-    scraper = CharacterStats("Test")
     assert (
-        scraper.calculate_combat_level(
+        Hiscores.calculate_combat_level(
             attack,
             strength,
             defence,
