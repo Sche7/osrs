@@ -81,7 +81,6 @@ class RunescapeScraper:
         """
         Display the character stats in a nice format.
         """
-        separator = "."
         print(f"Username: {self.character.username}")
         print(f"Combat level: {self.character.combat_level}")
         print(f"Total level: {self.character.total_level:,d}")
