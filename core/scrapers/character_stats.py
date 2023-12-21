@@ -76,3 +76,19 @@ class RunescapeScraper:
         Collect the character stats and store them in the character attribute.
         """
         self.character = self.get_character_stats()
+
+    def display(self) -> None:
+        """
+        Display the character stats in a nice format.
+        """
+        print(f"Username: {self.character.username}")
+        print(f"Combat level: {self.character.combat_level}")
+        print(f"Total level: {self.character.total_level}")
+        print(f"Total experience: {self.character.total_experience}")
+        print(f"Total rank: {self.character.total_rank}")
+        print("Skills:")
+        for skill_name, skill in self.character.skills.__dict__.items():
+            print(f"    {skill_name.capitalize()}:")
+            print(f"        Level: {skill.level}")
+            print(f"        Experience: {skill.experience}")
+            print(f"        Rank: {skill.rank}")
