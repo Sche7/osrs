@@ -46,6 +46,7 @@ def test_calculate_combat_level(
     magic: int,
     expected: int,
 ):
+    """Test the combat level calculation."""
     assert (
         Hiscores.calculate_combat_level(
             attack,
@@ -58,3 +59,12 @@ def test_calculate_combat_level(
         )
         == expected
     )
+
+
+@pytest.mark.parametrize("username", ["NotCrostyGIM", "Zehahandsome"])
+def test_get_character_stats(username: str):
+    """Test the get_character_stats method."""
+    hiscores = Hiscores(username)
+    assert hiscores.character.combat_level > 3
+    assert hiscores.character.total_level > 32
+    assert hiscores.character.username == username
