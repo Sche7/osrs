@@ -7,7 +7,7 @@ class RunescapeScraper:
     def __init__(self, username):
         self.username = username
 
-    @property    
+    @property
     def url(self):
         return (
             "https://secure.runescape.com/m=hiscore_oldschool/"
@@ -24,26 +24,23 @@ class RunescapeScraper:
         total_level = int(total_level_stats[1])
         total_experience = int(total_level_stats[2])
 
-
         skills = list(Skills.__annotations__)
 
         # Skills are in the same order as the Skills class
         # Other rows are minigames, boss kills, etc. that we don't care about
-        skill_stats = skill_stats[:len(skills)]
-        for skill_name, stats in zip(skills,  skill_stats):
+        skill_stats = skill_stats[: len(skills)]
+        for skill_name, stats in zip(skills, skill_stats):
             rank, level, experience = stats.split(",")
             info[skill_name] = Skill(
-                rank=int(rank),
-                experience=int(experience),
-                level=int(level)
+                rank=int(rank), experience=int(experience), level=int(level)
             )
-        
+
         return Character(
             username=self.username,
             skills=Skills(**info),
             total_level=total_level,
         )
-            
+
     def get_character_stats(self) -> Character:
         response = requests.get(self.url)
         if response.status_code == 404:
