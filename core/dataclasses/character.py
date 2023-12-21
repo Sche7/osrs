@@ -43,4 +43,3 @@ class Character:
     total_level: int = 32
     total_experience: int = 0
     total_rank: int = -1  # -1 means unranked
-    quest_points: int = 0

@@ -70,3 +70,9 @@ class RunescapeScraper:
         if response.status_code != 200:
             raise ValueError(f"Error {response.status_code} when scraping {self.url}")
         return self.parse(response.text)
+
+    def collect(self) -> None:
+        """
+        Collect the character stats and store them in the character attribute.
+        """
+        self.character = self.get_character_stats()
