@@ -2,7 +2,7 @@ import requests
 from core.dataclasses.character import Character, Skills, Skill
 
 
-class RunescapeScraper:
+class CharacterStats:
     def __init__(self, username):
         self.username = username
 

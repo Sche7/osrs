@@ -1,5 +1,5 @@
 import pytest
-from core.scrapers.character_stats import RunescapeScraper
+from core.scrapers.character_stats import CharacterStats
 
 
 @pytest.mark.parametrize(
@@ -46,7 +46,7 @@ def test_calculate_combat_level(
     magic: int,
     expected: int,
 ):
-    scraper = RunescapeScraper("Test")
+    scraper = CharacterStats("Test")
     assert (
         scraper.calculate_combat_level(
             attack,
