@@ -1,7 +1,8 @@
 import asyncio
 import discord
-from discord import Webhook
 import aiohttp
+import datetime
+from discord import Webhook
 from core.api.hiscores import Hiscores
 
 
@@ -15,8 +16,9 @@ async def send_webhook(url):
             hiscore = Hiscores(username)
             data.append(repr(hiscore.character))
         
+        now = datetime.datetime.now()
         data = "".join(data)
-        embed = discord.Embed(title="OSRS Skill overview", description=data)
+        embed = discord.Embed(title="OSRS Skill overview", description=data, color=5763719, timestamp=now)
         await webhook.send(embed=embed, username="OSRS Bot")
 
 
