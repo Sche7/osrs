@@ -1,24 +1,42 @@
-from core.dataclasses.character import Skills, Skill
+import pytest
 from core.scrapers.character_stats import RunescapeScraper
 
 
-def test_calculate_combat_level():
+@pytest.mark.parametrize((
+    "attack",
+    "strength",
+    "defence",
+    "hitpoints",
+    "prayer",
+    "ranged",
+    "magic",
+    "expected"), [(
+        40,
+        40,
+        36,
+        38,
+        26,
+        26,
+        32,
+        47,
+    )])
+def test_calculate_combat_level(
+    attack: int,
+    strength: int,
+    defence: int,
+    hitpoints: int,
+    prayer: int,
+    ranged: int,
+    magic: int,
+    expected: int,
+):
     scraper = RunescapeScraper("Test")
-
-    # Set skills to the stats of a level 47 combat
-    combat_skills = {
-        "attack": 40,
-        "strength": 40,
-        "defence": 36,
-        "hitpoints": 38,
-        "prayer": 26,
-        "ranged": 26,
-        "magic": 32,
-    }
-
-    # Convert the dict to a Skills object
-    _skills = {}
-    for skill_name, level in combat_skills.items():
-        _skills[skill_name] = Skill(level=level)
-    skills = Skills(**_skills)
-    assert scraper.calculate_combat_level(skills) == 47
+    assert scraper.calculate_combat_level(
+        attack,
+        strength,
+        defence,
+        hitpoints,
+        prayer,
+        ranged,
+        magic,
+    ) == expected
