@@ -56,6 +56,9 @@ class RunescapeScraper:
         return int(base + max(melee, ranged, magic))
 
     def parse(self, text: str) -> Character:
+        """
+        Parse the text from the hiscores page into a Character object.
+        """
         info = {}
         skill_stats = text.split("\n")
 
