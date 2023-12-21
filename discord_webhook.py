@@ -2,7 +2,7 @@ import asyncio
 import discord
 from discord import Webhook
 import aiohttp
-from core.scrapers.character_stats import CharacterStats
+from core.api.hiscores import Hiscores
 
 
 async def send_webhook(url):
@@ -12,9 +12,8 @@ async def send_webhook(url):
         data = []
         for username in ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome", "Zolixo1"]:
             data.append("\n")
-            scraper = CharacterStats(username)
-            character = scraper.get_character_stats()
-            data.append(repr(character))
+            hiscore = Hiscores(username)
+            data.append(repr(hiscore.character))
         
         data = "".join(data)
         embed = discord.Embed(title="OSRS Skill overview", description=data)

@@ -1,16 +1,28 @@
 import requests
+from enum import Enum
 from core.dataclasses.character import Character, Skills, Skill
 
 
-class CharacterStats:
-    def __init__(self, username):
+class HiscoreType(Enum):
+    NORMAL = "hiscore_oldschool"
+    IRONMAN = "hiscore_oldschool_ironman"
+    ULTIMATE = "hiscore_oldschool_ultimate"
+    HARDCORE = "hiscore_oldschool_hardcore_ironman"
+    DEADMAN = "hiscore_oldschool_deadman"
+    SEASONAL = "hiscore_oldschool_seasonal"
+    TOURNAMENT = "hiscore_oldschool_tournament"
+
+
+class Hiscores:
+    def __init__(self, username, hiscore_type: HiscoreType = HiscoreType.NORMAL):
         self.username = username
-        self.character = None
+        self.hiscore_type = hiscore_type
+        self.character = self.get_character_stats()
 
     @property
     def url(self):
         return (
-            "https://secure.runescape.com/m=hiscore_oldschool/"
+            f"https://secure.runescape.com/m={self.hiscore_type.value}/"
             f"index_lite.ws?player={self.username}"
         )
 
@@ -105,15 +117,3 @@ class CharacterStats:
         if response.status_code != 200:
             raise ValueError(f"Error {response.status_code} when scraping {self.url}")
         return self.parse(response.text)
-
-    def collect(self) -> None:
-        """
-        Collect the character stats and store them in the character attribute.
-        """
-        self.character = self.get_character_stats()
-
-    def display(self) -> None:
-        """
-        Display the character stats in a nice format.
-        """
-        print(self.character)
