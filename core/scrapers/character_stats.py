@@ -5,6 +5,7 @@ from core.dataclasses.character import Character, Skills, Skill
 class CharacterStats:
     def __init__(self, username):
         self.username = username
+        self.character = None
 
     @property
     def url(self):
@@ -42,7 +43,7 @@ class CharacterStats:
             Ranged level.
         magic : int
             Magic level.
-        
+
         Returns
         -------
         int

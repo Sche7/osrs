@@ -33,7 +33,7 @@ from core.scrapers.character_stats import CharacterStats
             1,
             1,
             3,
-        )
+        ),
     ],
 )
 def test_calculate_combat_level(
