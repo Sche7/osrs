@@ -22,10 +22,31 @@ class RunescapeScraper:
         prayer: int,
         ranged: int,
         magic: int,
-
     ) -> int:
         """
         Calculate the combat level of a character based on their skills.
+
+        Parameters
+        ----------
+        attack : int
+            Attack level.
+        strength : int
+            Strength level.
+        defence : int
+            Defence level.
+        hitpoints : int
+            Hitpoints level.
+        prayer : int
+            Prayer level.
+        ranged : int
+            Ranged level.
+        magic : int
+            Magic level.
+        
+        Returns
+        -------
+        int
+            The combat level.
         """
         base = 0.25 * (defence + hitpoints + (prayer // 2))
         melee = 0.325 * (attack + strength)

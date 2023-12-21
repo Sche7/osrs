@@ -2,24 +2,40 @@ import pytest
 from core.scrapers.character_stats import RunescapeScraper
 
 
-@pytest.mark.parametrize((
-    "attack",
-    "strength",
-    "defence",
-    "hitpoints",
-    "prayer",
-    "ranged",
-    "magic",
-    "expected"), [(
-        40,
-        40,
-        36,
-        38,
-        26,
-        26,
-        32,
-        47,
-    )])
+@pytest.mark.parametrize(
+    (
+        "attack",
+        "strength",
+        "defence",
+        "hitpoints",
+        "prayer",
+        "ranged",
+        "magic",
+        "expected",
+    ),
+    [
+        (
+            40,
+            40,
+            36,
+            38,
+            26,
+            26,
+            32,
+            47,
+        ),
+        (
+            1,
+            1,
+            1,
+            10,
+            1,
+            1,
+            1,
+            3,
+        )
+    ],
+)
 def test_calculate_combat_level(
     attack: int,
     strength: int,
@@ -31,12 +47,15 @@ def test_calculate_combat_level(
     expected: int,
 ):
     scraper = RunescapeScraper("Test")
-    assert scraper.calculate_combat_level(
-        attack,
-        strength,
-        defence,
-        hitpoints,
-        prayer,
-        ranged,
-        magic,
-    ) == expected
+    assert (
+        scraper.calculate_combat_level(
+            attack,
+            strength,
+            defence,
+            hitpoints,
+            prayer,
+            ranged,
+            magic,
+        )
+        == expected
+    )
