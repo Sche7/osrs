@@ -41,4 +41,6 @@ class Character:
     skills: Skills = Skills()
     combat_level: int = 3
     total_level: int = 32
+    total_experience: int = 0
+    total_rank: int = -1  # -1 means unranked
     quest_points: int = 0

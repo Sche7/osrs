@@ -39,6 +39,8 @@ class RunescapeScraper:
             username=self.username,
             skills=Skills(**info),
             total_level=total_level,
+            total_experience=total_experience,
+            total_rank=total_rank,
         )
 
     def get_character_stats(self) -> Character:
