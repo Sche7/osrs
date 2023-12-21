@@ -6,13 +6,18 @@ authors = ["Steven <stevencheung7@outlook.dk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 requests = "^2.31.0"
 pydantic = "^2.5.2"
+beautifulsoup4 = "^4.12.2"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
+
+
+[tool.poetry.group.extra.dependencies]
+ipython = "^8.18.1"
 
 [build-system]
 requires = ["poetry-core"]
