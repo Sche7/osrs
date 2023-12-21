@@ -62,7 +62,7 @@ def test_calculate_combat_level(
 
 
 @pytest.mark.parametrize("username", ["NotCrostyGIM", "Zehahandsome"])
-def test_get_character_stats(username: str):
+def test_hiscores(username: str):
     """Test the get_character_stats method."""
     hiscores = Hiscores(username)
 
@@ -74,3 +74,10 @@ def test_get_character_stats(username: str):
     assert hiscores.character.combat_level > 3
     assert hiscores.character.total_level > 32
     assert hiscores.character.username == username
+
+
+def test_hiscores_invalid_username():
+    """Test the get_character_stats method with an invalid username."""
+    username = "ThisIsAnInvalidUsername1231456"
+    with pytest.raises(ValueError, match=f"User {username} does not exist."):
+        Hiscores(username)
