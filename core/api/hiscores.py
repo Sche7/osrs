@@ -14,6 +14,12 @@ class HiscoreType(Enum):
 
 
 class Hiscores:
+    """
+    Class for getting a character's stats from the hiscores.
+    This uses the official hiscores API from Jagex.
+    See also: https://runescape.wiki/w/Application_programming_interface#Old_School_Hiscores
+    """
+
     def __init__(self, username, hiscore_type: HiscoreType = HiscoreType.NORMAL):
         self.username = username
         self.hiscore_type = hiscore_type
