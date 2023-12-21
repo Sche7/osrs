@@ -34,6 +34,7 @@ class Skills:
     hunter: Skill = Skill()
     construction: Skill = Skill()
 
+
 @dataclass
 class Character:
     username: str

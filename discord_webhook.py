@@ -15,16 +15,16 @@ async def send_webhook(url):
             data.append("\n")
             hiscore = Hiscores(username)
             data.append(repr(hiscore.character))
-        
+
         now = datetime.datetime.now()
         data = "".join(data)
-        embed = discord.Embed(title="OSRS Skill overview", description=data, color=5763719, timestamp=now)
+        embed = discord.Embed(
+            title="OSRS Skill overview", description=data, color=5763719, timestamp=now
+        )
         await webhook.send(embed=embed, username="OSRS Bot")
 
 
-url = (
-    "https://discord.com/api/webhooks/1187456676496949338/SyAgqTj8_6qSw24wrrY8hpTIGVgI1OaKtyha-zjvfeKUzbsQMj9ajmdR-1TyVxkfgQgl"
-)
+url = "https://discord.com/api/webhooks/1187456676496949338/SyAgqTj8_6qSw24wrrY8hpTIGVgI1OaKtyha-zjvfeKUzbsQMj9ajmdR-1TyVxkfgQgl"
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
