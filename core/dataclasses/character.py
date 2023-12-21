@@ -47,10 +47,10 @@ class Character:
     def __repr__(self):
         output = ""
         output += f"Username: {self.username}\n"
-        output += f"\tCombat level: {self.combat_level}\n"
-        output += f"\tTotal level: {self.total_level}\n"
-        output += f"\tTotal experience: {self.total_experience}\n"
-        output += f"\tTotal rank: {self.total_rank}\n"
+        output += f"\tCombat level: {self.combat_level:,d}\n"
+        output += f"\tTotal level: {self.total_level:,d}\n"
+        output += f"\tTotal experience: {self.total_experience:,d}\n"
+        output += f"\tTotal rank: {self.total_rank:,d}\n"
         output += "\n"
         output += "\tSkills:\n"
         for skill_name, skill in self.skills.__dict__.items():
