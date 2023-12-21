@@ -44,13 +44,31 @@ class Character:
     total_rank: int = -1  # -1 means unranked
     skills: Skills = Skills()
 
-    def __repr__(self):
+    def eval_rank(self, rank: int) -> str:
+        """
+        Returns
+        -------
+        str
+            The rank formatted with commas.
+        """
+        if rank == -1:
+            return "Unranked"
+        else:
+            return f"{rank:,d}"
+
+    def __repr__(self) -> str:
+        """
+        Returns
+        -------
+        str
+            A string representation of the character.
+        """
         output = ""
         output += f"Username: {self.username}\n"
         output += f"\tCombat level: {self.combat_level:,d}\n"
         output += f"\tTotal level: {self.total_level:,d}\n"
         output += f"\tTotal experience: {self.total_experience:,d}\n"
-        output += f"\tTotal rank: {self.total_rank:,d}\n"
+        output += f"\tTotal rank: {self.eval_rank(self.total_rank)}\n"
         output += "\n"
         output += "\tSkills:\n"
         for skill_name, skill in self.skills.__dict__.items():

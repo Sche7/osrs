@@ -21,6 +21,10 @@ async def send_webhook(url):
         await webhook.send(embed=embed, username="OSRS Bot")
 
 
+url = (
+    "https://discord.com/api/webhooks/1187456676496949338/SyAgqTj8_6qSw24wrrY8hpTIGVgI1OaKtyha-zjvfeKUzbsQMj9ajmdR-1TyVxkfgQgl"
+)
+
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(send_webhook("https://discord.com/api/webhooks/1187456676496949338/SyAgqTj8_6qSw24wrrY8hpTIGVgI1OaKtyha-zjvfeKUzbsQMj9ajmdR-1TyVxkfgQgl"))
+    loop.run_until_complete(send_webhook(url))
