@@ -1,5 +1,5 @@
 from core.dataclasses.character import Skills, Skill
-from core.scraper.runescape import RunescapeScraper
+from core.scrapers.character_stats import RunescapeScraper
 
 
 def test_calculate_combat_level():
