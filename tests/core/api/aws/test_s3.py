@@ -1,5 +1,5 @@
 import pytest
-from core.api.aws.s3_client import S3Client
+from core.api.aws.s3 import S3
 from botocore.exceptions import ClientError
 
 
@@ -9,7 +9,7 @@ def test_list_buckets(aws_credentials):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
     # Create an instance of S3
-    s3 = S3Client(aws_access_key_id, aws_secret_access_key)
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
 
     # Call the list_buckets method
     buckets = s3.list_buckets()
@@ -28,7 +28,7 @@ def test_list_objects(aws_credentials):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
     # Create an instance of S3
-    s3 = S3Client(aws_access_key_id, aws_secret_access_key)
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
 
     # Call the list_objects method
     objects = s3.list_objects(bucket_name="osrsbucket")
@@ -52,7 +52,7 @@ def test_get_object(aws_credentials):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
     # Create an instance of S3
-    s3 = S3Client(aws_access_key_id, aws_secret_access_key)
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
     # Call the get_object method
     obj = s3.get_object(bucket_name="osrsbucket", key="test/osrs_logo.PNG")
 
@@ -76,7 +76,7 @@ def test_upload_file(aws_credentials, osrs_logo, gibberish):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
     # Create an instance of S3
-    s3 = S3Client(aws_access_key_id, aws_secret_access_key)
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
 
     key = f"test/osrs_logo_{gibberish()}.png"
     # Call the upload_file method

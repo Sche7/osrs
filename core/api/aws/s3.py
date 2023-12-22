@@ -1,7 +1,7 @@
 import boto3
 
 
-class S3Client:
+class S3:
     def __init__(
         self,
         aws_access_key_id: str,
