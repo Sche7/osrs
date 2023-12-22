@@ -89,6 +89,27 @@ class S3:
             Key=key,
         )
 
+    def download_file(self, bucket_name: str, key: str, file_path: str) -> None:
+        """
+        Download a file from a bucket.
+
+        Parameters
+        ----------
+        bucket_name : str
+            The name of the bucket.
+        key : str
+            The name of the object.
+            This also works for objects in folders, simply add the folder name
+            before the object name, e.g. "test/object.txt".
+        file_path : str
+            The path to the file to download to.
+        """
+        return self.s3_client.download_file(
+            Filename=file_path,
+            Bucket=bucket_name,
+            Key=key,
+        )
+
     def delete_object(self, bucket_name: str, key: str):
         """
         Delete an object from a bucket.

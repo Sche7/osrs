@@ -14,6 +14,12 @@ def aws_credentials():
 
 
 @pytest.fixture(scope="session")
+def bucket_name():
+    """Fixture that returns the name of the bucket."""
+    return "osrsbucket"
+
+
+@pytest.fixture(scope="session")
 def osrs_logo():
     """Fixture that returns the path to the OSRS logo."""
     return "tests/data/osrs_logo.png"
