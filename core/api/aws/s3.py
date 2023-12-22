@@ -68,7 +68,7 @@ class S3:
         """
         return self.s3_client.get_object(Bucket=bucket_name, Key=key)
 
-    def upload_file(self, bucket_name: str, key: str, file_path: str) -> None:
+    def upload_file(self, bucket_name: str, key: str, filepath: str) -> None:
         """
         Upload a file to a bucket.
 
@@ -80,16 +80,16 @@ class S3:
             The name of the object.
             This also works for objects in folders, simply add the folder name
             before the object name, e.g. "test/object.txt".
-        file_path : str
+        filepath : str
             The path to the file to upload.
         """
         return self.s3_client.upload_file(
-            Filename=file_path,
+            Filename=filepath,
             Bucket=bucket_name,
             Key=key,
         )
 
-    def download_file(self, bucket_name: str, key: str, file_path: str) -> None:
+    def download_file(self, bucket_name: str, key: str, filepath: str) -> None:
         """
         Download a file from a bucket.
 
@@ -101,11 +101,11 @@ class S3:
             The name of the object.
             This also works for objects in folders, simply add the folder name
             before the object name, e.g. "test/object.txt".
-        file_path : str
+        filepath : str
             The path to the file to download to.
         """
         return self.s3_client.download_file(
-            Filename=file_path,
+            Filename=filepath,
             Bucket=bucket_name,
             Key=key,
         )

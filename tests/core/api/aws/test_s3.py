@@ -84,7 +84,7 @@ def test_upload_file(aws_credentials, osrs_logo, gibberish, bucket_name):
     s3.upload_file(
         bucket_name=bucket_name,
         key=key,
-        file_path=osrs_logo,
+        filepath=osrs_logo,
     )
 
     # Assert that the file was uploaded
@@ -115,23 +115,23 @@ def test_download_file(aws_credentials, osrs_logo, gibberish, bucket_name, tmp_p
     s3.upload_file(
         bucket_name=bucket_name,
         key=key,
-        file_path=osrs_logo,
+        filepath=osrs_logo,
     )
 
     # Call the download_file method
-    local_file_path = f"{tmp_path}/logo.png"
+    local_filepath = f"{tmp_path}/logo.png"
 
     # Assert that the file does not exist yet
-    assert not os.path.exists(local_file_path)
+    assert not os.path.exists(local_filepath)
 
     s3.download_file(
         bucket_name=bucket_name,
         key=key,
-        file_path=local_file_path,
+        filepath=local_filepath,
     )
 
     # Assert that the file was downloaded
-    assert os.path.exists(local_file_path)
+    assert os.path.exists(local_filepath)
 
     # Delete the file
     response = s3.delete_object(bucket_name=bucket_name, key=key)
