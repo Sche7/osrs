@@ -1,5 +1,6 @@
 import pytest
 from core.api.aws.s3 import S3
+from botocore.exceptions import ClientError
 
 
 @pytest.mark.aws
@@ -67,3 +68,34 @@ def test_get_object(aws_credentials):
     assert "Metadata" in obj
     assert "ResponseMetadata" in obj
     assert "VersionId" in obj
+
+
+@pytest.mark.aws
+def test_upload_file(aws_credentials, osrs_logo, gibberish):
+    # Get AWS credentials from environment variables
+    aws_access_key_id, aws_secret_access_key = aws_credentials
+
+    # Create an instance of S3
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
+
+    key = f"test/osrs_logo_{gibberish()}.png"
+    # Call the upload_file method
+    s3.upload_file(
+        bucket_name="osrsbucket",
+        key=key,
+        file_path=osrs_logo,
+    )
+
+    # Assert that the file was uploaded
+    objects = s3.list_objects(bucket_name="osrsbucket", folder="test/")
+    uploaded_object = [obj for obj in objects if key == obj["Key"]]
+    assert len(uploaded_object) == 1
+    assert uploaded_object[0]["Key"] == key
+
+    # Delete the file
+    response = s3.delete_object(bucket_name="osrsbucket", key=key)
+    assert response["ResponseMetadata"]["HTTPStatusCode"] == 204
+
+    # See that file was deleted successfully
+    with pytest.raises(ClientError, match="The specified key does not exist."):
+        s3.get_object(bucket_name="osrsbucket", key=key)
