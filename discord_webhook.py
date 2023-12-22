@@ -5,7 +5,7 @@ import datetime
 import os
 from dotenv import load_dotenv
 from discord import Webhook
-from core.api.hiscores import Hiscores
+from core.api.osrs.hiscores import Hiscores
 
 
 load_dotenv()  # take environment variables from .env.
