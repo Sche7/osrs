@@ -31,3 +31,6 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 pythonpath = "."
 addopts =  "-m 'not aws'"
+markers = [
+    "aws: Mark tests that connect to AWS. Select with '-m aws'"
+]
