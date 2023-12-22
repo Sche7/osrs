@@ -1,5 +1,5 @@
 import pytest
-from core.api.aws.s3 import S3Client
+from core.api.aws.s3_client import S3Client
 from botocore.exceptions import ClientError
 
 
