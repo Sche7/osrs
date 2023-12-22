@@ -51,6 +51,8 @@ def link_hiscores_to_s3(
         except ClientError:
             pass
 
+        # If the file does not exist, create a new one
+        # Otherwise, append the new stats to the history
         if character_history is None:
             result = {
                 "username": username,
