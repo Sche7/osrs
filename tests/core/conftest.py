@@ -38,7 +38,7 @@ def random_string(length: int = 10) -> str:
     return "".join(random.choices(string.ascii_letters, k=length))
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def gibberish():
     """Fixture that returns a random string."""
 
