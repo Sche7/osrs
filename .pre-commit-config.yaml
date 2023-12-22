@@ -1,4 +1,15 @@
+default_language_version:
+    python: python3.10
+
 repos:
+  # The pre-commit hooks.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
   # The ruff pre-commit hooks.
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
@@ -15,8 +26,3 @@ repos:
     rev: 23.12.0
     hooks:
       - id: black
-        # It is recommended to specify the latest version of Python
-        # supported by your project here, or alternatively use
-        # pre-commit's default_language_version, see
-        # https://pre-commit.com/#top_level-default_language_version
-        language_version: python3.11
