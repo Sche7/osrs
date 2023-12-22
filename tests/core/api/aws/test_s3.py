@@ -53,7 +53,7 @@ def test_get_object(aws_credentials):
     # Create an instance of S3
     s3 = S3(aws_access_key_id, aws_secret_access_key)
     # Call the get_object method
-    obj = s3.get_object(bucket_name="osrsbucket", key="osrs_logo.PNG")
+    obj = s3.get_object(bucket_name="osrsbucket", key="test/osrs_logo.PNG")
 
     # Assert that the returned value is a dictionary
     assert isinstance(obj, dict)

@@ -8,7 +8,13 @@ class S3:
         aws_secret_access_key: str,
         region_name: str = "eu-north-1",
     ):
-        self.s3 = boto3.client(
+        self.s3_client = boto3.client(
+            service_name="s3",
+            region_name=region_name,
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+        )
+        self.s3_resource = boto3.resource(
             service_name="s3",
             region_name=region_name,
             aws_access_key_id=aws_access_key_id,
@@ -24,7 +30,7 @@ class S3:
         list
             A list of bucket names.
         """
-        return self.s3.list_buckets()["Buckets"]
+        return self.s3_client.list_buckets()["Buckets"]
 
     def list_objects(self, bucket_name: str, folder: str = "") -> list[dict]:
         """
@@ -43,7 +49,7 @@ class S3:
         list[dict]
             A list of objects in the bucket.
         """
-        return self.s3.list_objects_v2(
+        return self.s3_client.list_objects_v2(
             Bucket=bucket_name,
             Prefix=folder,
         )["Contents"]
@@ -58,10 +64,12 @@ class S3:
             The name of the bucket.
         key : str
             The name of the object.
+            This also works for objects in folders, simply add the folder name
+            before the object name, e.g. "test/object.txt".
 
         Returns
         -------
         dict
             The object.
         """
-        return self.s3.get_object(Bucket=bucket_name, Key=key)
+        return self.s3_client.get_object(Bucket=bucket_name, Key=key)
