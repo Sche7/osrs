@@ -24,7 +24,10 @@ async def send_webhook(url):
         now = datetime.datetime.now()
         data = "".join(data)
         embed = discord.Embed(
-            title="OSRS Skill overview", description=data, color=5763719, timestamp=now
+            title="OSRS Skill overview",
+            description=data,
+            color=5763719,  # Green
+            timestamp=now,
         )
         await webhook.send(embed=embed, username="OSRS Bot")
 
