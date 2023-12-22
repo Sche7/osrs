@@ -1,7 +1,7 @@
 import boto3
 
 
-class S3:
+class S3Client:
     def __init__(
         self,
         aws_access_key_id: str,
@@ -9,12 +9,6 @@ class S3:
         region_name: str = "eu-north-1",
     ):
         self.s3_client = boto3.client(
-            service_name="s3",
-            region_name=region_name,
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key,
-        )
-        self.s3_resource = boto3.resource(
             service_name="s3",
             region_name=region_name,
             aws_access_key_id=aws_access_key_id,
