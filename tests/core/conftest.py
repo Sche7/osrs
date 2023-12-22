@@ -1,7 +1,6 @@
 import pytest
 import os
-import random
-import string
+from core.utils.randomize import random_string
 
 
 @pytest.fixture(scope="session")
@@ -18,24 +17,6 @@ def aws_credentials():
 def osrs_logo():
     """Fixture that returns the path to the OSRS logo."""
     return "tests/data/osrs_logo.png"
-
-
-def random_string(length: int = 10) -> str:
-    """
-    Generate a random string of a given length.
-
-    Parameters
-    ----------
-    length : int, optional
-        The length of the string.
-        By default, 10.
-
-    Returns
-    -------
-    str
-        A random string.
-    """
-    return "".join(random.choices(string.ascii_letters, k=length))
 
 
 @pytest.fixture(scope="function")
