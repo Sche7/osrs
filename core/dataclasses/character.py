@@ -1,3 +1,4 @@
+import datetime
 from dataclasses import dataclass
 
 
@@ -43,6 +44,7 @@ class Character:
     total_experience: int = 0
     total_rank: int = -1  # -1 means unranked
     skills: Skills = Skills()
+    date: datetime.datetime = datetime.datetime.now()
 
     def eval_rank(self, rank: int) -> str:
         """
