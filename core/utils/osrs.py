@@ -8,6 +8,9 @@ from dataclasses import asdict
 from botocore.exceptions import ClientError
 
 
+REMOTE_FOLDER = "hiscores"
+
+
 def get_hiscores(usernames: list[str]) -> Iterator[Hiscores]:
     for username in usernames:
         try:
@@ -46,7 +49,8 @@ def link_hiscores_to_s3(
         result = None
         # Download the file if it exists
         try:
-            download_path = aws_storage.load(f"hiscores/{username}.json")
+            remote_folder_path = os.path.join(REMOTE_FOLDER, f"{username}.json")
+            download_path = aws_storage.load(remote_folder_path)
             character_history = json_storage.load(download_path)
         except ClientError:
             pass
