@@ -46,31 +46,35 @@ def save_hiscores_in_s3(
         # as the datetime object is not serializable
         character.update({"date": str(character["date"])})
 
-        character_history = None
+        character_stats = None
         result = None
         # Download the file if it exists
+        remote_filepath = os.path.join(remote_folder, f"{username}.json")
         try:
             # Attempt to download the file
-            remote_filepath = os.path.join(remote_folder, f"{username}.json")
             download_path = aws_storage.load(remote_filepath)
 
             # If the file exists, load it
-            character_history = json_storage.load(download_path)
+            character_stats = json_storage.load(download_path)
         except ClientError:
             pass
 
         # If the file does not exist, create a new one
         # Otherwise, append the new stats to the history
-        if character_history is None:
+        if character_stats is None:
             result = {
                 "username": username,
                 "stats": character,
                 "history": [character],
             }
         else:
-            character_history["history"].append(character)
-            result = character_history
+            character_stats["stats"] = character
+            character_stats["history"].append(character)
+            result = character_stats
 
-        upload_path = f"{tmp_dir}/{username}.json"
-        json_storage.save(result, upload_path)
-        aws_storage.save(upload_path, f"hiscores/{hiscore.character.username}.json")
+        # Save the file to the local filesystem
+        filepath = f"{tmp_dir}/{username}.json"
+        json_storage.save(result, filepath)
+
+        # Upload the file to S3
+        aws_storage.save(filepath, remote_filepath)
