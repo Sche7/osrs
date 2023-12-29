@@ -20,11 +20,12 @@ def get_hiscores(usernames: list[str]) -> Iterator[Hiscores]:
             continue
 
 
-def link_hiscores_to_s3(
+def save_hiscores_in_s3(
     usernames: list[str],
     bucket_name: str,
     aws_access_key_id: str,
     aws_secret_access_key: str,
+    remote_folder: str = REMOTE_FOLDER,
     tmp_dir: str = "downloads",
 ) -> None:
     if not os.path.exists(tmp_dir):
@@ -49,8 +50,11 @@ def link_hiscores_to_s3(
         result = None
         # Download the file if it exists
         try:
-            remote_folder_path = os.path.join(REMOTE_FOLDER, f"{username}.json")
-            download_path = aws_storage.load(remote_folder_path)
+            # Attempt to download the file
+            remote_filepath = os.path.join(remote_folder, f"{username}.json")
+            download_path = aws_storage.load(remote_filepath)
+
+            # If the file exists, load it
             character_history = json_storage.load(download_path)
         except ClientError:
             pass
@@ -60,6 +64,7 @@ def link_hiscores_to_s3(
         if character_history is None:
             result = {
                 "username": username,
+                "stats": character,
                 "history": [character],
             }
         else:

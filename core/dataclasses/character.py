@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Skill:
-    level: int = 1
+    level: int = -1
     experience: float = 0
     rank: int = -1  # -1 means unranked
 
