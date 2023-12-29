@@ -33,5 +33,5 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
 
 
 def test_evaluate_hiscore_progress():
-    result = evaluate_hiscore_progress("Zehahandsome", "downloads")
+    result = evaluate_hiscore_progress("Zehahandsome", "tests/data/")
     assert result is not None

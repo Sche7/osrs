@@ -1,0 +1,380 @@
+{
+    "username": "Zehahandsome",
+    "history": [
+        {
+            "username": "Zehahandsome",
+            "combat_level": 47,
+            "total_level": 944,
+            "total_experience": 5190097,
+            "total_rank": -1,
+            "skills": {
+                "attack": {
+                    "level": 40,
+                    "experience": 39752,
+                    "rank": -1
+                },
+                "defence": {
+                    "level": 36,
+                    "experience": 27219,
+                    "rank": -1
+                },
+                "strength": {
+                    "level": 40,
+                    "experience": 37678,
+                    "rank": -1
+                },
+                "hitpoints": {
+                    "level": 38,
+                    "experience": 31411,
+                    "rank": -1
+                },
+                "ranged": {
+                    "level": 26,
+                    "experience": 9344,
+                    "rank": -1
+                },
+                "prayer": {
+                    "level": 26,
+                    "experience": 9629,
+                    "rank": -1
+                },
+                "magic": {
+                    "level": 32,
+                    "experience": 16495,
+                    "rank": -1
+                },
+                "cooking": {
+                    "level": 67,
+                    "experience": 588760,
+                    "rank": 1520527
+                },
+                "woodcutting": {
+                    "level": 65,
+                    "experience": 454834,
+                    "rank": 1542897
+                },
+                "fletching": {
+                    "level": 49,
+                    "experience": 92631,
+                    "rank": 1885196
+                },
+                "fishing": {
+                    "level": 66,
+                    "experience": 520010,
+                    "rank": 1274126
+                },
+                "firemaking": {
+                    "level": 80,
+                    "experience": 1987069,
+                    "rank": 800826
+                },
+                "crafting": {
+                    "level": 41,
+                    "experience": 43765,
+                    "rank": -1
+                },
+                "smithing": {
+                    "level": 55,
+                    "experience": 168894,
+                    "rank": 1438615
+                },
+                "mining": {
+                    "level": 70,
+                    "experience": 791199,
+                    "rank": 965652
+                },
+                "herblore": {
+                    "level": 13,
+                    "experience": 2061,
+                    "rank": -1
+                },
+                "agility": {
+                    "level": 57,
+                    "experience": 218587,
+                    "rank": 1597968
+                },
+                "thieving": {
+                    "level": 28,
+                    "experience": 11361,
+                    "rank": -1
+                },
+                "slayer": {
+                    "level": 29,
+                    "experience": 12806,
+                    "rank": -1
+                },
+                "farming": {
+                    "level": 17,
+                    "experience": 3512,
+                    "rank": 1953112
+                },
+                "runecrafting": {
+                    "level": 51,
+                    "experience": 119678,
+                    "rank": 981238
+                },
+                "hunter": {
+                    "level": 1,
+                    "experience": 26,
+                    "rank": -1
+                },
+                "construction": {
+                    "level": 17,
+                    "experience": 3376,
+                    "rank": -1
+                }
+            },
+            "date": "2023-12-22 20:13:31.180941"
+        },
+        {
+            "username": "Zehahandsome",
+            "combat_level": 47,
+            "total_level": 953,
+            "total_experience": 5616082,
+            "total_rank": -1,
+            "skills": {
+                "attack": {
+                    "level": 40,
+                    "experience": 39808,
+                    "rank": -1
+                },
+                "defence": {
+                    "level": 36,
+                    "experience": 27219,
+                    "rank": -1
+                },
+                "strength": {
+                    "level": 40,
+                    "experience": 37678,
+                    "rank": -1
+                },
+                "hitpoints": {
+                    "level": 38,
+                    "experience": 31429,
+                    "rank": -1
+                },
+                "ranged": {
+                    "level": 26,
+                    "experience": 9344,
+                    "rank": -1
+                },
+                "prayer": {
+                    "level": 26,
+                    "experience": 9629,
+                    "rank": -1
+                },
+                "magic": {
+                    "level": 32,
+                    "experience": 16495,
+                    "rank": -1
+                },
+                "cooking": {
+                    "level": 71,
+                    "experience": 816520,
+                    "rank": 1131671
+                },
+                "woodcutting": {
+                    "level": 65,
+                    "experience": 454834,
+                    "rank": 1546242
+                },
+                "fletching": {
+                    "level": 49,
+                    "experience": 92631,
+                    "rank": 1888432
+                },
+                "fishing": {
+                    "level": 69,
+                    "experience": 699560,
+                    "rank": 1125398
+                },
+                "firemaking": {
+                    "level": 80,
+                    "experience": 1987069,
+                    "rank": 802698
+                },
+                "crafting": {
+                    "level": 41,
+                    "experience": 44729,
+                    "rank": -1
+                },
+                "smithing": {
+                    "level": 55,
+                    "experience": 168894,
+                    "rank": 1441156
+                },
+                "mining": {
+                    "level": 70,
+                    "experience": 792134,
+                    "rank": 967233
+                },
+                "herblore": {
+                    "level": 13,
+                    "experience": 2061,
+                    "rank": -1
+                },
+                "agility": {
+                    "level": 58,
+                    "experience": 224662,
+                    "rank": 1586723
+                },
+                "thieving": {
+                    "level": 28,
+                    "experience": 11361,
+                    "rank": -1
+                },
+                "slayer": {
+                    "level": 29,
+                    "experience": 12806,
+                    "rank": -1
+                },
+                "farming": {
+                    "level": 17,
+                    "experience": 3512,
+                    "rank": 1956670
+                },
+                "runecrafting": {
+                    "level": 52,
+                    "experience": 130305,
+                    "rank": 963888
+                },
+                "hunter": {
+                    "level": 1,
+                    "experience": 26,
+                    "rank": -1
+                },
+                "construction": {
+                    "level": 17,
+                    "experience": 3376,
+                    "rank": -1
+                }
+            },
+            "date": "2023-12-29 21:03:10.494828"
+        }
+    ],
+    "stats": {
+        "username": "Zehahandsome",
+        "combat_level": 47,
+        "total_level": 953,
+        "total_experience": 5616082,
+        "total_rank": -1,
+        "skills": {
+            "attack": {
+                "level": 40,
+                "experience": 39808,
+                "rank": -1
+            },
+            "defence": {
+                "level": 36,
+                "experience": 27219,
+                "rank": -1
+            },
+            "strength": {
+                "level": 40,
+                "experience": 37678,
+                "rank": -1
+            },
+            "hitpoints": {
+                "level": 38,
+                "experience": 31429,
+                "rank": -1
+            },
+            "ranged": {
+                "level": 26,
+                "experience": 9344,
+                "rank": -1
+            },
+            "prayer": {
+                "level": 26,
+                "experience": 9629,
+                "rank": -1
+            },
+            "magic": {
+                "level": 32,
+                "experience": 16495,
+                "rank": -1
+            },
+            "cooking": {
+                "level": 71,
+                "experience": 816520,
+                "rank": 1131671
+            },
+            "woodcutting": {
+                "level": 65,
+                "experience": 454834,
+                "rank": 1546242
+            },
+            "fletching": {
+                "level": 49,
+                "experience": 92631,
+                "rank": 1888432
+            },
+            "fishing": {
+                "level": 69,
+                "experience": 699560,
+                "rank": 1125398
+            },
+            "firemaking": {
+                "level": 80,
+                "experience": 1987069,
+                "rank": 802698
+            },
+            "crafting": {
+                "level": 41,
+                "experience": 44729,
+                "rank": -1
+            },
+            "smithing": {
+                "level": 55,
+                "experience": 168894,
+                "rank": 1441156
+            },
+            "mining": {
+                "level": 70,
+                "experience": 792134,
+                "rank": 967233
+            },
+            "herblore": {
+                "level": 13,
+                "experience": 2061,
+                "rank": -1
+            },
+            "agility": {
+                "level": 58,
+                "experience": 224662,
+                "rank": 1586723
+            },
+            "thieving": {
+                "level": 28,
+                "experience": 11361,
+                "rank": -1
+            },
+            "slayer": {
+                "level": 29,
+                "experience": 12806,
+                "rank": -1
+            },
+            "farming": {
+                "level": 17,
+                "experience": 3512,
+                "rank": 1956670
+            },
+            "runecrafting": {
+                "level": 52,
+                "experience": 130305,
+                "rank": 963888
+            },
+            "hunter": {
+                "level": 1,
+                "experience": 26,
+                "rank": -1
+            },
+            "construction": {
+                "level": 17,
+                "experience": 3376,
+                "rank": -1
+            }
+        },
+        "date": "2023-12-29 21:03:10.494828"
+    }
+}
