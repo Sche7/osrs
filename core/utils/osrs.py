@@ -78,3 +78,46 @@ def save_hiscores_in_s3(
 
         # Upload the file to S3
         aws_storage.save(filepath, remote_filepath)
+
+
+def evaluate_hiscore_progress(
+    username: str,
+    tmp_dir: str = "downloads",
+) -> dict[str, int]:
+    json_storage = JSONStorage()
+    # Download the file if it exists
+    filepath = os.path.join(tmp_dir, f"{username}.json")
+
+    # If the file exists, load it
+    character_stats = json_storage.load(filepath)
+
+    # Get the last entry
+    last_stats = character_stats["history"][-1]
+
+    # Get the second to last entry
+    second_to_last_stats = character_stats["history"][-2]
+
+    # Calculate the difference in experience
+    experience_difference = (
+        last_stats["total_experience"] - second_to_last_stats["total_experience"]
+    )
+
+    # Calculate the difference in combat level
+    combat_level_difference = (
+        last_stats["combat_level"] - second_to_last_stats["combat_level"]
+    )
+
+    difference = {}
+    for skill_name, skill in last_stats["skills"].items():
+        difference[skill_name] = {
+            "level": skill["level"]
+            - second_to_last_stats["skills"][skill_name]["level"],
+            "experience": skill["experience"]
+            - second_to_last_stats["skills"][skill_name]["experience"],
+        }
+
+    return {
+        "experience_difference": experience_difference,
+        "combat_level_difference": combat_level_difference,
+        "time_difference": last_stats["date"] - second_to_last_stats["date"],
+    }
