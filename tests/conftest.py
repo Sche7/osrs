@@ -25,6 +25,12 @@ def osrs_logo():
     return "tests/data/osrs_logo.png"
 
 
+@pytest.fixture(scope="session")
+def osrs_zehahandsome():
+    """Fixture that returns the path to Zehahandsome OSRS Hiscore."""
+    return "tests/data/Zehahandsome.json"
+
+
 @pytest.fixture(scope="function")
 def gibberish():
     """Fixture that returns a random string."""

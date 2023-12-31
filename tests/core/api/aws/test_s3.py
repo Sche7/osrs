@@ -1,5 +1,6 @@
 import pytest
 import os
+import json
 from src.api.aws.s3 import S3
 from botocore.exceptions import ClientError
 
@@ -132,6 +133,43 @@ def test_download_file(aws_credentials, osrs_logo, gibberish, bucket_name, tmp_p
 
     # Assert that the file was downloaded
     assert os.path.exists(local_filepath)
+
+    # Delete the file
+    response = s3.delete_object(bucket_name=bucket_name, key=key)
+    assert response["ResponseMetadata"]["HTTPStatusCode"] == 204
+
+    # See that file was deleted successfully
+    with pytest.raises(ClientError, match="The specified key does not exist."):
+        s3.get_object(bucket_name=bucket_name, key=key)
+
+
+@pytest.mark.aws
+def test_get_file_content(aws_credentials, gibberish, osrs_zehahandsome, bucket_name):
+    # Get AWS credentials from environment variables
+    aws_access_key_id, aws_secret_access_key = aws_credentials
+
+    # Create an instance of S3
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
+
+    key = f"test/zehahandsome_{gibberish()}.png"
+    # Call the upload_file method
+    s3.upload_file(
+        bucket_name=bucket_name,
+        key=key,
+        filepath=osrs_zehahandsome,
+    )
+
+    # Call the get_file_content method
+    content = s3.get_file_content(bucket_name=bucket_name, key=key)
+
+    # Assert that the content is a string
+    assert isinstance(content, str)
+
+    # Assert that the content is not empty
+    assert content
+
+    # Assert that file is json compatible
+    assert isinstance(json.loads(content), dict)
 
     # Delete the file
     response = s3.delete_object(bucket_name=bucket_name, key=key)

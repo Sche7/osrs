@@ -102,13 +102,34 @@ class S3:
             This also works for objects in folders, simply add the folder name
             before the object name, e.g. "test/object.txt".
         filepath : str
-            The path to the file to download to.
+            The local target path for the downloaded file.
         """
         return self.s3_client.download_file(
             Filename=filepath,
             Bucket=bucket_name,
             Key=key,
         )
+
+    def get_file_content(self, bucket_name: str, key: str) -> str:
+        """
+        Get the content of a file in a bucket.
+
+        Parameters
+        ----------
+        bucket_name : str
+            The name of the bucket.
+        key : str
+            The name of the object.
+            This also works for objects in folders, simply add the folder name
+            before the object name, e.g. "test/object.txt".
+
+        Returns
+        -------
+        str
+            The content of the file.
+        """
+        data = self.get_object(bucket_name=bucket_name, key=key)
+        return data["Body"].read().decode("utf-8")
 
     def delete_object(self, bucket_name: str, key: str):
         """
