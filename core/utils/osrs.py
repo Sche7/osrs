@@ -1,7 +1,8 @@
 import os
-
+from datetime import datetime
 from typing import Iterator
 from core.api.osrs.hiscores import Hiscores
+from core.dataclasses.character import DATETIME_FORMAT
 from core.storage.aws.s3 import S3Storage
 from core.storage.json import JSONStorage
 from dataclasses import asdict
@@ -92,32 +93,33 @@ def evaluate_hiscore_progress(
     character_stats = json_storage.load(filepath)
 
     # Get the last entry
-    last_stats = character_stats["history"][-1]
+    current_stats = character_stats["history"][-1]
+    current_date = datetime.strptime(current_stats["date"], DATETIME_FORMAT)
 
     # Get the second to last entry
-    second_to_last_stats = character_stats["history"][-2]
+    prev_stats = character_stats["history"][-2]
+    prev_date = datetime.strptime(prev_stats["date"], DATETIME_FORMAT)
 
     # Calculate the difference in experience
     experience_difference = (
-        last_stats["total_experience"] - second_to_last_stats["total_experience"]
+        current_stats["total_experience"] - prev_stats["total_experience"]
     )
 
     # Calculate the difference in combat level
-    combat_level_difference = (
-        last_stats["combat_level"] - second_to_last_stats["combat_level"]
-    )
+    combat_level_difference = current_stats["combat_level"] - prev_stats["combat_level"]
 
     difference = {}
-    for skill_name, skill in last_stats["skills"].items():
+    for skill_name, skill in current_stats["skills"].items():
         difference[skill_name] = {
-            "level": skill["level"]
-            - second_to_last_stats["skills"][skill_name]["level"],
+            "level": skill["level"] - prev_stats["skills"][skill_name]["level"],
             "experience": skill["experience"]
-            - second_to_last_stats["skills"][skill_name]["experience"],
+            - prev_stats["skills"][skill_name]["experience"],
         }
 
     return {
+        "username": username,
         "experience_difference": experience_difference,
         "combat_level_difference": combat_level_difference,
-        "time_difference": last_stats["date"] - second_to_last_stats["date"],
+        "time_difference": str(current_date - prev_date),
+        "skills": difference,
     }

@@ -34,4 +34,18 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
 
 def test_evaluate_hiscore_progress():
     result = evaluate_hiscore_progress("Zehahandsome", "tests/data/")
-    assert result is not None
+
+    for key in [
+        "username",
+        "experience_difference",
+        "combat_level_difference",
+        "time_difference",
+        "skills",
+    ]:
+        assert key in result
+
+    assert result["username"] == "Zehahandsome"
+    assert result["experience_difference"] == 425985
+    assert result["combat_level_difference"] == 0
+    assert result["time_difference"] == "7 days, 0:49:39"
+    assert len(result["skills"]) == 23

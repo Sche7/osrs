@@ -2,6 +2,9 @@ import datetime
 from dataclasses import dataclass
 
 
+DATETIME_FORMAT = "%b %d %Y %H:%M:%S"
+
+
 @dataclass
 class Skill:
     level: int = -1
@@ -44,7 +47,7 @@ class Character:
     total_experience: int = 0
     total_rank: int = -1  # -1 means unranked
     skills: Skills = Skills()
-    date: datetime.datetime = datetime.datetime.now()
+    date: datetime.datetime = datetime.datetime.now().strftime(DATETIME_FORMAT)
 
     def eval_rank(self, rank: int) -> str:
         """
