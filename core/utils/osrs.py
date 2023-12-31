@@ -127,17 +127,23 @@ def evaluate_hiscore_progress(
 
     difference = {}
     for skill_name, skill in current_stats["skills"].items():
-        difference[skill_name] = {
-            "level_difference": skill["level"]
-            - prev_stats["skills"][skill_name]["level"],
-            "experience_difference": skill["experience"]
-            - prev_stats["skills"][skill_name]["experience"],
+        prev_skill = prev_stats["skills"][skill_name]
+        skill_info = {
+            "level_difference": skill["level"] - prev_skill["level"],
+            "experience_difference": skill["experience"] - prev_skill["experience"],
+            "previous_level": prev_skill["level"],
+            "previous_experience": prev_skill["experience"],
+            "current_level": skill["level"],
+            "current_experience": skill["experience"],
         }
+        difference[skill_name] = skill_info
 
     return {
         "username": username,
         "experience_difference": experience_difference,
         "combat_level_difference": combat_level_difference,
+        "previous_combat_level": prev_stats["combat_level"],
+        "current_combat_level": current_stats["combat_level"],
         "time_difference": str(current_date - prev_date),
         "skills": difference,
     }

@@ -41,23 +41,34 @@ async def send_webhook(url):
 
             if result["experience_difference"] != 0:
                 data.append(f"**{username}**\n")
-                data.append(f"Experience progress: {result['experience_difference']}\n")
                 data.append(
-                    f"Combat level progress: {result['combat_level_difference']}\n"
+                    f"Experience progress: {result['experience_difference']:,d}\n"
+                )
+                data.append(
+                    f"Combat level progress: {result['combat_level_difference']:,d}\n"
                 )
                 data.append(f"Progress time: {result['time_difference']}\n")
+                if result["combat_level_difference"] > 0:
+                    data.append(
+                        f"Combat level up from {result['previous_combat_level']} -> {result['current_combat_level']}\n"
+                    )
                 data.append("\n")
-                data.append("Skills:\n")
+                data.append("**Skills:**\n")
                 for skill_name, skill in result["skills"].items():
                     if skill["experience_difference"] != 0:
-                        data.append(f"\t{skill_name}:")
+                        data.append(f"\t*{skill_name}*:\n")
                         data.append(
-                            f"\t\tLevel progress: {skill['level_difference']}\n"
+                            f"\t\tLevel progress: {skill['level_difference']:,d}\n"
                         )
                         data.append(
-                            f"\t\tExperience progress: {skill['experience_difference']}\n"
+                            f"\t\tExperience progress: {skill['experience_difference']:,d}\n"
                         )
-                data.append("\n")
+                        if skill["current_level"] - skill["previous_level"] > 0:
+                            data.append(
+                                f"\t\tLevel up from {skill['previous_level']} -> {skill['current_level']}\n"
+                            )
+                        data.append("\n")
+                data.append("------------------------------------------------\n")
 
         now = datetime.datetime.now()
         data = "".join(data)
