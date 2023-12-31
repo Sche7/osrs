@@ -97,6 +97,84 @@ def evaluate_hiscore_progress(
     username: str,
     tmp_dir: str = "downloads",
 ) -> dict[str, int]:
+    """
+    Evaluates the progress of the given username.
+
+    Example
+    -------
+    >>> evaluate_hiscore_progress("NotCrostyGIM")
+    {
+        "username": "NotCrostyGIM",
+        "experience_difference": 0,
+        "combat_level_difference": 0,
+        "previous_combat_level": 3,
+        "current_combat_level": 3,
+        "time_difference": "0:00:00",
+        "skills": {
+            "overall": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 3,
+                "previous_experience": 0,
+                "current_level": 3,
+                "current_experience": 0
+            },
+            "attack": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 1,
+                "previous_experience": 0,
+                "current_level": 1,
+                "current_experience": 0
+            },
+            "defence": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 1,
+                "previous_experience": 0,
+                "current_level": 1,
+                "current_experience": 0
+            },
+            "strength": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 1,
+                "previous_experience": 0,
+                "current_level": 1,
+                "current_experience": 0
+            },
+            "hitpoints": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 10,
+                "previous_experience": 1154,
+                "current_level": 10,
+                "current_experience": 1154
+            },
+            "ranged": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 1,
+                "previous_experience": 0,
+                "current_level": 1,
+                "current_experience": 0
+            },
+            "prayer": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 1,
+                "previous_experience": 0,
+                "current_level": 1,
+                "current_experience": 0
+            },
+            "magic": {
+                "level_difference": 0,
+                "experience_difference": 0,
+                "previous_level": 1,
+                "previous_experience": 0,
+                "current
+
+    """
     json_storage = JSONStorage()
     # Download the file if it exists
     filepath = os.path.join(tmp_dir, f"{username}.json")
