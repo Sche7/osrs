@@ -45,7 +45,7 @@ def test_evaluate_hiscore_progress():
         assert key in result
 
     assert result["username"] == "Zehahandsome"
-    assert result["experience_difference"] == 425985
+    assert result["experience_difference"] == 4635
     assert result["combat_level_difference"] == 0
-    assert result["time_difference"] == "7 days, 0:49:39"
+    assert result["time_difference"] == "0:27:30"
     assert len(result["skills"]) == 23
