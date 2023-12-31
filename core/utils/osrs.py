@@ -29,6 +29,19 @@ def save_hiscores_in_s3(
     remote_folder: str = REMOTE_FOLDER,
     tmp_dir: str = "downloads",
 ) -> None:
+    """
+    Pulls the hiscores for the given usernames and saves them to S3.
+
+    Example
+    -------
+    >>> save_hiscores_in_s3(
+    ...     ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"],
+    ...     "osrs-hiscores",
+    ...     "aws_access_key_id",
+    ...     "aws_secret_access_key",
+    ...     remote_folder="test",
+    ... )
+    """
     if not os.path.exists(tmp_dir):
         os.makedirs(tmp_dir)
 
@@ -43,7 +56,7 @@ def save_hiscores_in_s3(
         username = hiscore.character.username
         character = asdict(hiscore.character)
 
-        character_stats = None
+        character_dict = None
         result = None
         # Download the file if it exists
         remote_filepath = os.path.join(remote_folder, f"{username}.json")
@@ -52,22 +65,25 @@ def save_hiscores_in_s3(
             download_path = aws_storage.load(remote_filepath)
 
             # If the file exists, load it
-            character_stats = json_storage.load(download_path)
+            character_dict = json_storage.load(download_path)
         except ClientError:
             pass
 
         # If the file does not exist, create a new one
         # Otherwise, append the new stats to the history
-        if character_stats is None:
+        if character_dict is None:
             result = {
                 "username": username,
                 "stats": character,
-                "history": [character],
+                "history": [],
             }
         else:
-            character_stats["stats"] = character
-            character_stats["history"].append(character)
-            result = character_stats
+            # Add the previous stats to the history
+            character_dict["history"].append(character_dict["stats"])
+
+            # Update the stats
+            character_dict["stats"] = character
+            result = character_dict
 
         # Save the file to the local filesystem
         filepath = f"{tmp_dir}/{username}.json"
@@ -89,11 +105,16 @@ def evaluate_hiscore_progress(
     character_stats = json_storage.load(filepath)
 
     # Get the last entry
-    current_stats = character_stats["history"][-1]
+    current_stats = character_stats["stats"]
     current_date = datetime.strptime(current_stats["date"], DATETIME_FORMAT)
 
     # Get the second to last entry
-    prev_stats = character_stats["history"][-2]
+    prev_stats = character_stats["history"]
+    if len(prev_stats) == 0:
+        prev_stats = current_stats
+    else:
+        prev_stats = prev_stats[-1]
+
     prev_date = datetime.strptime(prev_stats["date"], DATETIME_FORMAT)
 
     # Calculate the difference in experience
@@ -107,8 +128,9 @@ def evaluate_hiscore_progress(
     difference = {}
     for skill_name, skill in current_stats["skills"].items():
         difference[skill_name] = {
-            "level": skill["level"] - prev_stats["skills"][skill_name]["level"],
-            "experience": skill["experience"]
+            "level_difference": skill["level"]
+            - prev_stats["skills"][skill_name]["level"],
+            "experience_difference": skill["experience"]
             - prev_stats["skills"][skill_name]["experience"],
         }
 
