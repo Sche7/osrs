@@ -46,12 +46,6 @@ class S3Storage(StorageProtocol):
         Returns
         -------
         str
-            The path to the file.
+            The contents of the file.
         """
-        filename = os.path.basename(filepath)
-        download_filepath = os.path.join(self.download_folder, filename)
-        self.s3.download_file(self.bucket_name, filepath, download_filepath)
-
-        assert os.path.exists(download_filepath), f"{filepath} was not downloaded."
-
-        return download_filepath
+        return self.s3.get_file_content(self.bucket_name, filepath)

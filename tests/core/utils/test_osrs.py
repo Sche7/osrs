@@ -1,4 +1,4 @@
-import os
+import json
 import pytest
 from src.utils.osrs import save_hiscores_in_s3, S3Storage, evaluate_hiscore_progress
 
@@ -28,8 +28,16 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
 
     for username in usernames:
         remote_filepath = f"hiscores/{username}.json"
-        downloaded_filepath = storage.load(remote_filepath)
-        assert os.path.exists(downloaded_filepath)
+        content = storage.load(remote_filepath)
+
+        # Assert that the content is a string
+        assert isinstance(content, bytes)
+
+        # Assert that the content is not empty
+        assert content
+
+        # Assert that file is json compatible
+        assert isinstance(json.loads(content), dict)
 
 
 def test_evaluate_hiscore_progress():

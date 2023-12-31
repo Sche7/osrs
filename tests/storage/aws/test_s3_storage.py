@@ -1,5 +1,4 @@
 import pytest
-import os
 
 from src.storage.aws.s3 import S3Storage
 
@@ -24,10 +23,11 @@ def test_save_and_load(aws_credentials, osrs_logo, gibberish, bucket_name, tmp_p
         storage.save(osrs_logo, remote_filepath)
 
         # Call the load method
-        downloaded_filepath = storage.load(remote_filepath)
+        content = storage.load(remote_filepath)
 
-        # Assert that the file was downloaded
-        assert os.path.exists(downloaded_filepath)
+        # Assert that the content is not empty
+        assert content
+
     finally:
         # Delete the file
         storage.s3.delete_object(bucket_name, remote_filepath)

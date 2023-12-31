@@ -163,7 +163,7 @@ def test_get_file_content(aws_credentials, gibberish, osrs_zehahandsome, bucket_
     content = s3.get_file_content(bucket_name=bucket_name, key=key)
 
     # Assert that the content is a string
-    assert isinstance(content, str)
+    assert isinstance(content, bytes)
 
     # Assert that the content is not empty
     assert content

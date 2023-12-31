@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import datetime
 from typing import Iterator
 from src.api.osrs.hiscores import Hiscores
@@ -62,10 +63,9 @@ def save_hiscores_in_s3(
         remote_filepath = os.path.join(remote_folder, f"{username}.json")
         try:
             # Attempt to download the file
-            download_path = aws_storage.load(remote_filepath)
+            content = aws_storage.load(remote_filepath)
+            character_dict = json.loads(content)
 
-            # If the file exists, load it
-            character_dict = json_storage.load(download_path)
         except ClientError:
             pass
 

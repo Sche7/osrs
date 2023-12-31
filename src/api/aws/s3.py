@@ -129,7 +129,8 @@ class S3:
             The content of the file.
         """
         data = self.get_object(bucket_name=bucket_name, key=key)
-        return data["Body"].read().decode("utf-8")
+        content = data["Body"].read()
+        return content
 
     def delete_object(self, bucket_name: str, key: str):
         """
