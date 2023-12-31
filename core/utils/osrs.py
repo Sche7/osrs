@@ -43,10 +43,6 @@ def save_hiscores_in_s3(
         username = hiscore.character.username
         character = asdict(hiscore.character)
 
-        # Convert datetime to string
-        # as the datetime object is not serializable
-        character.update({"date": str(character["date"])})
-
         character_stats = None
         result = None
         # Download the file if it exists
