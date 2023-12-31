@@ -1,6 +1,6 @@
 import pytest
 import os
-from core.utils.randomize import random_string
+from src.utils.randomize import random_string
 
 
 @pytest.fixture(scope="session")

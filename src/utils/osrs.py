@@ -1,10 +1,10 @@
 import os
 from datetime import datetime
 from typing import Iterator
-from core.api.osrs.hiscores import Hiscores
-from core.dataclasses.character import DATETIME_FORMAT
-from core.storage.aws.s3 import S3Storage
-from core.storage.json import JSONStorage
+from src.api.osrs.hiscores import Hiscores
+from src.dataclasses.character import DATETIME_FORMAT
+from src.storage.aws.s3 import S3Storage
+from src.storage.json import JSONStorage
 from dataclasses import asdict
 from botocore.exceptions import ClientError
 

@@ -1,7 +1,7 @@
 import os
 
-from core.api.aws.s3 import S3
-from core.storage.protocol import StorageProtocol
+from src.api.aws.s3 import S3
+from src.storage.protocol import StorageProtocol
 
 
 class S3Storage(StorageProtocol):

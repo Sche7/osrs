@@ -1,6 +1,6 @@
 import requests
 from enum import Enum
-from core.dataclasses.character import Character, Skills, Skill
+from src.dataclasses.character import Character, Skills, Skill
 
 
 class HiscoreType(Enum):

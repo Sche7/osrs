@@ -1,7 +1,7 @@
 import pytest
 import os
 
-from core.storage.aws.s3 import S3Storage
+from src.storage.aws.s3 import S3Storage
 
 
 @pytest.mark.aws

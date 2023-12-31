@@ -1,6 +1,6 @@
 import pytest
 import os
-from core.api.aws.s3 import S3
+from src.api.aws.s3 import S3
 from botocore.exceptions import ClientError
 
 

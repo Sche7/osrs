@@ -1,5 +1,5 @@
 import json
-from core.storage.protocol import StorageProtocol
+from src.storage.protocol import StorageProtocol
 
 
 class JSONStorage(StorageProtocol):

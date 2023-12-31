@@ -1,6 +1,6 @@
 import os
 import pytest
-from core.utils.osrs import save_hiscores_in_s3, S3Storage, evaluate_hiscore_progress
+from src.utils.osrs import save_hiscores_in_s3, S3Storage, evaluate_hiscore_progress
 
 
 @pytest.mark.aws

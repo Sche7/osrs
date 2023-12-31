@@ -5,7 +5,7 @@ import datetime
 import os
 from dotenv import load_dotenv
 from discord import Webhook
-from core.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
+from src.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
 
 
 load_dotenv()  # take environment variables from .env.
