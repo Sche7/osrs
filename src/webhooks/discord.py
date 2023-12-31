@@ -84,7 +84,11 @@ async def send_webhook(url):
             await webhook.send(embed=embed, username="OSRS Bot")
 
 
-if __name__ == "__main__":
+def main():
     url = os.getenv("DISCORD_WEBHOOK")
     loop = asyncio.get_event_loop()
     loop.run_until_complete(send_webhook(url))
+
+
+if __name__ == "__main__":
+    main()
