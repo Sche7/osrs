@@ -89,6 +89,27 @@ class S3:
             Key=key,
         )
 
+    def upload_content(self, bucket_name: str, key: str, content: str) -> None:
+        """
+        Upload a file to a bucket without having to create a file locally.
+
+        Parameters
+        ----------
+        bucket_name : str
+            The name of the bucket.
+        key : str
+            The name of the object.
+            This also works for objects in folders, simply add the folder name
+            before the object name, e.g. "test/object.txt".
+        content : str
+            The content to upload.
+        """
+        return self.s3_client.put_object(
+            Bucket=bucket_name,
+            Key=key,
+            Body=content,
+        )
+
     def download_file(self, bucket_name: str, key: str, filepath: str) -> None:
         """
         Download a file from a bucket.
@@ -112,7 +133,7 @@ class S3:
 
     def get_file_content(self, bucket_name: str, key: str) -> str:
         """
-        Get the content of a file in a bucket.
+        Get the content of a file in a bucket without downloading it.
 
         Parameters
         ----------
