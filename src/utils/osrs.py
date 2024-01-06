@@ -16,7 +16,7 @@ REMOTE_FOLDER = "hiscores"
 def get_hiscores(usernames: list[str]) -> Iterator[Hiscores]:
     """
     Convenience function for getting the hiscores for the given usernames.
-    
+
     Example
     -------
     >>> usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
@@ -197,7 +197,7 @@ def evaluate_hiscore_progress(
 
     # Get the second to last entry
     history = character_stats["history"]
-    if len(prev_stats) == 0:
+    if len(history) == 0:
         prev_stats = current_stats
     else:
         prev_stats = history[-1]
