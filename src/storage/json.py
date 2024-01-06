@@ -20,6 +20,12 @@ class JSONStorage(StorageProtocol):
         -------
         str
             The path of the saved file.
+
+        Examples
+        --------
+        >>> json_storage = JSONStorage()
+        >>> json_storage.save({"foo": "bar"}, "foo.json")
+        "foo.json"
         """
         with open(filepath, "w") as file:
             json.dump(data, file)
@@ -38,6 +44,12 @@ class JSONStorage(StorageProtocol):
         -------
         dict
             The dictionary object loaded from the JSON file.
+
+        Examples
+        --------
+        >>> json_storage = JSONStorage()
+        >>> json_storage.load("foo.json")
+        {"foo": "bar"}
         """
         with open(filepath, "r") as file:
             return json.load(file)
