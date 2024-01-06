@@ -180,7 +180,7 @@ def test_get_file_content(aws_credentials, gibberish, osrs_zehahandsome, bucket_
         s3.get_object(bucket_name=bucket_name, key=key)
 
 
-def test_upload_content(aws_credentials, gibberish, bucket_name):
+def test_upload_file_content(aws_credentials, gibberish, bucket_name):
     # Get AWS credentials from environment variables
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
@@ -189,7 +189,7 @@ def test_upload_content(aws_credentials, gibberish, bucket_name):
 
     key = f"test/test_upload_content_{gibberish()}.json"
     # Call the upload_content method
-    s3.upload_content(
+    s3.upload_file_content(
         bucket_name=bucket_name,
         key=key,
         content=b'{"hi": "there"}',

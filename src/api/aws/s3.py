@@ -89,7 +89,7 @@ class S3:
             Key=key,
         )
 
-    def upload_content(self, bucket_name: str, key: str, content: str) -> None:
+    def upload_file_content(self, bucket_name: str, key: str, content: str) -> None:
         """
         Upload a file to a bucket without having to create a file locally.
 
