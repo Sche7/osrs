@@ -14,6 +14,15 @@ REMOTE_FOLDER = "hiscores"
 
 
 def get_hiscores(usernames: list[str]) -> Iterator[Hiscores]:
+    """
+    Convenience function for getting the hiscores for the given usernames.
+    
+    Example
+    -------
+    >>> usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
+    >>> for hiscore in get_hiscores(usernames):
+    ...     print(hiscore.character)
+    """
     for username in usernames:
         try:
             yield Hiscores(username)
@@ -69,7 +78,7 @@ def save_hiscores_in_s3(
         except ClientError:
             pass
 
-        # If the file does not exist, create a new one
+        # If the file does not exist, then create one
         # Otherwise, append the new stats to the history
         if character_dict is None:
             result = {
@@ -187,11 +196,11 @@ def evaluate_hiscore_progress(
     current_date = datetime.strptime(current_stats["date"], DATETIME_FORMAT)
 
     # Get the second to last entry
-    prev_stats = character_stats["history"]
+    history = character_stats["history"]
     if len(prev_stats) == 0:
         prev_stats = current_stats
     else:
-        prev_stats = prev_stats[-1]
+        prev_stats = history[-1]
 
     prev_date = datetime.strptime(prev_stats["date"], DATETIME_FORMAT)
 
