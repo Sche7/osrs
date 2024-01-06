@@ -21,22 +21,33 @@ class S3Storage(StorageProtocol):
             print(f"Creating {self.download_folder}...")
             os.makedirs(self.download_folder, exist_ok=True)
 
-    def save(self, data: str, filepath: str) -> None:
+    def save(self, content: str, filepath: str) -> None:
         """
-        This uploads a file to the bucket.
+        Upload content to an s3 bucket.
+        The content is saved as a file where the fileformat
+        is inferred from the filepath.
 
         Parameters
         ----------
-        data : str
-            The data to upload.
+        content : str
+            The data to upload to the bucket.
         filepath : str
             The name of target file.
+
+        Example
+        -------
+        >>> aws_storage = S3Storage(
+        ...     aws_access_key_id,
+        ...     aws_secret_access_key,
+        ...     bucket_name,
+        ... )
+        >>> aws_storage.save("Hello, World!", "test.txt")
         """
-        self.s3.upload_file(self.bucket_name, filepath, data)
+        self.s3.upload_file_content(self.bucket_name, filepath, content)
 
     def load(self, filepath: str) -> str:
         """
-        Load data from a bucket.
+        Get the contents of a file in an s3 bucket without downloading it.
 
         Parameters
         ----------
