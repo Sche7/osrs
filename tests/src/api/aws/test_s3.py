@@ -178,3 +178,32 @@ def test_get_file_content(aws_credentials, gibberish, osrs_zehahandsome, bucket_
     # See that file was deleted successfully
     with pytest.raises(ClientError, match="The specified key does not exist."):
         s3.get_object(bucket_name=bucket_name, key=key)
+
+
+def test_upload_content(aws_credentials, gibberish, bucket_name):
+    # Get AWS credentials from environment variables
+    aws_access_key_id, aws_secret_access_key = aws_credentials
+
+    # Create an instance of S3
+    s3 = S3(aws_access_key_id, aws_secret_access_key)
+
+    key = f"test/test_upload_content_{gibberish()}.json"
+    # Call the upload_content method
+    s3.upload_content(
+        bucket_name=bucket_name,
+        key=key,
+        content=b'{"hi": "there"}',
+    )
+
+    # Assert that the file was uploaded
+    objects = s3.list_objects(bucket_name=bucket_name, folder="test/")
+    uploaded_object = [obj for obj in objects if key == obj["Key"]]
+    assert len(uploaded_object) == 1
+
+    # Delete the file
+    response = s3.delete_object(bucket_name=bucket_name, key=key)
+    assert response["ResponseMetadata"]["HTTPStatusCode"] == 204
+
+    # See that file was deleted successfully
+    with pytest.raises(ClientError, match="The specified key does not exist."):
+        s3.get_object(bucket_name=bucket_name, key=key)
