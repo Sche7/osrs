@@ -1,6 +1,17 @@
-# Old School Runescape API and Scrapers
+# Old School Runescape
 
-# Tests
+## Fetch Hiscores
+
+Fetch your OSRS user hiscores:
+
+```python
+from src.api.osrs.hiscores import Hiscores
+
+user = Hiscores("Zehahandsome")
+print(user.character)
+```
+
+## Tests
 
 To run tests in this repository, follow these steps:
 
@@ -10,19 +21,18 @@ To run tests in this repository, follow these steps:
     DISCORD_WEBHOOK=...
     AWS_ACCESS_KEY_ID=...
     AWS_SECRET_ACCESS_KEY=...
-    AWS_DEFAULT_REGION=...
     ```
 
 2. Run the test command in your terminal or command prompt:
 
    ```bash
-   pytest .
+   make test-unit
    ```
 
    This run all the unit tests in the `tests` directory. To run all tests including the AWS tests, do
 
    ```bash
-   pytest -m aws
+   make test-aws
    ```
 
    This requires all the enviroment variables to be set from step 1.
