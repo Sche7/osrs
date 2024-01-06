@@ -2,6 +2,8 @@ import boto3
 
 
 class S3:
+    """A wrapper for boto3's s3 client."""
+
     def __init__(
         self,
         aws_access_key_id: str,
