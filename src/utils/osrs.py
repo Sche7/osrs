@@ -1,7 +1,6 @@
 import os
 import json
 from datetime import datetime
-from typing import Iterator
 from src.api.osrs.hiscores import Hiscores
 from src.dataclasses.character import DATETIME_FORMAT
 from src.storage.aws.s3 import S3Storage
