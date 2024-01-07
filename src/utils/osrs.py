@@ -37,7 +37,6 @@ def save_hiscores_in_s3(
     aws_access_key_id: str,
     aws_secret_access_key: str,
     remote_folder: str = REMOTE_FOLDER,
-    tmp_dir: str = "downloads",
 ) -> None:
     """
     Pulls the hiscores for the given usernames and saves them to S3.
@@ -52,22 +51,18 @@ def save_hiscores_in_s3(
     ...     remote_folder="test",
     ... )
     """
-    if not os.path.exists(tmp_dir):
-        os.makedirs(tmp_dir)
 
     aws_storage = S3Storage(
         aws_access_key_id,
         aws_secret_access_key,
         bucket_name,
     )
-    json_storage = JSONStorage()
 
     for hiscore in get_hiscores(usernames):
         username = hiscore.character.username
         character = asdict(hiscore.character)
 
         character_dict = None
-        result = None
         # Download the file if it exists
         remote_filepath = os.path.join(remote_folder, f"{username}.json")
         try:
@@ -78,10 +73,11 @@ def save_hiscores_in_s3(
         except ClientError:
             pass
 
-        # If the file does not exist, then create one
-        # Otherwise, append the new stats to the history
+        # If character_dict is None, it means that the file does not exist.
+        # In this case, we create one in S3.
+        # Otherwise, append the newly aquired stats to the existing file.
         if character_dict is None:
-            result = {
+            character_dict = {
                 "username": username,
                 "stats": character,
                 "history": [],
@@ -92,14 +88,11 @@ def save_hiscores_in_s3(
 
             # Update the stats
             character_dict["stats"] = character
-            result = character_dict
 
-        # Save the file to the local filesystem
-        filepath = f"{tmp_dir}/{username}.json"
-        json_storage.save(result, filepath)
+        content = json.dumps(character_dict)
 
         # Upload the file to S3
-        aws_storage.save(filepath, remote_filepath)
+        aws_storage.save(content, remote_filepath)
 
 
 def evaluate_hiscore_progress(
