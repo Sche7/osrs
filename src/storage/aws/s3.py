@@ -1,4 +1,3 @@
-import os
 
 from src.api.aws.s3 import S3
 from src.storage.protocol import StorageProtocol
@@ -11,15 +10,9 @@ class S3Storage(StorageProtocol):
         aws_secret_access_key: str,
         bucket_name: str,
         region_name: str = "eu-north-1",
-        download_folder: str = "downloads",
     ):
         self.s3 = S3(aws_access_key_id, aws_secret_access_key, region_name)
         self.bucket_name = bucket_name
-        self.download_folder = download_folder
-
-        if not os.path.exists(self.download_folder):
-            print(f"Creating {self.download_folder}...")
-            os.makedirs(self.download_folder, exist_ok=True)
 
     def save(self, content: str, filepath: str) -> None:
         """

@@ -4,7 +4,7 @@ from src.storage.aws.s3 import S3Storage
 
 
 @pytest.mark.aws
-def test_save_and_load(aws_credentials, gibberish, bucket_name, tmp_path):
+def test_save_and_load(aws_credentials, gibberish, bucket_name):
     # Get AWS credentials from environment variables
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
@@ -13,7 +13,6 @@ def test_save_and_load(aws_credentials, gibberish, bucket_name, tmp_path):
         aws_access_key_id,
         aws_secret_access_key,
         bucket_name,
-        download_folder=tmp_path,
     )
 
     content = b'{"test": "test"}'
