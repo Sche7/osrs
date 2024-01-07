@@ -8,14 +8,14 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
     usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
-
+    remote_folder = "test"
     # Call the function
     save_hiscores_in_s3(
         usernames,
         bucket_name,
         aws_access_key_id,
         aws_secret_access_key,
-        remote_folder="test",
+        remote_folder=remote_folder,
     )
 
     # Check that the files were uploaded
@@ -27,7 +27,7 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
     )
 
     for username in usernames:
-        remote_filepath = f"hiscores/{username}.json"
+        remote_filepath = f"{remote_folder}/{username}.json"
         content = storage.load(remote_filepath)
 
         # Assert that the content is a string
@@ -38,6 +38,8 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
 
         # Assert that file is json compatible
         assert isinstance(json.loads(content), dict)
+
+        storage.delete(remote_filepath)
 
 
 def test_evaluate_hiscore_progress():

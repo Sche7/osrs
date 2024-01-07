@@ -40,6 +40,10 @@ def save_hiscores_in_s3(
 ) -> None:
     """
     Pulls the hiscores for the given usernames and saves them to S3.
+    This function will create a new file if it does not exist, or update
+    the file if it does exist.
+
+    It will not update the file if the stats have not changed.
 
     Example
     -------
@@ -52,47 +56,55 @@ def save_hiscores_in_s3(
     ... )
     """
 
+    # Connect to S3
     aws_storage = S3Storage(
         aws_access_key_id,
         aws_secret_access_key,
         bucket_name,
     )
 
+    # Get the hiscores for the given usernames
     for hiscore in get_hiscores(usernames):
+        # Fetch current character stats
         username = hiscore.character.username
-        character = asdict(hiscore.character)
+        current_stats = asdict(hiscore.character)
 
-        character_dict = None
-        # Download the file if it exists
+        new_stats = None
+        previous_stats = None
         remote_filepath = os.path.join(remote_folder, f"{username}.json")
+        
+        # Download previous stats from S3 if it exists.
+        # Exception is thrown if the file does not exist.
         try:
             # Attempt to download the file
             content = aws_storage.load(remote_filepath)
-            character_dict = json.loads(content)
-
-        except ClientError:
-            pass
+            previous_stats = json.loads(content)
+        except ClientError as ex:
+            if ex.response['Error']['Code'] != 'NoSuchKey':
+                raise
 
         # If character_dict is None, it means that the file does not exist.
         # In this case, we create one in S3.
-        # Otherwise, append the newly aquired stats to the existing file.
-        if character_dict is None:
-            character_dict = {
+        if previous_stats is None:
+            new_stats = {
                 "username": username,
-                "stats": character,
+                "stats": current_stats,
                 "history": [],
             }
+            content = json.dumps(new_stats)
+            aws_storage.save(content, remote_filepath)
         else:
-            # Add the previous stats to the history
-            character_dict["history"].append(character_dict["stats"])
+            # Otherwise, if the file exists then add the previous stats to the history
+            new_stats = {
+                "username": username,
+                "stats": current_stats,
+                "history": previous_stats["history"] + [previous_stats["stats"]],
+            }
 
-            # Update the stats
-            character_dict["stats"] = character
-
-        content = json.dumps(character_dict)
-
-        # Upload the file to S3
-        aws_storage.save(content, remote_filepath)
+            # If the stats have not changed, then we do not need to upload the file.
+            if (current_stats["total_experience"] - previous_stats["stats"]["total_experience"] > 0):
+                content = json.dumps(new_stats)
+                aws_storage.save(content, remote_filepath)
 
 
 def evaluate_hiscore_progress(
