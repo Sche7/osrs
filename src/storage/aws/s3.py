@@ -58,5 +58,14 @@ class S3Storage(StorageProtocol):
         -------
         str
             The contents of the file.
+        
+        Example
+        -------
+        >>> aws_storage = S3Storage(
+        ...     aws_access_key_id,
+        ...     aws_secret_access_key,
+        ...     bucket_name,
+        ... )
+        >>> aws_storage.load("test.txt")
         """
         return self.s3.get_file_content(self.bucket_name, filepath)
