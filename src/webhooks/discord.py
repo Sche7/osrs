@@ -14,29 +14,24 @@ load_dotenv()  # take environment variables from .env.
 USERNAMES = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome", "Zolixo1"]
 BUCKET_NAME = "osrsbucket"
 REMOTE_FOLDER = "hiscores"
-TMP_DIR = "downloads"
 
 
 async def send_webhook(url):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
 
-        # Save the hiscores to S3
-        # This will sync the hiscores to S3 and download them to the local machine
-        # at tmp_dir.
-        save_hiscores_in_s3(
+        # Get the hiscores from the local machine
+        # and send them to the webhook
+        data = []
+        for user_stats in save_hiscores_in_s3(
             usernames=USERNAMES,
             bucket_name=BUCKET_NAME,
             aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
             aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
             remote_folder=REMOTE_FOLDER,
-        )
-
-        # Get the hiscores from the local machine
-        # and send them to the webhook
-        data = []
-        for username in USERNAMES:
-            result = evaluate_hiscore_progress(username, TMP_DIR)
+        ):
+            username = user_stats["username"]
+            result = evaluate_hiscore_progress(user_stats)
 
             if result["experience_difference"] != 0:
                 data.append(f"**{username}**\n")
