@@ -12,24 +12,6 @@ from botocore.exceptions import ClientError
 REMOTE_FOLDER = "hiscores"
 
 
-def get_hiscores(usernames: list[str]) -> Iterator[Hiscores]:
-    """
-    Convenience function for getting the hiscores for the given usernames.
-
-    Example
-    -------
-    >>> usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
-    >>> for hiscore in get_hiscores(usernames):
-    ...     print(hiscore.character)
-    """
-    for username in usernames:
-        try:
-            yield Hiscores(username)
-        except Exception as e:
-            print(str(e))
-            continue
-
-
 def save_hiscores_in_s3(
     usernames: list[str],
     bucket_name: str,
@@ -62,6 +44,53 @@ def save_hiscores_in_s3(
     ...     remote_folder="test",
     ... )
     """
+    # Get the hiscores for the given usernames
+    for username in usernames:
+        try:
+            yield save_hiscore_in_s3(
+                username,
+                bucket_name,
+                aws_access_key_id,
+                aws_secret_access_key,
+                remote_folder=remote_folder,
+            )
+        except Exception as e:
+            print(str(e))
+            continue
+
+
+def save_hiscore_in_s3(
+    username: str,
+    bucket_name: str,
+    aws_access_key_id: str,
+    aws_secret_access_key: str,
+    remote_folder: str = REMOTE_FOLDER,
+) -> dict:
+    """
+    Pulls the hiscores for the given username and saves them to S3.
+    This function will create a new file if it does not exist, or update
+    the file if it does exist.
+    It will not update the file if the stats have not changed.
+
+    Returns
+    -------
+    dict
+        The most recent stats for the given username.
+        Note that the returned dict may not be the same as the stats
+        that are saved in S3. This is because the stats are updated
+        in S3 only if they have changed. The returned dict will always
+        be the most recent stats, even if they have not changed.
+
+    Example
+    -------
+    >>> save_hiscore_in_s3(
+    ...     "NotCrostyGIM",
+    ...     "osrs-hiscores",
+    ...     "aws_access_key_id",
+    ...     "aws_secret_access_key",
+    ...     remote_folder="test",
+    ... )
+    """
 
     # Connect to S3
     aws_storage = S3Storage(
@@ -70,54 +99,55 @@ def save_hiscores_in_s3(
         bucket_name,
     )
 
-    # Get the hiscores for the given usernames
-    for hiscore in get_hiscores(usernames):
-        # Fetch current character stats
-        username = hiscore.character.username
-        current_stats = asdict(hiscore.character)
+    # Get the hiscores for the given username
+    hiscore = Hiscores(username)
 
-        new_stats = None
-        previous_stats = None
-        remote_filepath = os.path.join(remote_folder, f"{username}.json")
+    # Fetch current character stats
+    username = hiscore.character.username
+    current_stats = asdict(hiscore.character)
 
-        # Download previous stats from S3 if it exists.
-        # Exception is thrown if the file does not exist.
-        try:
-            # Attempt to download the file
-            content = aws_storage.load(remote_filepath)
-            previous_stats = json.loads(content)
-        except ClientError as ex:
-            if ex.response["Error"]["Code"] != "NoSuchKey":
-                raise
+    new_stats = None
+    previous_stats = None
+    remote_filepath = os.path.join(remote_folder, f"{username}.json")
 
-        # If character_dict is None, it means that the file does not exist.
-        # In this case, we create one in S3.
-        if previous_stats is None:
-            new_stats = {
-                "username": username,
-                "stats": current_stats,
-                "history": [],
-            }
+    # Download previous stats from S3 if it exists.
+    # Exception is thrown if the file does not exist.
+    try:
+        # Attempt to download the file
+        content = aws_storage.load(remote_filepath)
+        previous_stats = json.loads(content)
+    except ClientError as ex:
+        if ex.response["Error"]["Code"] != "NoSuchKey":
+            raise
+
+    # If character_dict is None, it means that the file does not exist.
+    # In this case, we create one in S3.
+    if previous_stats is None:
+        new_stats = {
+            "username": username,
+            "stats": current_stats,
+            "history": [],
+        }
+        content = json.dumps(new_stats)
+        aws_storage.save(content, remote_filepath)
+    else:
+        # Otherwise, if the file exists then add the previous stats to the history
+        new_stats = {
+            "username": username,
+            "stats": current_stats,
+            "history": previous_stats["history"] + [previous_stats["stats"]],
+        }
+
+        # If the stats have not changed, then we do not need to upload the file.
+        if (
+            current_stats["total_experience"]
+            - previous_stats["stats"]["total_experience"]
+            > 0
+        ):
             content = json.dumps(new_stats)
             aws_storage.save(content, remote_filepath)
-        else:
-            # Otherwise, if the file exists then add the previous stats to the history
-            new_stats = {
-                "username": username,
-                "stats": current_stats,
-                "history": previous_stats["history"] + [previous_stats["stats"]],
-            }
 
-            # If the stats have not changed, then we do not need to upload the file.
-            if (
-                current_stats["total_experience"]
-                - previous_stats["stats"]["total_experience"]
-                > 0
-            ):
-                content = json.dumps(new_stats)
-                aws_storage.save(content, remote_filepath)
-
-        return new_stats
+    return new_stats
 
 
 def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:

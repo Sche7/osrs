@@ -30,7 +30,6 @@ async def send_webhook(url):
             aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
             aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
             remote_folder=REMOTE_FOLDER,
-            tmp_dir=TMP_DIR,
         )
 
         # Get the hiscores from the local machine

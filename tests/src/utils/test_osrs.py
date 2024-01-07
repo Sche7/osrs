@@ -17,14 +17,6 @@ def test_save_hiscores_to_s3(
 
     usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
     remote_folder = "test"
-    # Call the function
-    save_hiscores_in_s3(
-        usernames,
-        bucket_name,
-        aws_access_key_id,
-        aws_secret_access_key,
-        remote_folder=remote_folder,
-    )
 
     # Check that the files were uploaded
     storage = S3Storage(
@@ -34,8 +26,17 @@ def test_save_hiscores_to_s3(
         download_folder=tmp_path,
     )
 
-    for username in usernames:
+    for stats in save_hiscores_in_s3(
+        usernames,
+        bucket_name,
+        aws_access_key_id,
+        aws_secret_access_key,
+        remote_folder=remote_folder,
+    ):
+        username = stats["username"]
         remote_filepath = f"{remote_folder}/{username}.json"
+
+        # Assert that the file was uploaded
         content = storage.load(remote_filepath)
 
         # Assert that the content is a string
