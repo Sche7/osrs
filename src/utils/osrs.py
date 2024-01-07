@@ -5,7 +5,6 @@ from typing import Iterator
 from src.api.osrs.hiscores import Hiscores
 from src.dataclasses.character import DATETIME_FORMAT
 from src.storage.aws.s3 import S3Storage
-from src.storage.json import JSONStorage
 from dataclasses import asdict
 from botocore.exceptions import ClientError
 
@@ -37,13 +36,21 @@ def save_hiscores_in_s3(
     aws_access_key_id: str,
     aws_secret_access_key: str,
     remote_folder: str = REMOTE_FOLDER,
-) -> None:
+) -> dict:
     """
     Pulls the hiscores for the given usernames and saves them to S3.
     This function will create a new file if it does not exist, or update
     the file if it does exist.
-
     It will not update the file if the stats have not changed.
+
+    Returns
+    -------
+    dict
+        The most recent stats for the given usernames.
+        Note that the returned dict may not be the same as the stats
+        that are saved in S3. This is because the stats are updated
+        in S3 only if they have changed. The returned dict will always
+        be the most recent stats, even if they have not changed.
 
     Example
     -------
@@ -110,13 +117,14 @@ def save_hiscores_in_s3(
                 content = json.dumps(new_stats)
                 aws_storage.save(content, remote_filepath)
 
+        return new_stats
 
-def evaluate_hiscore_progress(
-    username: str,
-    tmp_dir: str = "downloads",
-) -> dict[str, int]:
+
+def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:
     """
     Evaluates the progress of the given username.
+    Fetches the stats from S3 and calculates the difference between the
+    last two entries.
 
     Example
     -------
@@ -193,19 +201,12 @@ def evaluate_hiscore_progress(
                 "current
 
     """
-    json_storage = JSONStorage()
-    # Download the file if it exists
-    filepath = os.path.join(tmp_dir, f"{username}.json")
-
-    # If the file exists, load it
-    character_stats = json_storage.load(filepath)
-
-    # Get the last entry
-    current_stats = character_stats["stats"]
+    username = stats["username"]
+    current_stats = stats["stats"]
     current_date = datetime.strptime(current_stats["date"], DATETIME_FORMAT)
 
     # Get the second to last entry
-    history = character_stats["history"]
+    history = stats["history"]
     if len(history) == 0:
         prev_stats = current_stats
     else:

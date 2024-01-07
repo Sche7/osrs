@@ -1,11 +1,18 @@
 import json
 import pytest
+from pathlib import Path
+from typing import Literal
+from src.storage.json import JSONStorage
 from src.utils.osrs import save_hiscores_in_s3, S3Storage, evaluate_hiscore_progress
 from botocore.exceptions import ClientError
 
 
 @pytest.mark.aws
-def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
+def test_save_hiscores_to_s3(
+    aws_credentials: tuple[str, str],
+    bucket_name: Literal["osrsbucket"],
+    tmp_path: Path,
+):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
     usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
@@ -52,7 +59,9 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
 
 
 def test_evaluate_hiscore_progress():
-    result = evaluate_hiscore_progress("Zehahandsome", "tests/data/")
+    json_storage = JSONStorage()
+    stats = json_storage.load("tests/data/Zehahandsome.json")
+    result = evaluate_hiscore_progress(stats)
 
     for key in [
         "username",
