@@ -1,6 +1,7 @@
 import json
 import pytest
 from src.utils.osrs import save_hiscores_in_s3, S3Storage, evaluate_hiscore_progress
+from botocore.exceptions import ClientError
 
 
 @pytest.mark.aws
@@ -39,7 +40,13 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
         # Assert that file is json compatible
         assert isinstance(json.loads(content), dict)
 
-        storage.delete(remote_filepath)
+        # Delete the file
+        response = storage.s3.delete_object(bucket_name=bucket_name, key=remote_filepath)
+        assert response["ResponseMetadata"]["HTTPStatusCode"] == 204
+
+        # See that file was deleted successfully
+        with pytest.raises(ClientError, match="The specified key does not exist."):
+            storage.s3.get_object(bucket_name=bucket_name, key=remote_filepath)
 
 
 def test_evaluate_hiscore_progress():
