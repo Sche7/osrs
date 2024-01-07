@@ -180,6 +180,7 @@ def test_get_file_content(aws_credentials, gibberish, osrs_zehahandsome, bucket_
         s3.get_object(bucket_name=bucket_name, key=key)
 
 
+@pytest.mark.aws
 def test_upload_file_content(aws_credentials, gibberish, bucket_name):
     # Get AWS credentials from environment variables
     aws_access_key_id, aws_secret_access_key = aws_credentials
