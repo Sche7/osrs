@@ -20,9 +20,9 @@ async def send_webhook(url):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
 
-        # Get the hiscores from the local machine
-        # and send them to the webhook
-        data = []
+        # Get the hiscores, sync them to S3, evaluate them
+        # and send them to the Discord webhook.
+        message = []
         for user_stats in save_hiscores_in_s3(
             usernames=USERNAMES,
             bucket_name=BUCKET_NAME,
@@ -33,45 +33,46 @@ async def send_webhook(url):
             username = user_stats["username"]
             result = evaluate_hiscore_progress(user_stats)
 
+            # Construct the message
             if result["experience_difference"] != 0:
-                data.append(f"**{username}**\n")
-                data.append(
+                message.append(f"**{username}**\n")
+                message.append(
                     f"Experience progress: {result['experience_difference']:,d}\n"
                 )
-                data.append(
+                message.append(
                     f"Combat level progress: {result['combat_level_difference']:,d}\n"
                 )
-                data.append(f"Progress time: {result['time_difference']}\n")
+                message.append(f"Progress time: {result['time_difference']}\n")
                 if result["combat_level_difference"] > 0:
-                    data.append(
+                    message.append(
                         f"Combat level up from {result['previous_combat_level']} -> {result['current_combat_level']}\n"
                     )
-                data.append("\n")
-                data.append("**Skills:**\n")
+                message.append("\n")
+                message.append("**Skills:**\n")
                 for skill_name, skill in result["skills"].items():
                     if skill["experience_difference"] != 0:
-                        data.append(f"\t*{skill_name}*:\n")
-                        data.append(
+                        message.append(f"\t*{skill_name}*:\n")
+                        message.append(
                             f"\t\tLevel progress: {skill['level_difference']:,d}\n"
                         )
-                        data.append(
+                        message.append(
                             f"\t\tExperience progress: {skill['experience_difference']:,d}\n"
                         )
                         if skill["current_level"] - skill["previous_level"] > 0:
-                            data.append(
+                            message.append(
                                 f"\t\tLevel up from {skill['previous_level']} -> {skill['current_level']}\n"
                             )
-                        data.append("\n")
-                data.append("------------------------------------------------\n")
+                        message.append("\n")
+                message.append("------------------------------------------------\n")
 
         now = datetime.datetime.now()
-        data = "".join(data)
+        message = "".join(message)
 
         # Only send the webhook if there is progress
-        if data != "":
+        if message != "":
             embed = discord.Embed(
                 title="OSRS Skill overview",
-                description=data,
+                description=message,
                 color=5763719,  # Green
                 timestamp=now,
             )
