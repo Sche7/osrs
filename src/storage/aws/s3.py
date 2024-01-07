@@ -58,7 +58,7 @@ class S3Storage(StorageProtocol):
         -------
         str
             The contents of the file.
-        
+
         Example
         -------
         >>> aws_storage = S3Storage(

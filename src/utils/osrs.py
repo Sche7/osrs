@@ -72,7 +72,7 @@ def save_hiscores_in_s3(
         new_stats = None
         previous_stats = None
         remote_filepath = os.path.join(remote_folder, f"{username}.json")
-        
+
         # Download previous stats from S3 if it exists.
         # Exception is thrown if the file does not exist.
         try:
@@ -80,7 +80,7 @@ def save_hiscores_in_s3(
             content = aws_storage.load(remote_filepath)
             previous_stats = json.loads(content)
         except ClientError as ex:
-            if ex.response['Error']['Code'] != 'NoSuchKey':
+            if ex.response["Error"]["Code"] != "NoSuchKey":
                 raise
 
         # If character_dict is None, it means that the file does not exist.
@@ -102,7 +102,11 @@ def save_hiscores_in_s3(
             }
 
             # If the stats have not changed, then we do not need to upload the file.
-            if (current_stats["total_experience"] - previous_stats["stats"]["total_experience"] > 0):
+            if (
+                current_stats["total_experience"]
+                - previous_stats["stats"]["total_experience"]
+                > 0
+            ):
                 content = json.dumps(new_stats)
                 aws_storage.save(content, remote_filepath)
 

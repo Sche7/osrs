@@ -41,7 +41,9 @@ def test_save_hiscores_to_s3(aws_credentials, bucket_name, tmp_path):
         assert isinstance(json.loads(content), dict)
 
         # Delete the file
-        response = storage.s3.delete_object(bucket_name=bucket_name, key=remote_filepath)
+        response = storage.s3.delete_object(
+            bucket_name=bucket_name, key=remote_filepath
+        )
         assert response["ResponseMetadata"]["HTTPStatusCode"] == 204
 
         # See that file was deleted successfully
