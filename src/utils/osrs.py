@@ -14,8 +14,8 @@ REMOTE_FOLDER = "hiscores"
 def save_hiscores_in_s3(
     usernames: list[str],
     bucket_name: str,
-    aws_access_key_id: str,
-    aws_secret_access_key: str,
+    aws_access_key_id: str = None,
+    aws_secret_access_key: str = None,
     remote_folder: str = REMOTE_FOLDER,
 ) -> dict:
     """
@@ -61,8 +61,8 @@ def save_hiscores_in_s3(
 def save_hiscore_in_s3(
     username: str,
     bucket_name: str,
-    aws_access_key_id: str,
-    aws_secret_access_key: str,
+    aws_access_key_id: str = None,
+    aws_secret_access_key: str = None,
     remote_folder: str = REMOTE_FOLDER,
 ) -> dict:
     """

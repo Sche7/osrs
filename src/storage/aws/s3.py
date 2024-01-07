@@ -1,4 +1,3 @@
-
 from src.api.aws.s3 import S3
 from src.storage.protocol import StorageProtocol
 

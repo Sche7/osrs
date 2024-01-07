@@ -6,8 +6,8 @@ class S3:
 
     def __init__(
         self,
-        aws_access_key_id: str,
-        aws_secret_access_key: str,
+        aws_access_key_id: str = None,
+        aws_secret_access_key: str = None,
         region_name: str = "eu-north-1",
     ):
         self.s3_client = boto3.client(

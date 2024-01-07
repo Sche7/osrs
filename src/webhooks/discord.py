@@ -3,12 +3,8 @@ import discord
 import aiohttp
 import datetime
 import os
-from dotenv import load_dotenv
 from discord import Webhook
 from src.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
-
-
-load_dotenv()  # take environment variables from .env.
 
 
 USERNAMES = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome", "Zolixo1"]
@@ -26,8 +22,6 @@ async def send_webhook(url):
         for user_stats in save_hiscores_in_s3(
             usernames=USERNAMES,
             bucket_name=BUCKET_NAME,
-            aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-            aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
             remote_folder=REMOTE_FOLDER,
         ):
             username = user_stats["username"]
