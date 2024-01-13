@@ -12,7 +12,7 @@ BUCKET_NAME = "osrsbucket"
 REMOTE_FOLDER = "hiscores"
 
 
-async def send_webhook(url):
+async def send_webhook(url, usernames):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
 
@@ -20,7 +20,7 @@ async def send_webhook(url):
         # and send them to the Discord webhook.
         message = []
         for user_stats in save_hiscores_in_s3(
-            usernames=USERNAMES,
+            usernames=usernames,
             bucket_name=BUCKET_NAME,
             remote_folder=REMOTE_FOLDER,
         ):
@@ -73,11 +73,11 @@ async def send_webhook(url):
             await webhook.send(embed=embed, username="OSRS Bot")
 
 
-def main():
+def main(usernames):
     url = os.getenv("DISCORD_WEBHOOK")
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(send_webhook(url))
+    loop.run_until_complete(send_webhook(url, usernames))
 
 
 if __name__ == "__main__":
-    main()
+    main(USERNAMES)
