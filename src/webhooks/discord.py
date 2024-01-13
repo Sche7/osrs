@@ -12,7 +12,7 @@ BUCKET_NAME = "osrsbucket"
 REMOTE_FOLDER = "hiscores"
 
 
-async def send_webhook(url, usernames):
+async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folder: str):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
 
@@ -21,8 +21,8 @@ async def send_webhook(url, usernames):
         message = []
         for user_stats in save_hiscores_in_s3(
             usernames=usernames,
-            bucket_name=BUCKET_NAME,
-            remote_folder=REMOTE_FOLDER,
+            bucket_name=bucket_name,
+            remote_folder=remote_folder,
         ):
             username = user_stats["username"]
             result = evaluate_hiscore_progress(user_stats)
@@ -73,11 +73,18 @@ async def send_webhook(url, usernames):
             await webhook.send(embed=embed, username="OSRS Bot")
 
 
-def main(usernames):
+def main(usernames, bucket_name, remote_folder):
     url = os.getenv("DISCORD_WEBHOOK")
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(send_webhook(url, usernames))
+    loop.run_until_complete(
+        send_webhook(
+            url=url,
+            usernames=usernames,
+            bucket_name=bucket_name,
+            remote_folder=remote_folder,
+        )
+    )
 
 
 if __name__ == "__main__":
-    main(USERNAMES)
+    main(USERNAMES, BUCKET_NAME, REMOTE_FOLDER)
