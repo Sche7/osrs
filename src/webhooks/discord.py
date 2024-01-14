@@ -75,6 +75,10 @@ async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folde
 
 def main(usernames, bucket_name, remote_folder):
     url = os.getenv("DISCORD_WEBHOOK")
+
+    if url is None:
+        raise ValueError("DISCORD_WEBHOOK environment variable is not set.")
+
     loop = asyncio.get_event_loop()
     loop.run_until_complete(
         send_webhook(
