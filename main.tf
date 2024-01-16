@@ -56,11 +56,11 @@ resource "aws_iam_role_policy_attachment" "osrs_lambda_s3_access" {
     policy_arn = aws_iam_policy.osrs_lambda_policy.arn
 }
 
-data "archive_file" "lambda_zip" {
-    type        = "zip"
-    source_dir  = "src"
-    output_path = "lambda_function.zip"
-}
+# data "archive_file" "lambda_zip" {
+#     type        = "zip"
+#     source_dir  = "src"
+#     output_path = "osrs.zip"
+# }
 
 resource "aws_lambda_layer_version" "osrs_layer" {
     layer_name           = "osrs"
@@ -70,8 +70,14 @@ resource "aws_lambda_layer_version" "osrs_layer" {
     ]
 }
 
+data "archive_file" "lambda_zip" {
+    type        = "zip"
+    source_file = "lambda_function.py"
+    output_path = "lambda_function.zip"
+}
+
 resource "aws_lambda_function" "osrs_lambda" {
-    filename         = "osrs.zip"
+    filename         = "lambda_function.zip"
     function_name    = "osrs_lambda"
     role             = aws_iam_role.osrs_lambda_role.arn
     handler          = "lambda_function.lambda_handler"
