@@ -158,5 +158,5 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
 # Invoke the lambda function manually the first time
 resource "aws_lambda_invocation" "example" {
   function_name = aws_lambda_function.osrs_lambda.function_name
-    input         = jsonencode({})
+    input       = jsonencode({})
 }
