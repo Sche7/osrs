@@ -108,7 +108,7 @@ resource "aws_lambda_layer_version" "osrs_layer" {
 # Zip the lambda function
 data "archive_file" "lambda_zip" {
     type        = "zip"
-    source_file = "lambda_function.py"
+    source_file = "discord_webhook/lambda_function.py"
     output_path = "lambda_function.zip"
 }
 
