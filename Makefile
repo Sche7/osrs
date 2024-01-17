@@ -10,5 +10,8 @@ test-unit:
 test-aws:
 	poetry run pytest tests/ -m aws
 
-discord-webhook-infra:
+apply-discord-webhook-infra:
 	terraform -chdir="terraform/" apply -var-file="setup.tfvars"
+
+destroy-discord-webhook-infra:
+	terraform -chdir="terraform/" destroy -var-file="setup.tfvars"
