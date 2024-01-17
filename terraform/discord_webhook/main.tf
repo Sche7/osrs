@@ -32,14 +32,11 @@ resource "aws_iam_policy" "osrs_lambda_policy" {
                 {
                     Sid       = "AllowLambdaAccessToS3",
                     Action    = [
-                        "s3:GetObject",
-                        "s3:PutObject",
-                        "s3:DeleteObject",
-                        "s3:ListBucket",
-                        "s3-object-lambda:*",
+                        "s3:*",
                     ],
                     Effect    = "Allow",
                     Resource  = [
+                        "${aws_s3_bucket.osrs_lambda_bucket.arn}",
                         "${aws_s3_bucket.osrs_lambda_bucket.arn}/*"
                     ]
                 },
