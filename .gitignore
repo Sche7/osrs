@@ -35,6 +35,7 @@ aws/
 .terraform.lock.hcl
 *.tfstate
 *.tfstate.backup
+*.tfvars
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

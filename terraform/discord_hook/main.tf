@@ -78,7 +78,7 @@ resource "aws_iam_role_policy_attachment" "osrs_lambda_s3_access" {
 # make zip-file
 resource "aws_lambda_layer_version" "osrs_layer" {
     layer_name           = "osrs"
-    filename             = "osrs.zip"
+    filename             = "../osrs.zip"
     compatible_runtimes  = [
         "python3.10",
     ]
@@ -87,7 +87,7 @@ resource "aws_lambda_layer_version" "osrs_layer" {
 # Zip the lambda function
 data "archive_file" "lambda_zip" {
     type        = "zip"
-    source_file = "lambda_function.py"
+    source_file = "../lambda_function.py"
     output_path = "lambda_function.zip"
 }
 
@@ -100,6 +100,14 @@ resource "aws_lambda_function" "osrs_lambda" {
     runtime          = "python3.10"
     timeout          = 35
     layers = [aws_lambda_layer_version.osrs_layer.arn]
+    environment {
+        variables = {
+            BUCKET_NAME = aws_s3_bucket.osrs_lambda_bucket.id,
+            USERNAMES = jsonencode(var.osrs_usernames),
+            REMOTE_FOLDER = var.osrs_remote_folder,
+            DISCORD_WEBHOOK = var.discord_webhook_url,
+        }
+    }
 }
 
 # Schedule event with EventBridge (CloudWatch)

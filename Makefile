@@ -9,3 +9,6 @@ test-unit:
 
 test-aws:
 	poetry run pytest tests/ -m aws
+
+discord-webhook-infra:
+	terraform -chdir="terraform/" apply -var-file="setup.tfvars"
