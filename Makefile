@@ -18,3 +18,8 @@ destroy-discord-webhook-infra:
 
 init-terraform:
 	terraform -chdir="terraform/" init
+
+setup-discord-webhook-infra:
+	$(MAKE) zip-file
+	$(MAKE) init-terraform
+	terraform -chdir="terraform/" apply -var-file="setup.tfvars"
