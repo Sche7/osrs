@@ -96,7 +96,6 @@ resource "aws_lambda_function" "osrs_lambda" {
     runtime          = "python3.10"
     timeout          = 35
     layers = [aws_lambda_layer_version.osrs_layer.arn]
-
 }
 
 # Schedule event with EventBridge (CloudWatch)
