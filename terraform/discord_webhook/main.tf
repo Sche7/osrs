@@ -108,7 +108,7 @@ resource "aws_lambda_layer_version" "osrs_layer" {
 # Zip the lambda function
 data "archive_file" "lambda_zip" {
     type        = "zip"
-    source_file = "../lambda_function.py"
+    source_file = "lambda_function.py"
     output_path = "lambda_function.zip"
 }
 
@@ -136,7 +136,7 @@ resource "aws_lambda_function" "osrs_lambda" {
 resource "aws_cloudwatch_event_rule" "osrs_lambda_event" {
     name                = "osrs_lambda_event"
     description         = "Event for osrs lambda"
-    schedule_expression = "rate(7 days)"
+    schedule_expression = "rate(1 hour)"
 }
 
 # Create a target lambda function for the rule
