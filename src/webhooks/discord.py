@@ -7,7 +7,6 @@ from discord import Webhook
 from src.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
 
 
-
 async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folder: str):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
@@ -87,7 +86,6 @@ def main(usernames, bucket_name, remote_folder):
 
 
 if __name__ == "__main__":
-
     USERNAMES = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome", "Zolixo1"]
     BUCKET_NAME = "osrsbucket"
     REMOTE_FOLDER = "hiscores"

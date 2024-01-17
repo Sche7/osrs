@@ -7,6 +7,7 @@ USERNAMES = json.loads(os.environ["USERNAMES"])
 BUCKET_NAME = os.environ["BUCKET_NAME"]
 REMOTE_FOLDER = os.environ["REMOTE_FOLDER"]
 
+
 def lambda_handler(event, context):
     main(USERNAMES, BUCKET_NAME, REMOTE_FOLDER)
     return {
