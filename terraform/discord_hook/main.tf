@@ -39,7 +39,29 @@ resource "aws_iam_policy" "osrs_lambda_policy" {
                     ],
                     Effect    = "Allow",
                     Resource  = [
-                        aws_s3_bucket.osrs_lambda_bucket.arn
+                        "${aws_s3_bucket.osrs_lambda_bucket.arn}/*"
+                    ]
+                },
+                {
+                    Sid       = "AllowLambdaAccessToCloudWatch",
+                    Action    = [
+                        "logs:CreateLogGroup",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ],
+                    Effect    = "Allow",
+                    Resource  = [
+                        "arn:aws:logs:*:*:*"
+                    ]
+                },
+                {
+                    Sid       = "AllowLambdaAccessToEventBridge",
+                    Action    = [
+                        "events:PutEvents"
+                    ],
+                    Effect    = "Allow",
+                    Resource  = [
+                        "arn:aws:events:*:*:*"
                     ]
                 }
             ],
@@ -102,7 +124,7 @@ resource "aws_lambda_function" "osrs_lambda" {
     layers = [aws_lambda_layer_version.osrs_layer.arn]
     environment {
         variables = {
-            BUCKET_NAME = aws_s3_bucket.osrs_lambda_bucket.id,
+            BUCKET_NAME = aws_s3_bucket.osrs_lambda_bucket.bucket,
             USERNAMES = jsonencode(var.osrs_usernames),
             REMOTE_FOLDER = var.osrs_remote_folder,
             DISCORD_WEBHOOK = var.discord_webhook_url,
