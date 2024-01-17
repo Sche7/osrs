@@ -19,6 +19,7 @@ provider "aws" {
 # Create a S3 bucket for the lambda function
 resource "aws_s3_bucket" "osrs_lambda_bucket" {
     bucket = "osrs-lambda-bucket"
+    force_destroy = true
 }
 
 # Create a policy for the lambda function
@@ -152,4 +153,10 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
     function_name = aws_lambda_function.osrs_lambda.function_name
     principal     = "events.amazonaws.com"
     source_arn    = aws_cloudwatch_event_rule.osrs_lambda_event.arn
+}
+
+# Invoke the lambda function manually the first time
+resource "aws_lambda_invocation" "example" {
+  function_name = aws_lambda_function.osrs_lambda.function_name
+    input         = jsonencode({})
 }
