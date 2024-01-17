@@ -1,4 +1,4 @@
-module "discord_hook" {
+module "discord_webhook" {
     source = "./discord_webhook"
     osrs_usernames = var.osrs_usernames
     osrs_remote_folder = var.osrs_remote_folder
