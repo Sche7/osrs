@@ -1,14 +1,42 @@
-# Old School Runescape
+# Fetch Hiscores from Old School Runescape
 
-## Fetch Hiscores
-
-Fetch your OSRS user hiscores:
+Easily fetch your OSRS user hiscores with the following:
 
 ```python
 from src.api.osrs.hiscores import Hiscores
 
 user = Hiscores("Zehahandsome")
 print(user.character)
+```
+
+## Discord Webhook
+
+This repo also provides a Discord webhook that uses AWS Cloud in the
+background to log and report progress to a desired Discord channel:
+
+![Discord webhook example](osrs_discord_webhook_example.png)
+
+To setup Discord webhook, defined a `setup.tfvars` file in the `terraform/` folder. The content
+of the `.tfvars` file should look something similar to:
+
+```yaml
+osrs_usernames = ["osrs_user1", "osrs_user2"]
+osrs_remote_folder = "hiscores"
+discord_webhook_url = "https://discordapp.com/api/webhooks/123456789/blabla-f456ds-this-is-a-fake-url"
+```
+
+Note: To get the Discord Webhook URL look in `Discord > Server Settings > APPS > Integrations > Webhooks` 
+
+From the repository root, run:
+
+```bash
+make setup-discord-webhook-infra
+```
+
+To destroy all the created resources again, run:
+
+```bash
+make destroy-discord-webhook-infra
 ```
 
 ## Tests

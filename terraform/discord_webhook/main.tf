@@ -136,7 +136,7 @@ resource "aws_lambda_function" "osrs_lambda" {
 resource "aws_cloudwatch_event_rule" "osrs_lambda_event" {
     name                = "osrs_lambda_event"
     description         = "Event for osrs lambda"
-    schedule_expression = "rate(1 hour)"
+    schedule_expression = "rate(7 days)"
 }
 
 # Create a target lambda function for the rule
