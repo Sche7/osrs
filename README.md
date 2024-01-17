@@ -15,7 +15,9 @@ This repo also provides a Discord webhook that uses AWS Cloud in the
 background to log and report progress to a desired Discord channel. This will
 continuously provide progress every 7 days to your Discord channel:
 
-![Discord webhook example](osrs_discord_webhook_example.png)
+<p align="center">
+<img src="osrs_discord_webhook_example.png" alt="Discord webhook example" width="400"/>
+</p>
 
 To setup Discord webhook, defined a `setup.tfvars` file in the `terraform/` folder. The content
 of the `.tfvars` file should look something similar to:
