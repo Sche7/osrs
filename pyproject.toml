@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Steven <stevencheung7@outlook.dk>"]
 readme = "README.md"
-packages = [{ include = "src" }]
+packages = [{ include = "runescape", from = "src" }]
 
 [tool.poetry.scripts]
 discord_webhook = "src.webhooks.discord:main"

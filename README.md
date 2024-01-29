@@ -3,7 +3,7 @@
 Easily fetch your OSRS user hiscores with the following:
 
 ```python
-from src.api.osrs.hiscores import Hiscores
+from runescape.api.osrs.hiscores import Hiscores
 
 user = Hiscores("Zehahandsome")
 print(user.character)

@@ -1,4 +1,4 @@
-from src.storage.json import JSONStorage
+from src.runescape.storage.json import JSONStorage
 
 
 def test_save_and_load(tmp_path):

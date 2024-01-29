@@ -1,7 +1,7 @@
 import pytest
 import os
 import json
-from src.api.aws.s3 import S3
+from src.runescape.api.aws.s3 import S3
 from botocore.exceptions import ClientError
 
 

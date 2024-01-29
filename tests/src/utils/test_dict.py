@@ -1,4 +1,4 @@
-from src.utils.dict import flatten, unflatten
+from src.runescape.utils.dict import flatten, unflatten
 
 
 def test_flatten():

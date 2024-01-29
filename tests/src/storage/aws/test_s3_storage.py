@@ -1,6 +1,6 @@
 import pytest
 
-from src.storage.aws.s3 import S3Storage
+from src.runescape.storage.aws.s3 import S3Storage
 
 
 @pytest.mark.aws

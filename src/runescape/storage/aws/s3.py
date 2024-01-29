@@ -1,5 +1,5 @@
-from src.api.aws.s3 import S3
-from src.storage.protocol import StorageProtocol
+from runescape.api.aws.s3 import S3
+from runescape.storage.protocol import StorageProtocol
 
 
 class S3Storage(StorageProtocol):

@@ -1,5 +1,5 @@
 import pytest
-from src.api.osrs.hiscores import Hiscores
+from src.runescape.api.osrs.hiscores import Hiscores
 
 
 @pytest.mark.parametrize(

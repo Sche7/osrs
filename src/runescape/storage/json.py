@@ -1,5 +1,5 @@
 import json
-from src.storage.protocol import StorageProtocol
+from runescape.storage.protocol import StorageProtocol
 
 
 class JSONStorage(StorageProtocol):

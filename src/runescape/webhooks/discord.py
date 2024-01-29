@@ -4,7 +4,7 @@ import aiohttp
 import datetime
 import os
 from discord import Webhook
-from src.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
+from runescape.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
 
 
 async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folder: str):

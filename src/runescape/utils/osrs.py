@@ -1,9 +1,9 @@
 import os
 import json
 from datetime import datetime
-from src.api.osrs.hiscores import Hiscores
-from src.dataclasses.character import DATETIME_FORMAT
-from src.storage.aws.s3 import S3Storage
+from runescape.api.osrs.hiscores import Hiscores
+from runescape.dataclasses.character import DATETIME_FORMAT
+from runescape.storage.aws.s3 import S3Storage
 from dataclasses import asdict
 from botocore.exceptions import ClientError
 
