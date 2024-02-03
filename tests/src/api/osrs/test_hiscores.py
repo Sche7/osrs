@@ -68,11 +68,11 @@ def test_hiscores(username: str):
 
     # Since the character stats are always changing, we can't really test
     # for a specific value. We can however test that the values are greater
-    # than a certain value. As these characters exists, we can assume that
-    # they will always have a combat level greater than 3 and a total level
-    # greater than 32.
-    assert hiscores.character.combat_level > 3
-    assert hiscores.character.total_level > 32
+    # than a certain value. We test that the values are greater than 1,
+    # since sometimes the hiscores may not appear in the database when
+    # the user has not logged in for a while.
+    assert hiscores.character.combat_level >= 1
+    assert hiscores.character.total_level >= 1
     assert hiscores.character.username == username
 
 
