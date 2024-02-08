@@ -19,15 +19,21 @@ continuously provide progress every 7 days to your Discord channel:
 <img src="osrs_discord_webhook_example.png" alt="Discord webhook example" width="400"/>
 </p>
 
-To setup Discord webhook, defined a `setup.tfvars` file in the `terraform/` folder. The content
+To setup Discord webhook, you will have to first install:
+
+1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+2. [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+
+and then define a `setup.tfvars` file in the `terraform/` folder. The content
 of the `.tfvars` file should look something similar to:
 
 ```yaml
-osrs_usernames = ["osrs_user1", "osrs_user2"]
-osrs_remote_folder = "hiscores"
-discord_webhook_url = "https://discordapp.com/api/webhooks/123456789/blabla-f456ds-this-is-a-fake-url"
+osrs_usernames = ["osrs_user1", "osrs_user2"]  # List of the OSRS users to track progress
+osrs_remote_folder = "hiscores"  # Prefix for S3 object keys that will hold level information of OSRS users from `osrs_usernames`
+discord_webhook_url = "https://discordapp.com/api/webhooks/123456789/blabla-f456ds-this-is-a-fake-url"  # Discord webhook URL
 ```
 
+where `osrs_usernames` is an, and `osrs`
 Note: To get the Discord Webhook URL look in `Discord > Server Settings > APPS > Integrations > Webhooks` 
 
 From the repository root, run:
@@ -42,7 +48,9 @@ To destroy all the created resources again, run:
 make destroy-discord-webhook-infra
 ```
 
-## Tests
+## Development
+
+### Testing
 
 To run tests in this repository, follow these steps:
 
