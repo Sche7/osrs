@@ -33,7 +33,6 @@ osrs_remote_folder = "hiscores"  # Prefix for S3 object keys that will hold leve
 discord_webhook_url = "https://discordapp.com/api/webhooks/123456789/blabla-f456ds-this-is-a-fake-url"  # Discord webhook URL
 ```
 
-where `osrs_usernames` is an, and `osrs`
 Note: To get the Discord Webhook URL look in `Discord > Server Settings > APPS > Integrations > Webhooks` 
 
 From the repository root, run:
