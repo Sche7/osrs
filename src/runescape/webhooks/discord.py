@@ -23,7 +23,7 @@ async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folde
             result = evaluate_hiscore_progress(user_stats)
 
             # Construct the message
-            if result["experience_difference"] != 0:
+            if result["experience_difference"] > 0:
                 message.append(f"**{username}**\n")
                 message.append(
                     f"Experience progress: {result['experience_difference']:,d}\n"
