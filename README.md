@@ -24,8 +24,12 @@ To setup Discord webhook, you will have to first install:
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 2. [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
+
 and then define a `setup.tfvars` file in the `terraform/` folder. The content
 of the `.tfvars` file should look something similar to:
+
+> **__NOTE__:** Remember to configure AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY either as
+environment variables or within the AWS CLI configuration.
 
 ```yaml
 osrs_usernames = ["osrs_user1", "osrs_user2"]  # List of the OSRS users to track progress
