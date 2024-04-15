@@ -13,12 +13,12 @@ async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folde
 
         # Get the hiscores, sync them to S3, evaluate them
         # and send them to the Discord webhook.
-        message = []
         for user_stats in save_hiscores_in_s3(
             usernames=usernames,
             bucket_name=bucket_name,
             remote_folder=remote_folder,
         ):
+            message = []
             username = user_stats["username"]
             result = evaluate_hiscore_progress(user_stats)
 
