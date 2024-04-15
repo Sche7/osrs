@@ -13,6 +13,10 @@ test-aws:
 apply-discord-webhook-infra:
 	terraform -chdir="terraform/" apply -var-file="setup.tfvars"
 
+apply-discord-webhook-infra-replace-zip-file:
+	$(MAKE) zip-file
+	terraform -chdir="terraform/" apply -var-file="setup.tfvars" -replace="module.discord_webhook.aws_lambda_layer_version.osrs_layer"
+
 destroy-discord-webhook-infra:
 	terraform -chdir="terraform/" destroy -var-file="setup.tfvars"
 
