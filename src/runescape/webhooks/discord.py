@@ -24,7 +24,6 @@ async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folde
 
             # Construct the message
             if result["experience_difference"] > 0:
-                message.append(f"**{username}**\n")
                 message.append(
                     f"Experience progress: {result['experience_difference']:,d}\n"
                 )
@@ -52,20 +51,19 @@ async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folde
                                 f"\t\tLevel up from {skill['previous_level']} -> {skill['current_level']}\n"
                             )
                         message.append("\n")
-                message.append("------------------------------------------------\n")
 
-        now = datetime.datetime.now()
-        message = "".join(message)
+            now = datetime.datetime.now()
+            message = "".join(message)
 
-        # Only send the webhook if there is progress
-        if message != "":
-            embed = discord.Embed(
-                title="OSRS Skill overview",
-                description=message,
-                color=5763719,  # Green
-                timestamp=now,
-            )
-            await webhook.send(embed=embed, username="OSRS Bot")
+            # Only send the webhook if there is progress
+            if message != "":
+                embed = discord.Embed(
+                    title=f"{username} Skill overview",
+                    description=message,
+                    color=5763719,  # Green
+                    timestamp=now,
+                )
+                await webhook.send(embed=embed, username="OSRS Bot")
 
 
 def main(usernames, bucket_name, remote_folder):
