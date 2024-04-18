@@ -1,5 +1,6 @@
 import os
 import json
+from typing import Any
 from datetime import datetime
 from runescape.api.osrs.hiscores import Hiscores
 from runescape.dataclasses.character import DATETIME_FORMAT
@@ -149,7 +150,7 @@ def save_hiscore_in_s3(
     return new_stats
 
 
-def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:
+def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
     """
     Evaluates the progress of the given username.
     Fetches the stats from S3 and calculates the difference between the
@@ -157,7 +158,7 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:
 
     Example
     -------
-    >>> evaluate_hiscore_progress("NotCrostyGIM")
+    >>> evaluate_hiscore_progress(user_stats)
     {
         "username": "NotCrostyGIM",
         "experience_difference": 0,
@@ -222,13 +223,7 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:
                 "current_level": 1,
                 "current_experience": 0
             },
-            "magic": {
-                "level_difference": 0,
-                "experience_difference": 0,
-                "previous_level": 1,
-                "previous_experience": 0,
-                "current
-
+    }
     """
     username = stats["username"]
     current_stats = stats["stats"]
@@ -247,6 +242,9 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:
     experience_difference = (
         current_stats["total_experience"] - prev_stats["total_experience"]
     )
+
+    # Calculate difference in total level
+    total_level_difference = current_stats["total_level"] - prev_stats["total_level"]
 
     # Calculate the difference in combat level
     combat_level_difference = current_stats["combat_level"] - prev_stats["combat_level"]
@@ -267,6 +265,9 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, int]:
     return {
         "username": username,
         "experience_difference": experience_difference,
+        "total_level_difference": total_level_difference,
+        "previous_total_level": prev_stats["total_level"],
+        "current_total_level": current_stats["total_level"],
         "combat_level_difference": combat_level_difference,
         "previous_combat_level": prev_stats["combat_level"],
         "current_combat_level": current_stats["combat_level"],
