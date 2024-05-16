@@ -18,21 +18,12 @@ def save_hiscores_in_s3(
     aws_access_key_id: str = None,
     aws_secret_access_key: str = None,
     remote_folder: str = REMOTE_FOLDER,
-) -> dict:
+):
     """
     Pulls the hiscores for the given usernames and saves them to S3.
     This function will create a new file if it does not exist, or update
     the file if it does exist.
     It will not update the file if the stats have not changed.
-
-    Returns
-    -------
-    dict
-        The most recent stats for the given usernames.
-        Note that the returned dict may not be the same as the stats
-        that are saved in S3. This is because the stats are updated
-        in S3 only if they have changed. The returned dict will always
-        be the most recent stats, even if they have not changed.
 
     Example
     -------
