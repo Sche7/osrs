@@ -31,7 +31,7 @@ def generate_message(progress: dict) -> str:
         message.append("\n")
         message.append("**Skills:**\n")
         for skill_name, skill in progress["skills"].items():
-            if skill["experience_difference"] != 0:
+            if skill["experience_difference"] > 0:
                 message.append(f"\t*{skill_name}*:\n")
                 message.append(f"\t\tLevel progress: {skill['level_difference']:,d}\n")
                 message.append(
