@@ -27,3 +27,12 @@ setup-discord-webhook-infra:
 	$(MAKE) zip-file
 	$(MAKE) init-terraform
 	terraform -chdir="terraform/" apply -var-file="setup.tfvars"
+
+setup-dev:
+	poetry install --with dev
+
+format:
+	poetry run ruff format
+
+lint:
+	poetry run ruff check --fix
