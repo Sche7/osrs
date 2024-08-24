@@ -1,0 +1,56 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2
+
+      - name: Install dependencies
+        working-directory: ./core
+        run: |
+          make setup-dev
+
+      - name: Check Linting
+        working-directory: ./core
+        run: |
+          make lint
+
+      - name: Check Formatting
+        working-directory: ./core
+        run: |
+          poetry run ruff format --check .
+
+      - name: Test with pytest
+        working-directory: ./core
+        run: |
+          poetry run python -m pytest --cov . --verbose --cov-report xml:coverage.xml
+
+      - uses: codecov/codecov-action@v3.1.1
+        with:
+          name: Upload Coverage to Codecov
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./core/coverage.xml
+          verbose: true
