@@ -29,22 +29,22 @@ jobs:
         uses: abatilo/actions-poetry@v2
 
       - name: Install dependencies
-        working-directory: ./core
+        working-directory: .
         run: |
           make setup-dev
 
       - name: Check Linting
-        working-directory: ./core
+        working-directory: .
         run: |
           make lint
 
       - name: Check Formatting
-        working-directory: ./core
+        working-directory: .
         run: |
           poetry run ruff format --check .
 
       - name: Test with pytest
-        working-directory: ./core
+        working-directory: .
         run: |
           poetry run python -m pytest --cov . --verbose --cov-report xml:coverage.xml
 
