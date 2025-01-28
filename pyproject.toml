@@ -21,7 +21,7 @@ awscli = "^1.36.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
-ruff = "^0.8.4"
+ruff = "^0.9.3"
 pre-commit = "^4.1.0"
 types-boto3 = "^1.36.8"
 coverage = "^7.6.10"
