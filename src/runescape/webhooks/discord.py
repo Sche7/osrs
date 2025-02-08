@@ -18,6 +18,8 @@ def generate_message(progress: dict) -> str:
         message.append(
             f"Combat level progress: {progress['combat_level_difference']:,d}\n"
         )
+        message.append(f"Total level: {progress['current_total_level']}\n")
+        message.append(f"Total combat level: {progress['current_combat_level']}\n")
         message.append(f"Progress time: {progress['time_difference']}\n")
         if progress["combat_level_difference"] > 0:
             message.append(
