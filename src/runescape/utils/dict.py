@@ -1,7 +1,12 @@
 from collections.abc import MutableMapping
+from typing import Any
 
 
-def flatten(dictionary, parent_key="", separator="."):
+def flatten(
+    dictionary,
+    parent_key: str = "",
+    separator: str = ".",
+) -> dict[str, Any]:
     """
     Flatten a dictionary with a separator.
     This is the inverse of unflatten.
@@ -21,7 +26,7 @@ def flatten(dictionary, parent_key="", separator="."):
     return dict(items)
 
 
-def unflatten(dictionary, separator="."):
+def unflatten(dictionary, separator: str = ".") -> dict[str, Any]:
     """
     Unflatten a dictionary with a separator.
     This is the inverse of flatten.

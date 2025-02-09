@@ -1,7 +1,6 @@
 import datetime
 from dataclasses import dataclass
 
-
 DATETIME_FORMAT = "%b %d %Y %H:%M:%S"
 
 

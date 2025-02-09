@@ -1,4 +1,5 @@
 import pytest
+
 from src.runescape.api.osrs.hiscores import Hiscores
 
 

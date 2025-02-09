@@ -1,13 +1,14 @@
-import os
 import json
-from typing import Any
+import os
+from dataclasses import asdict
 from datetime import datetime
+from typing import Any
+
+from botocore.exceptions import ClientError
+
 from runescape.api.osrs.hiscores import Hiscores
 from runescape.dataclasses.character import DATETIME_FORMAT
 from runescape.storage.aws.s3 import S3Storage
-from dataclasses import asdict
-from botocore.exceptions import ClientError
-
 
 REMOTE_FOLDER = "hiscores"
 

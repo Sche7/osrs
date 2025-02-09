@@ -1,3 +1,5 @@
+from typing import Any
+
 import boto3
 
 
@@ -17,7 +19,7 @@ class S3:
             aws_secret_access_key=aws_secret_access_key,
         )
 
-    def list_buckets(self) -> list[dict]:
+    def list_buckets(self) -> list[dict[str, Any]]:
         """
         List all s3 buckets.
 
@@ -28,7 +30,7 @@ class S3:
         """
         return self.s3_client.list_buckets()["Buckets"]
 
-    def list_objects(self, bucket_name: str, folder: str = "") -> list[dict]:
+    def list_objects(self, bucket_name: str, folder: str = "") -> list[dict[str, Any]]:
         """
         List all objects in a bucket.
 
@@ -50,7 +52,7 @@ class S3:
             Prefix=folder,
         )["Contents"]
 
-    def get_object(self, bucket_name: str, key: str) -> dict:
+    def get_object(self, bucket_name: str, key: str) -> dict[str, Any]:
         """
         Get an object from a bucket.
 

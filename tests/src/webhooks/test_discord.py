@@ -1,6 +1,6 @@
-from src.runescape.webhooks.discord import generate_message
-from src.runescape.storage.json import JSONStorage
 from runescape.utils.osrs import evaluate_hiscore_progress
+from src.runescape.storage.json import JSONStorage
+from src.runescape.webhooks.discord import generate_message
 
 
 def test_generate_message():
