@@ -1,7 +1,6 @@
 from runescape.api.aws.s3 import S3
 from runescape.storage.protocol import StorageProtocol
 
-
 DEFAULT_REGION_NAME = "eu-north-1"
 
 
