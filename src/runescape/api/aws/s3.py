@@ -1,5 +1,6 @@
-import boto3
 from typing import Any
+
+import boto3
 
 
 class S3:

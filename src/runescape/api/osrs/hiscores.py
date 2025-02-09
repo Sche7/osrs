@@ -1,6 +1,8 @@
-import requests
 from enum import Enum
-from runescape.dataclasses.character import Character, Skills, Skill
+
+import requests
+
+from runescape.dataclasses.character import Character, Skill, Skills
 
 
 class HiscoreType(Enum):

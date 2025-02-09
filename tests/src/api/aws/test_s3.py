@@ -1,8 +1,10 @@
-import pytest
-import os
 import json
-from src.runescape.api.aws.s3 import S3
+import os
+
+import pytest
 from botocore.exceptions import ClientError
+
+from src.runescape.api.aws.s3 import S3
 
 
 @pytest.mark.aws

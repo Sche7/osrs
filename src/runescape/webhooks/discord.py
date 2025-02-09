@@ -1,10 +1,12 @@
 import asyncio
-import discord
-import aiohttp
 import datetime
 import os
+
+import aiohttp
+import discord
 from discord import Webhook
-from runescape.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
+
+from runescape.utils.osrs import evaluate_hiscore_progress, save_hiscores_in_s3
 
 
 def generate_message(progress: dict) -> str:

@@ -1,13 +1,15 @@
 import json
-import pytest
 from typing import Literal
+
+import pytest
+from botocore.exceptions import ClientError
+
 from src.runescape.storage.json import JSONStorage
 from src.runescape.utils.osrs import (
-    save_hiscores_in_s3,
     S3Storage,
     evaluate_hiscore_progress,
+    save_hiscores_in_s3,
 )
-from botocore.exceptions import ClientError
 
 
 @pytest.mark.aws
