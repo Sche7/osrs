@@ -218,6 +218,7 @@ version = "4.13.3"
 description = "Screen-scraping library"
 optional = false
 python-versions = ">=3.7.0"
+groups = ["main"]
 files = [
     {file = "beautifulsoup4-4.13.3-py3-none-any.whl", hash = "sha256:99045d7d3f08f91f0d656bc9b7efbae189426cd913d830294a15eefa0ea4df16"},
     {file = "beautifulsoup4-4.13.3.tar.gz", hash = "sha256:1bd32405dacc920b42b83ba01644747ed77456a65760e285fbc47633ceddaf8b"},
@@ -1892,12 +1893,12 @@ version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
-groups = ["dev"]
-markers = "python_version < \"3.12\""
+groups = ["main", "dev"]
 files = [
     {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
     {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
 ]
+markers = {dev = "python_version < \"3.12\""}
 
 [[package]]
 name = "urllib3"
@@ -2055,6 +2056,6 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-lock-version = "2.0"
-python-versions = "^3.9"
-content-hash = "732970e5beb51233d82581c4a1d695b3e58b687802f10a64b4698e2fad80aea5"
+lock-version = "2.1"
+python-versions = "^3.10"
+content-hash = "f4b426af0126afdbf7801102c0ee50b5456ec77f09aa6ce2e4a3462797e1d5a1"
