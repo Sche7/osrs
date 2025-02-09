@@ -4,9 +4,6 @@ from runescape.storage.protocol import StorageProtocol
 DEFAULT_REGION_NAME = "eu-north-1"
 
 
-DEFAULT_REGION_NAME = "eu-north-1"
-
-
 class S3Storage(StorageProtocol):
     def __init__(
         self,
