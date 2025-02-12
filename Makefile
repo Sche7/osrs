@@ -1,3 +1,5 @@
+.PHONY: format lint fix
+
 zip-file:
 	mkdir -p python
 	pip install . -t python
@@ -36,3 +38,5 @@ format:
 
 lint:
 	poetry run ruff check --fix
+
+fix: lint format
