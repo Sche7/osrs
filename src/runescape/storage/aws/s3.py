@@ -18,7 +18,7 @@ class S3Storage:
         )
         self.bucket_name = bucket_name
 
-    def save(self, content: str, filepath: str) -> None:
+    def save(self, content: str | bytes, filepath: str) -> None:
         """
         Upload content to an s3 bucket.
         The content is saved as a file where the fileformat

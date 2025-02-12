@@ -108,7 +108,7 @@ def save_hiscore_in_s3(
         content = aws_storage.load(remote_filepath)
         previous_stats = json.loads(content)
     except ClientError as ex:
-        if ex.response["Error"]["Code"] != "NoSuchKey":
+        if ex.response.get("Error", {}).get("Code") != "NoSuchKey":
             raise
 
     # If character_dict is None, it means that the file does not exist.
