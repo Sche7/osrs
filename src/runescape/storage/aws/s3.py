@@ -11,7 +11,11 @@ class S3Storage:
         aws_secret_access_key: str | None = None,
         region_name: str = DEFAULT_REGION_NAME,
     ):
-        self.s3 = S3(aws_access_key_id, aws_secret_access_key, region_name)
+        self.s3 = S3(
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name,
+        )
         self.bucket_name = bucket_name
 
     def save(self, content: str, filepath: str) -> None:
