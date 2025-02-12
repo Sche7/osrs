@@ -8,6 +8,7 @@ from botocore.exceptions import ClientError
 
 from runescape.api.osrs.hiscores import Hiscores
 from runescape.dataclasses.character import DATETIME_FORMAT
+from runescape.storage.aws.errors import BotoErrorCode
 from runescape.storage.aws.s3 import S3Storage
 
 REMOTE_FOLDER = "hiscores"
@@ -109,7 +110,8 @@ def save_hiscore_in_s3(
         content = aws_storage.load(remote_filepath)
         previous_stats = json.loads(content)
     except ClientError as ex:
-        if ex.response.get("Error", {}).get("Code") != "NoSuchKey":
+        # Raise the exception if it is not a NoSuchKey error
+        if ex.response.get("Error", {}).get("Code") != BotoErrorCode.NO_SUCH_KEY:
             raise
 
     # If character_dict is None, it means that the file does not exist.
