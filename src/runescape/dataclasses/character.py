@@ -46,7 +46,7 @@ class Character:
     total_experience: int = 0
     total_rank: int = -1  # -1 means unranked
     skills: Skills = Skills()
-    date: datetime.datetime = datetime.datetime.now().strftime(DATETIME_FORMAT)
+    date: str = datetime.datetime.now().strftime(DATETIME_FORMAT)
 
     def eval_rank(self, rank: int) -> str:
         """

@@ -6,6 +6,7 @@ from typing import Any
 import aiohttp
 import discord
 from discord import Webhook
+
 from runescape.utils.osrs import evaluate_hiscore_progress, save_hiscores_in_s3
 
 

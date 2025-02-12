@@ -69,12 +69,12 @@ class Hiscores:
         int
             The combat level.
         """
-        base = 0.25 * (defence + hitpoints + (prayer // 2))
-        melee = 0.325 * (attack + strength)
-        ranged = 0.325 * (ranged * 1.5)
-        magic = 0.325 * (magic * 1.5)
+        _base = 0.25 * (defence + hitpoints + (prayer // 2))
+        _melee = 0.325 * (attack + strength)
+        _ranged = 0.325 * (ranged * 1.5)
+        _magic = 0.325 * (magic * 1.5)
 
-        return int(base + max(melee, ranged, magic))
+        return int(_base + max(_melee, _ranged, _magic))
 
     def parse(self, text: str) -> Character:
         """

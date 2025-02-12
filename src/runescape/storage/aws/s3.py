@@ -6,15 +6,19 @@ DEFAULT_REGION_NAME = "eu-north-1"
 class S3Storage:
     def __init__(
         self,
-        aws_access_key_id: str,
-        aws_secret_access_key: str,
         bucket_name: str,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
         region_name: str = DEFAULT_REGION_NAME,
     ):
-        self.s3 = S3(aws_access_key_id, aws_secret_access_key, region_name)
+        self.s3 = S3(
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name,
+        )
         self.bucket_name = bucket_name
 
-    def save(self, content: str, filepath: str) -> None:
+    def save(self, content: str | bytes, filepath: str) -> None:
         """
         Upload content to an s3 bucket.
         The content is saved as a file where the fileformat

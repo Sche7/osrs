@@ -1,9 +1,7 @@
 import json
 
-from runescape.storage.protocol import StorageProtocol
 
-
-class JSONStorage(StorageProtocol):
+class JSONStorage:
     """A class for saving and loading JSON files."""
 
     def save(self, data: dict, filepath: str) -> str:

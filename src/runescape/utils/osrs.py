@@ -8,6 +8,7 @@ from botocore.exceptions import ClientError
 
 from runescape.api.osrs.hiscores import Hiscores
 from runescape.dataclasses.character import DATETIME_FORMAT
+from runescape.storage.aws.errors import BotoErrorCode
 from runescape.storage.aws.s3 import S3Storage
 
 REMOTE_FOLDER = "hiscores"
@@ -16,8 +17,8 @@ REMOTE_FOLDER = "hiscores"
 def save_hiscores_in_s3(
     usernames: list[str],
     bucket_name: str,
-    aws_access_key_id: str = None,
-    aws_secret_access_key: str = None,
+    aws_access_key_id: str | None = None,
+    aws_secret_access_key: str | None = None,
     remote_folder: str = REMOTE_FOLDER,
 ):
     """
@@ -54,8 +55,8 @@ def save_hiscores_in_s3(
 def save_hiscore_in_s3(
     username: str,
     bucket_name: str,
-    aws_access_key_id: str = None,
-    aws_secret_access_key: str = None,
+    aws_access_key_id: str | None = None,
+    aws_secret_access_key: str | None = None,
     remote_folder: str = REMOTE_FOLDER,
 ) -> dict:
     """
@@ -86,9 +87,9 @@ def save_hiscore_in_s3(
 
     # Connect to S3
     aws_storage = S3Storage(
-        aws_access_key_id,
-        aws_secret_access_key,
-        bucket_name,
+        bucket_name=bucket_name,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
     )
 
     # Get the hiscores for the given username
@@ -109,7 +110,8 @@ def save_hiscore_in_s3(
         content = aws_storage.load(remote_filepath)
         previous_stats = json.loads(content)
     except ClientError as ex:
-        if ex.response["Error"]["Code"] != "NoSuchKey":
+        # Raise the exception if it is not a NoSuchKey error
+        if ex.response.get("Error", {}).get("Code") != BotoErrorCode.NO_SUCH_KEY:
             raise
 
     # If character_dict is None, it means that the file does not exist.

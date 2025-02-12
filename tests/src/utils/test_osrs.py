@@ -19,14 +19,14 @@ def test_save_hiscores_to_s3(
 ):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
-    usernames = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome"]
+    usernames = ["NotCrostyGIM", "NotPlucksGIM"]
     remote_folder = "test"
 
     # Check that the files were uploaded
     storage = S3Storage(
-        aws_access_key_id,
-        aws_secret_access_key,
-        bucket_name,
+        bucket_name=bucket_name,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
     )
 
     for stats in save_hiscores_in_s3(
