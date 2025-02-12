@@ -119,7 +119,7 @@ resource "aws_lambda_function" "osrs_lambda" {
     role             = aws_iam_role.osrs_lambda_role.arn
     handler          = "lambda_function.lambda_handler"
     runtime          = "python3.10"
-    timeout          = 35
+    timeout          = 60
     layers = [aws_lambda_layer_version.osrs_layer.arn]
     environment {
         variables = {

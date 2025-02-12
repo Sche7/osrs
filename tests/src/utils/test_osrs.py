@@ -1,13 +1,15 @@
 import json
-import pytest
 from typing import Literal
+
+import pytest
+from botocore.exceptions import ClientError
+
 from src.runescape.storage.json import JSONStorage
 from src.runescape.utils.osrs import (
-    save_hiscores_in_s3,
     S3Storage,
     evaluate_hiscore_progress,
+    save_hiscores_in_s3,
 )
-from botocore.exceptions import ClientError
 
 
 @pytest.mark.aws
@@ -50,9 +52,7 @@ def test_save_hiscores_to_s3(
         assert isinstance(json.loads(content), dict)
 
         # Delete the file
-        response = storage.s3.delete_object(
-            bucket_name=bucket_name, key=remote_filepath
-        )
+        response = storage.s3.delete_object(bucket_name=bucket_name, key=remote_filepath)
         assert response["ResponseMetadata"]["HTTPStatusCode"] == 204
 
         # See that file was deleted successfully

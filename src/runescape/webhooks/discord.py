@@ -1,13 +1,15 @@
 import asyncio
-import discord
-import aiohttp
 import datetime
 import os
+from typing import Any
+
+import aiohttp
+import discord
 from discord import Webhook
-from runescape.utils.osrs import save_hiscores_in_s3, evaluate_hiscore_progress
+from runescape.utils.osrs import evaluate_hiscore_progress, save_hiscores_in_s3
 
 
-def generate_message(progress: dict) -> str:
+def generate_message(progress: dict[str, Any]) -> str:
     """Generate a message from the progress dict from
     the function `evaluate_hiscore_progress`.
     """
@@ -18,6 +20,8 @@ def generate_message(progress: dict) -> str:
         message.append(
             f"Combat level progress: {progress['combat_level_difference']:,d}\n"
         )
+        message.append(f"Total level: {progress['current_total_level']}\n")
+        message.append(f"Total combat level: {progress['current_combat_level']}\n")
         message.append(f"Progress time: {progress['time_difference']}\n")
         if progress["combat_level_difference"] > 0:
             message.append(
