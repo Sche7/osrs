@@ -1,8 +1,7 @@
 from runescape.api.aws.s3 import S3
-from runescape.storage.protocol import StorageProtocol
 
 
-class S3Storage(StorageProtocol):
+class S3Storage:
     def __init__(
         self,
         aws_access_key_id: str,
