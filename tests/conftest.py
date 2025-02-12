@@ -1,6 +1,7 @@
 import os
 
 import pytest
+
 from runescape.utils.randomize import random_string
 
 

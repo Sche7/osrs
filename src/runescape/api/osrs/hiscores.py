@@ -1,6 +1,7 @@
 from enum import Enum
 
 import requests
+
 from runescape.dataclasses.character import Character, Skill, Skills
 
 
