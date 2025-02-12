@@ -6,9 +6,9 @@ DEFAULT_REGION_NAME = "eu-north-1"
 class S3Storage:
     def __init__(
         self,
-        aws_access_key_id: str,
-        aws_secret_access_key: str,
         bucket_name: str,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
         region_name: str = DEFAULT_REGION_NAME,
     ):
         self.s3 = S3(aws_access_key_id, aws_secret_access_key, region_name)

@@ -6,14 +6,16 @@ import boto3
 class S3:
     """A wrapper for boto3's s3 client."""
 
+    SERVICE_NAME = "s3"
+
     def __init__(
         self,
-        aws_access_key_id: str = None,
-        aws_secret_access_key: str = None,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
         region_name: str = "eu-north-1",
     ):
         self.s3_client = boto3.client(
-            service_name="s3",
+            service_name=self.SERVICE_NAME,
             region_name=region_name,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
