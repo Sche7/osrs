@@ -1,56 +1,76 @@
 import asyncio
 import datetime
 import os
-from typing import Any
 
 import aiohttp
 import discord
 from discord import Webhook
 
-from runescape.utils.osrs import evaluate_hiscore_progress, save_hiscores_in_s3
+from runescape.api.osrs.hiscores import Hiscores
+from runescape.utils.osrs import (
+    HiscoreProgress,
+    evaluate_hiscore_progress,
+    save_hiscores_in_s3,
+)
 
 
-def generate_message(progress: dict[str, Any]) -> str:
+def generate_message(progress: HiscoreProgress) -> str:
     """Generate a message from the progress dict from
     the function `evaluate_hiscore_progress`.
     """
     message = []
     # Construct the message
-    if progress["experience_difference"] > 0:
-        message.append(f"Experience progress: {progress['experience_difference']:,d}\n")
-        message.append(
-            f"Combat level progress: {progress['combat_level_difference']:,d}\n"
-        )
-        message.append(f"Total level: {progress['current_total_level']}\n")
-        message.append(f"Total combat level: {progress['current_combat_level']}\n")
-        message.append(f"Progress time: {progress['time_difference']}\n")
-        if progress["combat_level_difference"] > 0:
+    if progress.experience_difference > 0:
+        message.append(f"Experience progress: {progress.experience_difference:,d}\n")
+        message.append(f"Combat level progress: {progress.combat_level_difference:,d}\n")
+        message.append(f"Total level: {progress.current_total_level}\n")
+        message.append(f"Total combat level: {progress.current_combat_level}\n")
+        message.append(f"Progress time: {progress.time_difference}\n")
+        if progress.combat_level_difference > 0:
             message.append(
-                f"Combat level up from {progress['previous_combat_level']} -> {progress['current_combat_level']}\n"
+                f"Combat level up from {progress.previous_combat_level} -> {progress.current_combat_level}\n"
             )
-        if progress["total_level_difference"] > 0:
+        if progress.total_level_difference > 0:
             message.append(
-                f"Total level up from {progress['previous_total_level']} -> {progress['current_total_level']}\n"
+                f"Total level up from {progress.previous_total_level} -> {progress.current_total_level}\n"
             )
 
         message.append("\n")
         message.append("**Skills:**\n")
-        for skill_name, skill in progress["skills"].items():
-            if skill["experience_difference"] > 0:
-                message.append(f"\t*{skill_name}*:\n")
-                message.append(f"\t\tLevel progress: {skill['level_difference']:,d}\n")
+        for skill in progress.skills:
+            if skill.experience_difference > 0:
+                message.append(f"\t*{skill.skill_name}*:\n")
+                message.append(f"\t\tLevel progress: {skill.level_difference:,d}\n")
                 message.append(
-                    f"\t\tExperience progress: {skill['experience_difference']:,d}\n"
+                    f"\t\tExperience progress: {skill.experience_difference:,d}\n"
                 )
-                if skill["current_level"] - skill["previous_level"] > 0:
+                if skill.current_level - skill.previous_level > 0:
                     message.append(
-                        f"\t\tLevel up from {skill['previous_level']} -> {skill['current_level']}\n"
+                        f"\t\tLevel up from {skill.previous_level} -> {skill.current_level}\n"
                     )
                 message.append("\n")
     return "".join(message)
 
 
+async def get_hiscores_webhook(url, usernames: list[str]):
+    """Get the hiscores for the given usernames and send them to a Discord webhook."""
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(url, session=session)
+        for username in usernames:
+            hiscore = Hiscores(username)
+            character = hiscore.character
+            now = datetime.datetime.now()
+            embed = discord.Embed(
+                title=username,
+                description=repr(character),
+                color=5763719,  # Green
+                timestamp=now,
+            )
+            await webhook.send(embed=embed, username="OSRS Bot")
+
+
 async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folder: str):
+    """Send a webhook with the progress of the hiscores."""
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
 

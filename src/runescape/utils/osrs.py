@@ -1,8 +1,7 @@
 import json
 import os
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any
 
 from botocore.exceptions import ClientError
 
@@ -12,6 +11,31 @@ from runescape.storage.aws.errors import BotoErrorCode
 from runescape.storage.aws.s3 import S3Storage
 
 REMOTE_FOLDER = "hiscores"
+
+
+@dataclass
+class SkillProgress:
+    skill_name: str
+    level_difference: int
+    experience_difference: int
+    previous_level: int
+    previous_experience: int
+    current_level: int
+    current_experience: int
+
+
+@dataclass
+class HiscoreProgress:
+    username: str
+    experience_difference: int
+    total_level_difference: int
+    previous_total_level: int
+    current_total_level: int
+    combat_level_difference: int
+    previous_combat_level: int
+    current_combat_level: int
+    time_difference: str
+    skills: list[SkillProgress]
 
 
 def save_hiscores_in_s3(
@@ -144,7 +168,7 @@ def save_hiscore_in_s3(
     return new_stats
 
 
-def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
+def evaluate_hiscore_progress(stats: dict) -> HiscoreProgress:
     """
     Evaluates the progress of the given username.
     Fetches the stats from S3 and calculates the difference between the
@@ -223,7 +247,7 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
     current_stats = stats["stats"]
     current_date = datetime.strptime(current_stats["date"], DATETIME_FORMAT)
 
-    # Get the second to last entry
+    # Get last entry
     history = stats["history"]
     if len(history) == 0:
         prev_stats = current_stats
@@ -243,10 +267,11 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
     # Calculate the difference in combat level
     combat_level_difference = current_stats["combat_level"] - prev_stats["combat_level"]
 
-    difference = {}
+    skills = []
     for skill_name, skill in current_stats["skills"].items():
         prev_skill = prev_stats["skills"][skill_name]
         skill_info = {
+            "skill_name": skill_name,
             "level_difference": skill["level"] - prev_skill["level"],
             "experience_difference": skill["experience"] - prev_skill["experience"],
             "previous_level": prev_skill["level"],
@@ -254,9 +279,9 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
             "current_level": skill["level"],
             "current_experience": skill["experience"],
         }
-        difference[skill_name] = skill_info
+        skills.append(SkillProgress(**skill_info))
 
-    return {
+    progress = {
         "username": username,
         "experience_difference": experience_difference,
         "total_level_difference": total_level_difference,
@@ -266,5 +291,7 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
         "previous_combat_level": prev_stats["combat_level"],
         "current_combat_level": current_stats["combat_level"],
         "time_difference": str(current_date - prev_date),
-        "skills": difference,
+        "skills": skills,
     }
+
+    return HiscoreProgress(**progress)
