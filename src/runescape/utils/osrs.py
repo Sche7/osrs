@@ -1,17 +1,43 @@
 import json
-import os
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from botocore.exceptions import ClientError
 
 from runescape.api.osrs.hiscores import Hiscores
-from runescape.dataclasses.character import DATETIME_FORMAT
+from runescape.dataclasses.character import DATETIME_FORMAT, Character
 from runescape.storage.aws.errors import BotoErrorCode
 from runescape.storage.aws.s3 import S3Storage
+from runescape.storage.protocol import StorageProtocol
 
 REMOTE_FOLDER = "hiscores"
+
+
+@dataclass
+class SkillProgress:
+    skill_name: str
+    level_difference: int
+    experience_difference: int
+    previous_level: int
+    previous_experience: int
+    current_level: int
+    current_experience: int
+
+
+@dataclass
+class HiscoreProgress:
+    username: str
+    experience_difference: int
+    total_level_difference: int
+    previous_total_level: int
+    current_total_level: int
+    combat_level_difference: int
+    previous_combat_level: int
+    current_combat_level: int
+    time_difference: str
+    skills: list[SkillProgress]
 
 
 def save_hiscores_in_s3(
@@ -52,13 +78,37 @@ def save_hiscores_in_s3(
             continue
 
 
+def get_hiscore_from_storage(
+    username: str,
+    storage: StorageProtocol,
+    remote_folder: str = REMOTE_FOLDER,
+) -> dict[str, Any]:
+    """Fetches the hiscores for the given username from S3."""
+    remote_filepath = Path(remote_folder) / f"{username}.json"
+
+    # Attempt to download the file
+    content = storage.load(str(remote_filepath))
+    return json.loads(content)
+
+
+def save_hiscore_to_storage(
+    character: Character,
+    storage: StorageProtocol,
+    remote_folder: str = REMOTE_FOLDER,
+) -> None:
+    """Uploads the given stats to S3."""
+    remote_filepath = Path(remote_folder) / f"{character.username}.json"
+    content = json.dumps(asdict(character))
+    storage.save(content, str(remote_filepath))
+
+
 def save_hiscore_in_s3(
     username: str,
     bucket_name: str,
     aws_access_key_id: str | None = None,
     aws_secret_access_key: str | None = None,
     remote_folder: str = REMOTE_FOLDER,
-) -> dict:
+) -> Character:
     """
     Pulls the hiscores for the given username and saves them to S3.
     This function will create a new file if it does not exist, or update
@@ -97,18 +147,18 @@ def save_hiscore_in_s3(
 
     # Fetch current character stats
     username = hiscore.character.username
-    current_stats = asdict(hiscore.character)
+    current_stats = hiscore.character
 
-    new_stats = None
     previous_stats = None
-    remote_filepath = os.path.join(remote_folder, f"{username}.json")
-
     # Download previous stats from S3 if it exists.
     # Exception is thrown if the file does not exist.
     try:
         # Attempt to download the file
-        content = aws_storage.load(remote_filepath)
-        previous_stats = json.loads(content)
+        stats = get_hiscore_from_storage(
+            username=username,
+            storage=aws_storage,
+        )
+        previous_stats = Character(**stats)
     except ClientError as ex:
         # Raise the exception if it is not a NoSuchKey error
         if ex.response.get("Error", {}).get("Code") != BotoErrorCode.NO_SUCH_KEY:
@@ -117,34 +167,24 @@ def save_hiscore_in_s3(
     # If character_dict is None, it means that the file does not exist.
     # In this case, we create one in S3.
     if previous_stats is None:
-        new_stats = {
-            "username": username,
-            "stats": current_stats,
-            "history": [],
-        }
-        content = json.dumps(new_stats)
-        aws_storage.save(content, remote_filepath)
+        save_hiscore_to_storage(
+            character=current_stats,
+            storage=aws_storage,
+            remote_folder=remote_folder,
+        )
     else:
-        # Otherwise, if the file exists then add the previous stats to the history
-        new_stats = {
-            "username": username,
-            "stats": current_stats,
-            "history": previous_stats["history"] + [previous_stats["stats"]],
-        }
-
         # If the stats have not changed, then we do not need to upload the file.
-        if (
-            current_stats["total_experience"]
-            - previous_stats["stats"]["total_experience"]
-            > 0
-        ):
-            content = json.dumps(new_stats)
-            aws_storage.save(content, remote_filepath)
+        if current_stats.total_experience - previous_stats.total_experience > 0:
+            save_hiscore_to_storage(
+                character=current_stats,
+                storage=aws_storage,
+                remote_folder=remote_folder,
+            )
 
-    return new_stats
+    return current_stats
 
 
-def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
+def evaluate_hiscore_progress(stats: dict) -> HiscoreProgress:
     """
     Evaluates the progress of the given username.
     Fetches the stats from S3 and calculates the difference between the
@@ -223,7 +263,7 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
     current_stats = stats["stats"]
     current_date = datetime.strptime(current_stats["date"], DATETIME_FORMAT)
 
-    # Get the second to last entry
+    # Get last entry
     history = stats["history"]
     if len(history) == 0:
         prev_stats = current_stats
@@ -243,10 +283,11 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
     # Calculate the difference in combat level
     combat_level_difference = current_stats["combat_level"] - prev_stats["combat_level"]
 
-    difference = {}
+    skills = []
     for skill_name, skill in current_stats["skills"].items():
         prev_skill = prev_stats["skills"][skill_name]
         skill_info = {
+            "skill_name": skill_name,
             "level_difference": skill["level"] - prev_skill["level"],
             "experience_difference": skill["experience"] - prev_skill["experience"],
             "previous_level": prev_skill["level"],
@@ -254,9 +295,9 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
             "current_level": skill["level"],
             "current_experience": skill["experience"],
         }
-        difference[skill_name] = skill_info
+        skills.append(SkillProgress(**skill_info))
 
-    return {
+    progress = {
         "username": username,
         "experience_difference": experience_difference,
         "total_level_difference": total_level_difference,
@@ -266,5 +307,7 @@ def evaluate_hiscore_progress(stats: dict) -> dict[str, Any]:
         "previous_combat_level": prev_stats["combat_level"],
         "current_combat_level": current_stats["combat_level"],
         "time_difference": str(current_date - prev_date),
-        "skills": difference,
+        "skills": skills,
     }
+
+    return HiscoreProgress(**progress)
