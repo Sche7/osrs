@@ -4,11 +4,10 @@ from typing import Literal
 import pytest
 from botocore.exceptions import ClientError
 
+from runescape.storage.aws.s3 import S3Storage
 from src.runescape.storage.json import JSONStorage
 from src.runescape.utils.osrs import (
-    S3Storage,
     evaluate_hiscore_progress,
-    save_hiscores_in_s3,
 )
 
 

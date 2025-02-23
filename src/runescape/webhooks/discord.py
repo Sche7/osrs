@@ -4,13 +4,18 @@ import os
 
 import aiohttp
 import discord
+from botocore.exceptions import ClientError
 from discord import Webhook
 
 from runescape.api.osrs.hiscores import Hiscores
+from runescape.dataclasses.character import Character
+from runescape.storage.aws.errors import BotoErrorCode
+from runescape.storage.aws.s3 import S3Storage
 from runescape.utils.osrs import (
     HiscoreProgress,
     evaluate_hiscore_progress,
-    save_hiscores_in_s3,
+    get_hiscore_from_storage,
+    save_hiscore_to_storage,
 )
 
 
@@ -69,31 +74,60 @@ async def get_hiscores_webhook(url, usernames: list[str]):
             await webhook.send(embed=embed, username="OSRS Bot")
 
 
-async def send_webhook(url, usernames: list[str], bucket_name: str, remote_folder: str):
+async def get_character_progress_webhook(
+    url, usernames: list[str], bucket_name: str, remote_folder: str
+):
     """Send a webhook with the progress of the hiscores."""
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(url, session=session)
 
-        # Get the hiscores, sync them to S3, evaluate them
-        # and send them to the Discord webhook.
-        for user_stats in save_hiscores_in_s3(
-            usernames=usernames,
-            bucket_name=bucket_name,
-            remote_folder=remote_folder,
-        ):
-            result = evaluate_hiscore_progress(user_stats)
-            message = generate_message(result)
+        for username in usernames:
+            hiscore = Hiscores(username)
+            current = hiscore.character
 
-            # Only send the webhook if there is progress
-            now = datetime.datetime.now()
-            if message != "":
-                embed = discord.Embed(
-                    title=user_stats["username"],
-                    description=message,
-                    color=5763719,  # Green
-                    timestamp=now,
+            storage = S3Storage(bucket_name=bucket_name)
+            previous_stats = None
+            # Download previous stats from S3 if it exists.
+            # Exception is thrown if the file does not exist.
+            try:
+                # Attempt to download the file
+                previous_stats = get_hiscore_from_storage(
+                    username=username,
+                    storage=storage,
                 )
-                await webhook.send(embed=embed, username="OSRS Bot")
+            except ClientError as ex:
+                # Raise the exception if it is not a NoSuchKey error
+                if ex.response.get("Error", {}).get("Code") != BotoErrorCode.NO_SUCH_KEY:
+                    raise
+
+            # If character_dict is None, it means that the file does not exist.
+            # In this case, we create one in S3.
+            if previous_stats is not None:
+                previous = Character(**previous_stats)
+
+                result = evaluate_hiscore_progress(
+                    previous=previous,
+                    current=current,
+                )
+                message = generate_message(result)
+
+                # Only send the webhook if there is progress
+                now = datetime.datetime.now()
+                if message != "":
+                    embed = discord.Embed(
+                        title=username,
+                        description=message,
+                        color=5763719,  # Green
+                        timestamp=now,
+                    )
+                    await webhook.send(embed=embed, username="OSRS Bot")
+
+            # Save the current stats to S3
+            save_hiscore_to_storage(
+                character=current,
+                storage=storage,
+                remote_folder=remote_folder,
+            )
 
 
 def main(usernames, bucket_name, remote_folder):
@@ -104,7 +138,7 @@ def main(usernames, bucket_name, remote_folder):
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(
-        send_webhook(
+        get_character_progress_webhook(
             url=url,
             usernames=usernames,
             bucket_name=bucket_name,
