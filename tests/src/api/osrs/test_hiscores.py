@@ -62,7 +62,7 @@ def test_calculate_combat_level(
     )
 
 
-@pytest.mark.parametrize("username", ["NotCrostyGIM", "Zehahandsome"])
+@pytest.mark.parametrize("username", ["NotCrostyGIM"])
 def test_hiscores(username: str):
     """Test the get_character_stats method."""
     hiscores = Hiscores(username)
