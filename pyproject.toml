@@ -20,7 +20,7 @@ awscli = "^1.36.40"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.4"
+pytest = "^8.3.5"
 ruff = "^0.11.2"
 pre-commit = "^4.1.0"
 types-boto3 = "^1.36.16"
