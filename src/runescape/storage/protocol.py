@@ -2,6 +2,14 @@ from typing import Any, Protocol
 
 
 class StorageProtocol(Protocol):
-    def save(self) -> Any: ...
+    """Protocol for storage classes."""
 
-    def load(self) -> Any: ...
+    def save(self, data: Any, key: str) -> Any:
+        """
+        Save data to a storage.
+        """
+
+    def load(self, key: str) -> Any:
+        """
+        Load data from a storage.
+        """

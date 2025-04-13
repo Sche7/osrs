@@ -18,7 +18,7 @@ class S3Storage:
         )
         self.bucket_name = bucket_name
 
-    def save(self, content: str | bytes, filepath: str) -> None:
+    def save(self, data: str | bytes, key: str) -> None:
         """
         Upload content to an s3 bucket.
         The content is saved as a file where the fileformat
@@ -26,9 +26,9 @@ class S3Storage:
 
         Parameters
         ----------
-        content : str
+        data : str
             The data to upload to the bucket.
-        filepath : str
+        key : str
             The name of target file.
 
         Example
@@ -40,15 +40,15 @@ class S3Storage:
         ... )
         >>> aws_storage.save("Hello, World!", "test.txt")
         """
-        self.s3.upload_file_content(self.bucket_name, filepath, content)
+        self.s3.upload_file_content(self.bucket_name, key, data)
 
-    def load(self, filepath: str) -> str:
+    def load(self, key: str) -> str:
         """
         Get the contents of a file in an s3 bucket without downloading it.
 
         Parameters
         ----------
-        filepath : str
+        key : str
             The name of the file to load.
 
         Returns
@@ -65,4 +65,4 @@ class S3Storage:
         ... )
         >>> aws_storage.load("test.txt")
         """
-        return self.s3.get_file_content(self.bucket_name, filepath)
+        return self.s3.get_file_content(self.bucket_name, key)
