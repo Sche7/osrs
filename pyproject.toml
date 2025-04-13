@@ -14,7 +14,7 @@ python = "^3.10"
 requests = "^2.32.2"
 beautifulsoup4 = "^4.13.3"
 discord = "^2.3.2"
-python-dotenv = "^1.0.0"
+python-dotenv = "^1.1.0"
 boto3 = "^1.35.68"
 awscli = "^1.36.40"
 
