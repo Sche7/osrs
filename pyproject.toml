@@ -29,7 +29,7 @@ pytest-coverage = "^0.0"
 
 
 [tool.poetry.group.extra.dependencies]
-ipython = "^8.35.0"
+ipython = "^8.37.0"
 
 [build-system]
 requires = ["poetry-core"]
