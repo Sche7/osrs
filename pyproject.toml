@@ -23,7 +23,7 @@ awscli = "^1.36.40"
 pytest = "^8.3.5"
 ruff = "^0.11.9"
 pre-commit = "^4.2.0"
-types-boto3 = "^1.36.16"
+types-boto3 = "^1.40.1"
 coverage = "^7.8.2"
 pytest-coverage = "^0.0"
 
