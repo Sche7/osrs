@@ -19,7 +19,7 @@ def test_save_and_load(aws_credentials, gibberish, bucket_name):
 
     try:
         # Call the save method
-        storage.save(content=content, filepath=remote_filepath)
+        storage.save(data=content, key=remote_filepath)
         # Call the load method
         loaded_content = storage.load(remote_filepath)
 
