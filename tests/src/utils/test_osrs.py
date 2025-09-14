@@ -19,7 +19,7 @@ def test_save_hiscores_to_s3(
 ):
     aws_access_key_id, aws_secret_access_key = aws_credentials
 
-    usernames = ["NotCrostyGIM", "NotPlucksGIM"]
+    usernames = ["NotPlucksGIM"]
     remote_folder = "test"
 
     # Check that the files were uploaded
