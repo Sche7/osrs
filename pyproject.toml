@@ -12,7 +12,7 @@ discord_webhook = "src.webhooks.discord:main"
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.32.5"
-beautifulsoup4 = "^4.13.5"
+beautifulsoup4 = "^4.14.2"
 discord = "^2.3.2"
 python-dotenv = "^1.1.1"
 boto3 = "^1.35.68"
