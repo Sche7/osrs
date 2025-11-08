@@ -22,15 +22,15 @@ tasks:
 
   install:
     cmds:
-      - poetry install --with dev
+      - uv install --with dev
 
   format:
     cmds:
-      - poetry run ruff format
+      - uv run ruff format
 
   lint:
     cmds:
-      - poetry run ruff check --fix
+      - uv run ruff check --fix
 
   fix:
     cmds:
