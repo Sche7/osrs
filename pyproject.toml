@@ -1,17 +1,17 @@
 [project]
 name = "osrs"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = [{ name = "Steven", email = "stevencheung7@outlook.dk" }]
-requires-python = "~=3.10"
+requires-python = ">=3.10"
 readme = "README.md"
 dependencies = [
     "requests>=2.32.5,<3",
     "beautifulsoup4>=4.13.5,<5",
     "discord>=2.3.2,<3",
-    "python-dotenv>=1.1.1,<2",
     "boto3>=1.35.68,<2",
     "awscli>=1.36.40,<2",
+    "python-dotenv>=1.2.1",
 ]
 
 [project.scripts]

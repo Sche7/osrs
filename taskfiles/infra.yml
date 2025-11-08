@@ -7,14 +7,15 @@ vars:
   OSRS_LAYER: module.discord_webhook.aws_lambda_layer_version.osrs_layer
   DIR: terraform/
   ZIP_NAME: osrs.zip
+  PACKAGE_DIR: python/
 
 tasks:
   zip:
     cmds:
-      - mkdir -p python
-      - pip3 install . -t python
-      - zip -r {{.ZIP_NAME}} python
-      - rm -rf python
+      - mkdir -p {{.PACKAGE_DIR}}
+      - uv pip install . --target {{.PACKAGE_DIR}}
+      - zip -r {{.ZIP_NAME}} {{.PACKAGE_DIR}}
+      - rm -rf {{.PACKAGE_DIR}}
 
   apply:
     prompt: "Deploy AWS Lambda function?"
