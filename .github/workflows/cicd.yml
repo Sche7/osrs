@@ -25,28 +25,31 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install poetry
-        uses: abatilo/actions-poetry@v2
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Task
+        uses: go-task/setup-task@v1
 
       - name: Install dependencies
         working-directory: .
         run: |
-          make setup-dev
+          task install
 
       - name: Check Linting
         working-directory: .
         run: |
-          make lint
+          task lint
 
       - name: Check Formatting
         working-directory: .
         run: |
-          poetry run ruff format --check .
+          uv run ruff format --check .
 
       - name: Test with pytest
         working-directory: .
         run: |
-          poetry run python -m pytest --cov . --verbose --cov-report xml:coverage.xml
+          uv run python -m pytest --cov . --verbose --cov-report xml:coverage.xml
 
       - uses: codecov/codecov-action@v3.1.1
         with:
