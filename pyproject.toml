@@ -12,17 +12,17 @@ discord_webhook = "src.webhooks.discord:main"
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.32.5"
-beautifulsoup4 = "^4.13.3"
+beautifulsoup4 = "^4.13.5"
 discord = "^2.3.2"
-python-dotenv = "^1.1.0"
+python-dotenv = "^1.1.1"
 boto3 = "^1.35.68"
 awscli = "^1.36.40"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
-ruff = "^0.13.0"
-pre-commit = "^4.2.0"
+pytest = "^8.4.2"
+ruff = "^0.14.0"
+pre-commit = "^4.3.0"
 types-boto3 = "^1.40.30"
 coverage = "^7.8.2"
 pytest-coverage = "^0.0"
