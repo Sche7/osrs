@@ -12,7 +12,7 @@ dependencies = [
     "boto3>=1.35.68,<2",
     "awscli>=1.36.40,<2",
     "python-dotenv>=1.2.1",
-    "pycord>=0.1.1",
+    "py-cord>=2.6.1",
 ]
 
 [project.scripts]
