@@ -1,0 +1,38 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  VARFILE: setup.tfvars
+
+dotenv: ['.env', '{{.ENV}}/.env', '{{.HOME}}/.env']
+
+includes:
+  test:
+    taskfile: ./taskfiles/test.yml
+
+  infra:
+    taskfile: ./taskfiles/infra.yml
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  install:
+    cmds:
+      - poetry install --with dev
+
+  format:
+    cmds:
+      - poetry run ruff format
+
+  lint:
+    cmds:
+      - poetry run ruff check --fix
+
+  fix:
+    cmds:
+      - task: lint
+      - task: format

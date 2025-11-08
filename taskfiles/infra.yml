@@ -1,0 +1,34 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  VARFILE: setup.tfvars
+  OSRS_LAYER: module.discord_webhook.aws_lambda_layer_version.osrs_layer
+  DIR: terraform/
+  ZIP_NAME: osrs.zip
+
+tasks:
+  zip:
+    cmds:
+      - mkdir -p python
+      - pip3 install . -t python
+      - zip -r {{.ZIP_NAME}} python
+      - rm -rf python
+
+  apply:
+    prompt: "Deploy AWS Lambda function?"
+    summary: Deploys AWS Lambda function
+    cmds:
+      - task: zip
+      - terraform -chdir={{.DIR}} apply -var-file={{.VARFILE}} -replace={{.OSRS_LAYER}}
+
+  init:
+    cmds:
+      - terraform -chdir={{.DIR}} init
+
+  destroy:
+    prompt: "Destroy AWS Lambda function?"
+    summary: Destroys AWS Lambda function
+    cmds:
+      - terraform -chdir={{.DIR}} destroy -var-file={{.VARFILE}}
