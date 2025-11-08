@@ -5,8 +5,8 @@ version: '3'
 tasks:
   unit:
     cmds:
-      - poetry run pytest tests/
+      - uv run pytest tests/
 
   aws:
     cmds:
-      - poetry run pytest tests/ -m aws
+      - uv run pytest tests/ -m aws

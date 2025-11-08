@@ -1,39 +1,51 @@
-[tool.poetry]
+[project]
 name = "osrs"
 version = "0.1.0"
 description = ""
-authors = ["Steven <stevencheung7@outlook.dk>"]
+authors = [{ name = "Steven", email = "stevencheung7@outlook.dk" }]
+requires-python = "~=3.10"
 readme = "README.md"
-packages = [{ include = "runescape", from = "src" }]
+dependencies = [
+    "requests>=2.32.5,<3",
+    "beautifulsoup4>=4.13.5,<5",
+    "discord>=2.3.2,<3",
+    "python-dotenv>=1.1.1,<2",
+    "boto3>=1.35.68,<2",
+    "awscli>=1.36.40,<2",
+]
 
-[tool.poetry.scripts]
+[project.scripts]
 discord_webhook = "src.webhooks.discord:main"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-requests = "^2.32.5"
-beautifulsoup4 = "^4.13.5"
-discord = "^2.3.2"
-python-dotenv = "^1.1.1"
-boto3 = "^1.35.68"
-awscli = "^1.36.40"
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2,<9",
+    "ruff>=0.14.0,<0.15",
+    "pre-commit>=4.3.0,<5",
+    "types-boto3>=1.40.30,<2",
+    "coverage>=7.8.2,<8",
+    "pytest-coverage>=0.0,<0.1",
+]
+extra = ["ipython>=8.37.0,<9"]
 
+[tool.uv]
+default-groups = [
+    "dev",
+    "extra",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.2"
-ruff = "^0.14.0"
-pre-commit = "^4.3.0"
-types-boto3 = "^1.40.30"
-coverage = "^7.8.2"
-pytest-coverage = "^0.0"
+[tool.hatch.build.targets.sdist]
+include = ["src/runescape"]
 
+[tool.hatch.build.targets.wheel]
+include = ["src/runescape"]
 
-[tool.poetry.group.extra.dependencies]
-ipython = "^8.37.0"
+[tool.hatch.build.targets.wheel.sources]
+"src/runescape" = "runescape"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 pythonpath = "."
@@ -68,7 +80,7 @@ exclude = [
     "dist",
     "node_modules",
     "site-packages",
-    "venv",    
+    "venv",
 ]
 
 line-length = 90
