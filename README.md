@@ -36,7 +36,7 @@ osrs_remote_folder = "hiscores"  # Prefix for S3 object keys that will hold leve
 discord_webhook_url = "https://discordapp.com/api/webhooks/123456789/blabla-f456ds-this-is-a-fake-url"  # Discord webhook URL
 ```
 
-> **__NOTE__:** To get the Discord Webhook URL look in `Discord > Server Settings > APPS > Integrations > Webhooks` 
+> **__NOTE__:** To get the Discord Webhook URL look in `Discord > Server Settings > APPS > Integrations > Webhooks`
 
 From the repository root, run:
 
@@ -51,6 +51,20 @@ make destroy-discord-webhook-infra
 ```
 
 ## Development
+
+### Install Taskfile
+
+Run this command:
+
+```bash
+curl -1sLf 'https://dl.cloudsmith.io/public/task/task/setup.deb.sh' | sudo -E bash
+```
+
+Then you can install Task with:
+
+```bash
+apt install task
+```
 
 ### Testing
 
