@@ -15,14 +15,9 @@ includes:
     taskfile: ./taskfiles/infra.yml
 
 tasks:
-  default:
-    cmds:
-      - echo "{{.GREETING}}"
-    silent: true
-
   install:
     cmds:
-      - uv install --with dev
+      - uv sync --group dev
 
   format:
     cmds:
