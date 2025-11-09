@@ -1,18 +1,7 @@
-from enum import Enum
-
 import requests
 
+from runescape.api.osrs import HiscoreType
 from runescape.dataclasses.character import Character, Skill, Skills
-
-
-class HiscoreType(Enum):
-    NORMAL = "hiscore_oldschool"
-    IRONMAN = "hiscore_oldschool_ironman"
-    ULTIMATE = "hiscore_oldschool_ultimate"
-    HARDCORE = "hiscore_oldschool_hardcore_ironman"
-    DEADMAN = "hiscore_oldschool_deadman"
-    SEASONAL = "hiscore_oldschool_seasonal"
-    TOURNAMENT = "hiscore_oldschool_tournament"
 
 
 class Hiscores:
@@ -124,4 +113,5 @@ class Hiscores:
             raise ValueError(f"User {self.username} does not exist.")
         if response.status_code != 200:
             raise ValueError(f"Error {response.status_code} when scraping {self.url}")
+        breakpoint()
         return self.parse(response.text)
