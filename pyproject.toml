@@ -13,10 +13,12 @@ dependencies = [
     "awscli>=1.36.40,<2",
     "python-dotenv>=1.2.1",
     "py-cord>=2.6.1",
+    "loguru>=0.7.3",
 ]
 
 [project.scripts]
-discord_webhook = "src.webhooks.discord:main"
+discord_webhook = "runescape.discord.webhook:main"
+discord_bot = "runescape.discord.bot:main"
 
 [dependency-groups]
 dev = [

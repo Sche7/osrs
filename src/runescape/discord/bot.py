@@ -3,10 +3,10 @@ import os
 import dotenv
 from discord import ApplicationContext
 from discord.ext import commands
+from loguru import logger
 
 from runescape.api.osrs.hiscores import Hiscores
 
-dotenv.load_dotenv()
 bot = commands.Bot()
 
 
@@ -17,15 +17,22 @@ async def on_ready():
 
 @bot.slash_command(name="hiscore")
 async def hiscore(ctx: ApplicationContext, username):
+    logger.info(f"Retrieving hiscore for user [{username}]")
     if username is not None:
         try:
             user = Hiscores(username)
+            logger.info(f"Hiscore successfully retrieved for user [{username}]")
             await ctx.respond(repr(user.character))
-        except ValueError:
-            await ctx.respond(f"Could not find user with name {username}")
+        except ValueError as e:
+            logger.error(
+                f"Could not retrieve hiscore for user [{username}] with error: {e}"
+            )
+            await ctx.respond(f"Could not find user with name [{username}].")
     else:
         await ctx.respond("Please provide a username.")
 
 
-token = str(os.getenv("DISCORD_BOT_TOKEN"))
-bot.run(token)
+def main():
+    dotenv.load_dotenv()
+    token = str(os.getenv("DISCORD_BOT_TOKEN"))
+    bot.run(token)
