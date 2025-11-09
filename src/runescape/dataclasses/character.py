@@ -68,7 +68,7 @@ class Character:
             A string representation of the character.
         """
         output = ""
-        output += f"__**{self.username}**__\n"
+        output += f"__**{self.username.title()}**__\n"
         output += f"\tCombat level: {self.combat_level:,d}\n"
         output += f"\tTotal level: {self.total_level:,d}\n"
         output += f"\tTotal experience: {self.total_experience:,d}\n"
