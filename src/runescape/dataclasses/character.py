@@ -68,13 +68,13 @@ class Character:
             A string representation of the character.
         """
         output = ""
-        output += f"Username: {self.username}\n"
+        output += f"__**{self.username}**__\n"
         output += f"\tCombat level: {self.combat_level:,d}\n"
         output += f"\tTotal level: {self.total_level:,d}\n"
         output += f"\tTotal experience: {self.total_experience:,d}\n"
         output += f"\tTotal rank: {self.eval_rank(self.total_rank)}\n"
         output += "\n"
-        output += "\tSkills:\n"
+        output += "\t**Skills:**\n"
         for skill_name, skill in self.skills.__dict__.items():
             output += f"\t\t{skill_name}: {skill.level}\n"
         return output

@@ -34,5 +34,7 @@ async def hiscore(ctx: ApplicationContext, username):
 
 def main():
     dotenv.load_dotenv()
-    token = str(os.getenv("DISCORD_BOT_TOKEN"))
+    token = os.getenv("DISCORD_BOT_TOKEN")
+    if token is None:
+        raise ValueError("DISCORD_BOT_TOKEN has not been set.")
     bot.run(token)
