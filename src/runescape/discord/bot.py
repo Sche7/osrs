@@ -16,7 +16,7 @@ async def on_ready() -> None:
 
 
 @bot.slash_command(name="hiscore", description="Retrieve OSRS user hiscore.")
-async def hiscore(ctx: ApplicationContext, username) -> None:
+async def hiscore(ctx: ApplicationContext, username: str) -> None:
     logger.info(f"Retrieving hiscore for user [{username}]")
     if username is not None:
         try:
