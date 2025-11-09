@@ -1,7 +1,7 @@
 import os
 
 import dotenv
-from discord import ApplicationContext
+from discord import ApplicationContext, Message
 from discord.ext import commands
 from loguru import logger
 
@@ -15,7 +15,7 @@ async def on_ready() -> None:
     logger.info(f"{bot.user} is ready and online!")
 
 
-@bot.slash_command(name="hiscore")
+@bot.slash_command(name="hiscore", description="Retrieve OSRS user hiscore.")
 async def hiscore(ctx: ApplicationContext, username) -> None:
     logger.info(f"Retrieving hiscore for user [{username}]")
     if username is not None:
@@ -33,6 +33,11 @@ async def hiscore(ctx: ApplicationContext, username) -> None:
             )
     else:
         await ctx.respond("```apache\nPlease provide a username.```")
+
+
+@bot.message_command(name="Get Message ID")
+async def get_message_id(ctx, message: Message):
+    await ctx.respond(f"Message ID: `{message.id}`")
 
 
 def main():
