@@ -11,25 +11,28 @@ bot = commands.Bot()
 
 
 @bot.event
-async def on_ready():
-    print(f"{bot.user} is ready and online!")
+async def on_ready() -> None:
+    logger.info(f"{bot.user} is ready and online!")
 
 
 @bot.slash_command(name="hiscore")
-async def hiscore(ctx: ApplicationContext, username):
+async def hiscore(ctx: ApplicationContext, username) -> None:
     logger.info(f"Retrieving hiscore for user [{username}]")
     if username is not None:
         try:
             user = Hiscores(username)
             logger.info(f"Hiscore successfully retrieved for user [{username}]")
-            await ctx.respond(repr(user.character))
+            output = "```apache\n" + repr(user.character) + "```"
+            await ctx.respond(output)
         except ValueError as e:
             logger.error(
                 f"Could not retrieve hiscore for user [{username}] with error: {e}"
             )
-            await ctx.respond(f"Could not find user with name [{username}].")
+            await ctx.respond(
+                f"```apache\nCould not find user with name [{username}].```"
+            )
     else:
-        await ctx.respond("Please provide a username.")
+        await ctx.respond("```apache\nPlease provide a username.```")
 
 
 def main():
