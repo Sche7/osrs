@@ -91,11 +91,3 @@ def main(usernames, bucket_name, remote_folder):
             remote_folder=remote_folder,
         )
     )
-
-
-if __name__ == "__main__":
-    USERNAMES = ["NotCrostyGIM", "NotPlucksGIM", "Zehahandsome", "Zolixo1"]
-    BUCKET_NAME = "osrsbucket"
-    REMOTE_FOLDER = "hiscores"
-
-    main(USERNAMES, BUCKET_NAME, REMOTE_FOLDER)
