@@ -1,7 +1,7 @@
 import json
 import os
 
-from runescape.webhooks.discord import main
+from runescape.discord.webhook import main
 
 USERNAMES = json.loads(os.environ["USERNAMES"])
 BUCKET_NAME = os.environ["BUCKET_NAME"]
