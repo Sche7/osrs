@@ -8,8 +8,8 @@ from runescape.dataclasses.items import Items
 @pytest.mark.parametrize(
     ("category", "alpha", "page"),
     [
-        ("1", "a", 3),
-        ("3", "z", 1),
+        (1, "a", 3),
+        (3, "z", 1),
         (Categories.AMMO, "a", 1),
     ],
 )
