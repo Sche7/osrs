@@ -3,6 +3,7 @@ from urllib.parse import urlencode, urlunparse
 import httpx
 
 from runescape.api.osrs import HiscoreType
+from runescape.api.osrs.catalogue import OSRSCatalogue
 from runescape.api.utils import UrlComponents
 from runescape.dataclasses.player import Player
 
@@ -29,3 +30,7 @@ class OSRSClient:
         response = httpx.get(url.decode())
         response.raise_for_status()
         return Player.model_validate(response.json())
+
+    @property
+    def catalogue(self) -> OSRSCatalogue:
+        return OSRSCatalogue()
