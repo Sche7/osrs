@@ -27,7 +27,7 @@ class OSRSClient:
                 fragment="",
             )
         )
-        response = httpx.get(url.decode())
+        response = httpx.get(url)
         response.raise_for_status()
         return Player.model_validate(response.json())
 
