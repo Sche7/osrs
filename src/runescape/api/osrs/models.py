@@ -1,10 +1,41 @@
 from collections import namedtuple
 from enum import Enum
+from typing import Literal
 
 Category = namedtuple("category", ["id", "name"])
 
 
-class Catalogue(Enum):
+Alpha = Literal[
+    "#",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "x",
+    "u",
+    "z",
+]
+
+
+class Categories(Enum):
     MISCELLANEOUS = Category(0, "Miscellaneous")
     AMMO = Category(1, "Ammo")
     ARROWS = Category(2, "Arrows")

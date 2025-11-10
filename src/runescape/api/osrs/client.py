@@ -1,15 +1,10 @@
-from collections import namedtuple
 from urllib.parse import urlencode, urlunparse
 
 import httpx
 
 from runescape.api.osrs import HiscoreType
+from runescape.api.utils import UrlComponents
 from runescape.dataclasses.player import Player
-
-Components = namedtuple(
-    typename="Components",
-    field_names=["scheme", "netloc", "path", "params", "query", "fragment"],
-)
 
 
 class OSRSClient:
@@ -22,7 +17,7 @@ class OSRSClient:
         hiscore_type: HiscoreType = HiscoreType.NORMAL,
     ) -> Player:
         url = urlunparse(
-            Components(
+            UrlComponents(
                 scheme=self.scheme,
                 netloc=self.base_url,
                 path=f"/m={hiscore_type.value}/index_lite.json",
@@ -31,6 +26,6 @@ class OSRSClient:
                 fragment="",
             )
         )
-        response = httpx.get(url)
+        response = httpx.get(url.decode())
         response.raise_for_status()
         return Player.model_validate(response.json())

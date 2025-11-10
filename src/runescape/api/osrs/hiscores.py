@@ -113,5 +113,4 @@ class Hiscores:
             raise ValueError(f"User {self.username} does not exist.")
         if response.status_code != 200:
             raise ValueError(f"Error {response.status_code} when scraping {self.url}")
-        breakpoint()
         return self.parse(response.text)
