@@ -41,7 +41,7 @@ class OSRSCatalogue:
         response.raise_for_status()
         return Items.model_validate(response.json())
 
-    def categories(self, category: Categories | int):
+    def categories(self, category: Categories | int) -> Tradeables:
         url = urlunparse(
             UrlComponents(
                 scheme=self.scheme,
