@@ -3,7 +3,7 @@ from httpx import HTTPStatusError
 
 from runescape.api.osrs.grand_exchange import GrandExchangeClient
 from runescape.api.osrs.models import Category
-from runescape.dataclasses.categories import Tradeables
+from runescape.dataclasses.categories import CategoryOverview
 from runescape.dataclasses.items import Items
 
 
@@ -46,5 +46,5 @@ def test_grand_exchange_get_items_exception():
 )
 def test_grand_exchange_get_categories(category):
     client = GrandExchangeClient()
-    result = client.get_categories(category=category)
-    assert isinstance(result, Tradeables)
+    result = client.get_category_overview(category=category)
+    assert isinstance(result, CategoryOverview)

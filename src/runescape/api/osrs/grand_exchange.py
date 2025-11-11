@@ -4,7 +4,7 @@ import httpx
 
 from runescape.api.osrs.models import Alpha, Category
 from runescape.api.utils import UrlComponents
-from runescape.dataclasses.categories import Tradeables
+from runescape.dataclasses.categories import CategoryOverview
 from runescape.dataclasses.items import Items
 
 
@@ -55,7 +55,7 @@ class GrandExchangeClient:
         response.raise_for_status()
         return Items.model_validate(response.json())
 
-    def get_categories(self, category: Category | int) -> Tradeables:
+    def get_category_overview(self, category: Category | int) -> CategoryOverview:
         """Get an overview of number of tradeable items within a certain category.
 
         Returns the number of items determined by the first letter.
@@ -88,4 +88,4 @@ class GrandExchangeClient:
         )
         response = httpx.get(url)
         response.raise_for_status()
-        return Tradeables.model_validate(response.json())
+        return CategoryOverview.model_validate(response.json())

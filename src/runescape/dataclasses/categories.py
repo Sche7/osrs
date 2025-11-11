@@ -8,6 +8,6 @@ class CategoryStatistic(BaseModel):
     items: int
 
 
-class Tradeables(BaseModel):
+class CategoryOverview(BaseModel):
     types: list[Any]
     alpha: list[CategoryStatistic]
