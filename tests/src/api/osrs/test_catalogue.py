@@ -2,7 +2,7 @@ import pytest
 from httpx import HTTPStatusError
 
 from runescape.api.osrs.catalogue import OSRSCatalogue
-from runescape.api.osrs.models import Categories
+from runescape.api.osrs.models import Category
 from runescape.dataclasses.categories import Tradeables
 from runescape.dataclasses.items import Items
 
@@ -13,7 +13,7 @@ from runescape.dataclasses.items import Items
         (1, "a", 3),
         ("1", "a", "3"),
         (3, "z", 1),
-        (Categories.AMMO, "a", 1),
+        (Category.AMMO, "a", 1),
     ],
 )
 def test_catalogue_items(category, alpha, page):
@@ -36,15 +36,15 @@ def test_catalogue_items_exception():
 @pytest.mark.parametrize(
     "category",
     [
-        Categories.AMMO,
-        Categories.ARCHAEOLOGY_MATERIALS,
-        Categories.ARROWS,
+        Category.AMMO,
+        Category.ARCHAEOLOGY_MATERIALS,
+        Category.ARROWS,
         0,
         1,
         2,
     ],
 )
-def test_catalogue_categories(category: Categories):
+def test_catalogue_categories(category):
     client = OSRSCatalogue()
     result = client.categories(category=category)
     assert isinstance(result, Tradeables)

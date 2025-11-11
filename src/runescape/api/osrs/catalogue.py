@@ -2,7 +2,7 @@ from urllib.parse import urlencode, urlunparse
 
 import httpx
 
-from runescape.api.osrs.models import Alpha, Categories
+from runescape.api.osrs.models import Alpha, Category
 from runescape.api.utils import UrlComponents
 from runescape.dataclasses.categories import Tradeables
 from runescape.dataclasses.items import Items
@@ -15,14 +15,12 @@ class OSRSCatalogue:
 
     def items(
         self,
-        category: Categories | int,
+        category: Category | int,
         alpha: Alpha,
         page: int,
     ) -> Items:
         params = {
-            "category": category.value.id
-            if isinstance(category, Categories)
-            else category,
+            "category": category.value.id if isinstance(category, Category) else category,
             "alpha": alpha,
             "page": page,
         }
@@ -41,7 +39,8 @@ class OSRSCatalogue:
         response.raise_for_status()
         return Items.model_validate(response.json())
 
-    def categories(self, category: Categories | int) -> Tradeables:
+    def categories(self, category: Category | int) -> Tradeables:
+        """Returns the number of items determined by the first letter"""
         url = urlunparse(
             UrlComponents(
                 scheme=self.scheme,
@@ -51,7 +50,7 @@ class OSRSCatalogue:
                 query=urlencode(
                     {
                         "category": category.value.id
-                        if isinstance(category, Categories)
+                        if isinstance(category, Category)
                         else category
                     }
                 ),
