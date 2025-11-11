@@ -5,7 +5,7 @@ import httpx
 from runescape.api.osrs.models import Alpha, Category
 from runescape.api.utils import UrlComponents
 from runescape.dataclasses.categories import CategoryOverview
-from runescape.dataclasses.items import Items
+from runescape.dataclasses.items import ItemDetails, Items
 
 
 class GrandExchangeClient:
@@ -89,3 +89,18 @@ class GrandExchangeClient:
         response = httpx.get(url)
         response.raise_for_status()
         return CategoryOverview.model_validate(response.json())
+
+    def get_item_details(self, item_id: int) -> ItemDetails:
+        url = urlunparse(
+            UrlComponents(
+                scheme=self.scheme,
+                netloc=self.base_url,
+                path=f"{self.path}/detail.json",
+                params="",
+                query=urlencode({"item": item_id}),
+                fragment="",
+            )
+        )
+        response = httpx.get(url)
+        response.raise_for_status()
+        return ItemDetails.model_validate(response.json())
