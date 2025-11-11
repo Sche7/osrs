@@ -1,7 +1,7 @@
 import pytest
 from httpx import HTTPStatusError
 
-from runescape.api.osrs.catalogue import OSRSCatalogue
+from runescape.api.osrs.grand_exchange import GrandExchangeClient
 from runescape.api.osrs.models import Category
 from runescape.dataclasses.categories import Tradeables
 from runescape.dataclasses.items import Items
@@ -16,14 +16,14 @@ from runescape.dataclasses.items import Items
         (Category.AMMO, "a", 1),
     ],
 )
-def test_catalogue_items(category, alpha, page):
-    client = OSRSCatalogue()
+def test_grand_exchange_get_items(category, alpha, page):
+    client = GrandExchangeClient()
     result = client.get_items(category=category, alpha=alpha, page=page)
     assert isinstance(result, Items)
 
 
-def test_catalogue_items_exception():
-    client = OSRSCatalogue()
+def test_grand_exchange_get_items_exception():
+    client = GrandExchangeClient()
 
     with pytest.raises(HTTPStatusError):
         client.get_items(
@@ -44,7 +44,7 @@ def test_catalogue_items_exception():
         2,
     ],
 )
-def test_catalogue_categories(category):
-    client = OSRSCatalogue()
+def test_grand_exchange_get_categories(category):
+    client = GrandExchangeClient()
     result = client.get_categories(category=category)
     assert isinstance(result, Tradeables)

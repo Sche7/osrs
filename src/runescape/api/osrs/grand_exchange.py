@@ -8,7 +8,7 @@ from runescape.dataclasses.categories import Tradeables
 from runescape.dataclasses.items import Items
 
 
-class OSRSCatalogue:
+class GrandExchangeClient:
     scheme = "https"
     base_url = "secure.runescape.com"
     path = "/m=itemdb_rs/api/catalogue"
@@ -56,7 +56,7 @@ class OSRSCatalogue:
         return Items.model_validate(response.json())
 
     def get_categories(self, category: Category | int) -> Tradeables:
-        """Get an overview of number of items within a certain category.
+        """Get an overview of number of tradeable items within a certain category.
 
         Returns the number of items determined by the first letter.
 

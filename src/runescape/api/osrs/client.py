@@ -3,7 +3,7 @@ from urllib.parse import urlencode, urlunparse
 import httpx
 
 from runescape.api.osrs import HiscoreType
-from runescape.api.osrs.catalogue import OSRSCatalogue
+from runescape.api.osrs.grand_exchange import GrandExchangeClient
 from runescape.api.utils import UrlComponents
 from runescape.dataclasses.player import Player
 
@@ -56,5 +56,5 @@ class OSRSClient:
         return Player.model_validate(response.json())
 
     @property
-    def catalogue(self) -> OSRSCatalogue:
-        return OSRSCatalogue()
+    def grand_exchange(self) -> GrandExchangeClient:
+        return GrandExchangeClient()
