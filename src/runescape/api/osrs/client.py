@@ -9,6 +9,12 @@ from runescape.dataclasses.player import Player
 
 
 class OSRSClient:
+    """Class that wraps the OSRS API endpoints.
+
+    This uses the official hiscores API from Jagex.
+    See also: https://runescape.wiki/w/Application_programming_interface#Old_School_Hiscores
+    """
+
     scheme = "https"
     base_url = "secure.runescape.com"
 
@@ -17,6 +23,24 @@ class OSRSClient:
         username: str,
         hiscore_type: HiscoreType = HiscoreType.NORMAL,
     ) -> Player:
+        """
+        Retrieve hiscore of a OSRS user.
+
+        Parameters
+        ----------
+        username: str
+            Name of the user account
+        hiscore_type: HiscoreType, optional
+            The type of hiscore to look for. By default,
+            HiscoreType.NORMAL which is the hiscore for normal
+            OSRS users. Other options are:
+                - HiscoreType.IRONMAN
+                - HiscoreType.ULTIMATE
+                - HiscoreType.HARDCORE
+                - HiscoreType.DEADMAN
+                - HiscoreType.SEASONAL
+                - HiscoreType.TOURNAMENT
+        """
         url = urlunparse(
             UrlComponents(
                 scheme=self.scheme,

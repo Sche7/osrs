@@ -13,12 +13,28 @@ class OSRSCatalogue:
     base_url = "secure.runescape.com"
     path = "/m=itemdb_rs/api/catalogue"
 
-    def items(
+    def get_items(
         self,
         category: Category | int,
         alpha: Alpha,
         page: int,
     ) -> Items:
+        """Get a list of items filtered by category, alpha and page.
+
+        Parameters
+        ----------
+        category: Category | int
+            The type of items to search for. There are 44 categories
+            starting with category 0 to 43.
+            Use either integers or the enum
+            runescape.api.osrs.models.Category for better overview
+            of categories.
+        alpha: Alpha
+            The starting letter or number of item name to filter by.
+            Note that any items that start with a number must instead use %23 instead of #.
+        page: int
+            The page number to retrieve. Each page include 10 items.
+        """
         params = {
             "category": category.value.id if isinstance(category, Category) else category,
             "alpha": alpha,
@@ -39,8 +55,21 @@ class OSRSCatalogue:
         response.raise_for_status()
         return Items.model_validate(response.json())
 
-    def categories(self, category: Category | int) -> Tradeables:
-        """Returns the number of items determined by the first letter"""
+    def get_categories(self, category: Category | int) -> Tradeables:
+        """Get an overview of number of items within a certain category.
+
+        Returns the number of items determined by the first letter.
+
+        Parameters
+        ----------
+        category: Category | int
+            The type of items to search for. There are 44 categories
+            starting with category 0 to 43.
+            Use either integers or the enum
+            runescape.api.osrs.models.Category for better overview
+            of categories.
+
+        """
         url = urlunparse(
             UrlComponents(
                 scheme=self.scheme,

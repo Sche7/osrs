@@ -18,7 +18,7 @@ from runescape.dataclasses.items import Items
 )
 def test_catalogue_items(category, alpha, page):
     client = OSRSCatalogue()
-    result = client.items(category=category, alpha=alpha, page=page)
+    result = client.get_items(category=category, alpha=alpha, page=page)
     assert isinstance(result, Items)
 
 
@@ -26,7 +26,7 @@ def test_catalogue_items_exception():
     client = OSRSCatalogue()
 
     with pytest.raises(HTTPStatusError):
-        client.items(
+        client.get_items(
             category=1000,  # Non-existence category
             alpha="a",
             page=1,
@@ -46,5 +46,5 @@ def test_catalogue_items_exception():
 )
 def test_catalogue_categories(category):
     client = OSRSCatalogue()
-    result = client.categories(category=category)
+    result = client.get_categories(category=category)
     assert isinstance(result, Tradeables)
