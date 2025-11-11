@@ -11,8 +11,8 @@ from runescape.dataclasses.player import Player
 class OSRSClient:
     """Class that wraps the OSRS API endpoints.
 
-    This uses the official hiscores API from Jagex.
-    See also: https://runescape.wiki/w/Application_programming_interface#Old_School_Hiscores
+    This uses the official API from Jagex.
+    See: https://runescape.wiki/w/Application_programming_interface#Old_School_Hiscores
     """
 
     scheme = "https"
