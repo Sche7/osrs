@@ -98,7 +98,7 @@ To run tests in this repository, follow these steps:
    task test:aws
    ```
 
-   This requires all the enviroment variables to be set from step 1.
+   This requires all the environment variables to be set from step 1.
 
 3. Check the test results in the terminal or command prompt. Any failures or errors will be displayed, allowing you to identify and fix any issues.
 
