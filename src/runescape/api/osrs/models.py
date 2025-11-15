@@ -27,7 +27,7 @@ Alpha = Literal[
     "u",
     "v",
     "x",
-    "u",
+    "y",
     "z",
 ]
 
