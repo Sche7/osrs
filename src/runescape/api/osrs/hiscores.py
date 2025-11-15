@@ -1,18 +1,7 @@
-from enum import Enum
-
 import requests
 
+from runescape.api.osrs import HiscoreType
 from runescape.dataclasses.character import Character, Skill, Skills
-
-
-class HiscoreType(Enum):
-    NORMAL = "hiscore_oldschool"
-    IRONMAN = "hiscore_oldschool_ironman"
-    ULTIMATE = "hiscore_oldschool_ultimate"
-    HARDCORE = "hiscore_oldschool_hardcore_ironman"
-    DEADMAN = "hiscore_oldschool_deadman"
-    SEASONAL = "hiscore_oldschool_seasonal"
-    TOURNAMENT = "hiscore_oldschool_tournament"
 
 
 class Hiscores:
@@ -20,6 +9,7 @@ class Hiscores:
     Class for getting a character's stats from the hiscores.
     This uses the official hiscores API from Jagex.
     See also: https://runescape.wiki/w/Application_programming_interface#Old_School_Hiscores
+    Note: This is using the old endpoint.
     """
 
     def __init__(self, username, hiscore_type: HiscoreType = HiscoreType.NORMAL):
