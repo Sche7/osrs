@@ -23,7 +23,7 @@ async def hiscore(ctx: ApplicationContext, username: str) -> None:
         try:
             user_hiscore = client.get_hiscore(username)
             logger.info(f"Hiscore successfully retrieved for user [{username}]")
-            output = "```apache\n" + repr(user_hiscore.skills) + "```"
+            output = "```apache\n" + user_hiscore.display_skills() + "```"
             await ctx.respond(output)
         except ValueError as e:
             logger.error(
