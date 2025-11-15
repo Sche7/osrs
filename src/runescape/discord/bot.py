@@ -5,7 +5,7 @@ from discord import ApplicationContext, Message
 from discord.ext import commands
 from loguru import logger
 
-from runescape.api.osrs.hiscores import Hiscores
+from runescape.api.osrs.client import OSRSClient
 
 bot = commands.Bot()
 
@@ -19,10 +19,11 @@ async def on_ready() -> None:
 async def hiscore(ctx: ApplicationContext, username: str) -> None:
     logger.info(f"Retrieving hiscore for user [{username}]")
     if username is not None:
+        client = OSRSClient()
         try:
-            user = Hiscores(username)
+            user_hiscore = client.get_hiscore(username)
             logger.info(f"Hiscore successfully retrieved for user [{username}]")
-            output = "```apache\n" + repr(user.character) + "```"
+            output = "```apache\n" + repr(user_hiscore.skills) + "```"
             await ctx.respond(output)
         except ValueError as e:
             logger.error(

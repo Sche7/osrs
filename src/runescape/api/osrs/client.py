@@ -18,7 +18,7 @@ class OSRSClient:
     scheme = "https"
     base_url = "secure.runescape.com"
 
-    def hiscore(
+    def get_hiscore(
         self,
         username: str,
         hiscore_type: HiscoreType = HiscoreType.NORMAL,
