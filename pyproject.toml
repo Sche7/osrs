@@ -24,7 +24,7 @@ discord_bot = "runescape.discord.bot:main"
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.2,<9",
+    "pytest>=8.4.2,<10",
     "ruff>=0.14.0,<0.15",
     "pre-commit>=4.3.0,<5",
     "types-boto3>=1.40.30,<2",
