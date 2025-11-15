@@ -91,6 +91,18 @@ class GrandExchangeClient:
         return CategoryOverview.model_validate(response.json())
 
     def get_item_details(self, item_id: int) -> ItemDetails:
+        """Get detailed information about a specific item by its ID.
+
+        Parameters
+        ----------
+        item_id: int
+            The unique identifier of the item to retrieve details for.
+
+        Returns
+        -------
+        ItemDetails
+            An object containing detailed information about the specified item.
+        """
         url = urlunparse(
             UrlComponents(
                 scheme=self.scheme,
