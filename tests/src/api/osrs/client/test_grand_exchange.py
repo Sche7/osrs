@@ -27,7 +27,7 @@ def test_grand_exchange_get_items_exception():
 
     with pytest.raises(HTTPStatusError):
         client.get_items(
-            category=1000,  # Non-existence category
+            category=1000,  # Non-existent category
             alpha="a",
             page=1,
         )

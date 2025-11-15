@@ -49,7 +49,7 @@ class Category(Enum):
     FARMING_PRODUCTS = CategoryGroup(10, "Farming products")
     FLETCHING_MATERIALS = CategoryGroup(11, "Fletching materials")
     FOOD_AND_DRINK = CategoryGroup(12, "Food and Drink")
-    HERBLORE_MATIERLAS = CategoryGroup(13, "Herblore materials")
+    HERBLORE_MATERIALS = CategoryGroup(13, "Herblore materials")
     HUNTING_EQUIPMENT = CategoryGroup(14, "Hunting equipment")
     HUNTING_PRODUCTS = CategoryGroup(15, "Hunting Products")
     JEWELLERY = CategoryGroup(16, "Jewellery")
