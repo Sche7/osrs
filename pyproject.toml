@@ -31,7 +31,7 @@ dev = [
     "coverage>=7.8.2,<8",
     "pytest-coverage>=0.0,<0.1",
 ]
-extra = ["ipython>=8.37.0,<9"]
+extra = ["ipython>=8.39.0,<9"]
 
 [tool.uv]
 default-groups = [
